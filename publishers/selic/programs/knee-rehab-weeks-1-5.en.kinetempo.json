@@ -162,7 +162,7 @@
   "complex": {
     "id": "knee-rehab-block-w1-5",
     "name": "Knee rehab block (weeks 1–5)",
-    "description": "Post-op left knee arthroscopy (18.08.2026): meniscus repair, microfracture, plica resection. Non-weight-bearing, flexion ≤90°. 3 blocks per day (morning / afternoon / evening). Ice 20 min right after. Order: quad sets → straight-leg raises → heel slides → heel prop.",
+    "description": "Early phase after knee arthroscopy (meniscus repair, microfracture, plica resection): weeks 1–5, non-weight-bearing on crutches, flexion limited to 90°. Three blocks per day (morning / afternoon / evening), ice 20 minutes right after. Order: quad sets → straight-leg raises → heel slides → heel prop. Written for one patient from the clinic's instructions — follow your own surgeon's protocol.",
     "restBetweenMs": 30000,
     "items": [
       {
@@ -179,7 +179,7 @@
         "restAfterMs": 0
       }
     ],
-    "updatedAt": "2026-09-05T07:30:00.000Z"
+    "updatedAt": "2026-09-05T13:00:00.000Z"
   },
   "catalog": {
     "tags": [
@@ -196,7 +196,7 @@
       "ankle"
     ],
     "level": "rehab",
-    "source": "Clinic instructions after left knee arthroscopy (meniscus repair, microfracture, plica resection), weeks 1–5",
+    "source": "Clinic's post-arthroscopy instruction sheet, weeks 1–5",
     "license": "CC-BY-4.0"
   }
 }
