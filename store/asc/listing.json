@@ -1,0 +1,43 @@
+{
+  "bundleId": "net.defency.kinetempo",
+  "primaryLocale": "en-US",
+  "categories": {
+    "primary": "HEALTH_AND_FITNESS",
+    "secondary": "MEDICAL"
+  },
+  "urls": {
+    "privacy": "https://selic.github.io/kinetempo-catalog/privacy.html",
+    "support": "https://selic.github.io/kinetempo-catalog/support.html",
+    "marketing": "https://selic.github.io/kinetempo-catalog/"
+  },
+  "review": {
+    "firstName": "Eugene",
+    "lastName": "Samotija",
+    "email": "es@defency.net",
+    "phone": "",
+    "notes": "Kinetempo is an interval timer for physiotherapy exercises. It uses the AUDIO BACKGROUND MODE to keep playing audible cues (beeps at every step change and countdown ticks) while the screen is locked - this is the core feature: the user lies down and must not touch the phone during a hold. The cues are audible content; a silent keep-alive stream runs only between beeps so the session is not interrupted.\n\nThe LIVE ACTIVITY shows the current step and countdown on the Lock Screen and in the Dynamic Island.\n\nNo account is needed. To test: open 'Quad isometrics' -> Play -> Start, lock the device, listen for beeps every 8 / 4 seconds and check the Live Activity. The Library tab fetches a public JSON catalog from https://selic.github.io/kinetempo-catalog/catalog/index.json."
+  },
+  "locales": {
+    "en-US": {
+      "name": "Kinetempo",
+      "subtitle": "Physio exercise timer",
+      "keywords": "physio,physiotherapy,rehab,isometric,timer,interval,exercise,knee,hold,reps,kinetotherapy,workout",
+      "promotionalText": "Steps, sounds and a lock-screen countdown that keep going while the phone is locked.",
+      "description": "Kinetempo times your physiotherapy exercises so you can focus on the movement, not the phone.\n\n• Steps, not just seconds — squeeze, lift, hold, release, move, rest. Every step has its own sound and colour, with ticks on the last three seconds.\n• Keeps going when the screen is locked — audio cues continue, and the Live Activity shows the current step and countdown on the Lock Screen and Dynamic Island.\n• Programs — combine exercises into a block with rests between them, e.g. quad sets → straight-leg raises → heel slides → heel prop.\n• Presets — isometric hold, lift-hold-release, dynamic reps, plain countdown, or build your own step sequence.\n• Video and animation — attach a YouTube link or a video from your gallery, a Lottie animation, or use the built-in schematic figures that move in time with the timer.\n• Share — send a program by link, QR code or file. Import what your physiotherapist sends you.\n• Library — a public catalog of programs published by clinics and physiotherapists, reviewed on GitHub.\n• Private — everything stays on your phone. No account, no tracking.\n\nKinetempo is a timer, not a medical device. Follow your clinician's instructions."
+    },
+    "ru": {
+      "name": "Kinetempo",
+      "subtitle": "Таймер упражнений ЛФК",
+      "keywords": "лфк,физиотерапия,реабилитация,изометрия,таймер,интервал,упражнения,колено,удержание,повторы,кинезио",
+      "promotionalText": "Шаги, звуки и отсчёт на экране блокировки, которые не останавливаются, когда телефон заблокирован.",
+      "description": "Kinetempo отсчитывает время упражнений ЛФК, чтобы вы думали о движении, а не о телефоне.\n\n• Шаги, а не просто секунды — напрячь, поднять, задержать, опустить, движение, отдых. У каждого шага свой звук и цвет, последние три секунды — тики.\n• Работает при заблокированном экране — звуковые подсказки продолжаются, а Live Activity показывает текущий шаг и отсчёт на экране блокировки и в Dynamic Island.\n• Комплексы — собирайте упражнения в блок с отдыхом между ними.\n• Пресеты — изометрия, поднять‑задержать‑опустить, динамика, простой таймер или своя последовательность шагов.\n• Видео и анимации — ссылка на YouTube, видео из галереи, Lottie‑анимация или встроенные схематичные фигуры, движущиеся в такт таймеру.\n• Делитесь — ссылкой, QR‑кодом или файлом. Импортируйте то, что прислал физиотерапевт.\n• Библиотека — публичный каталог программ от клиник и физиотерапевтов.\n• Приватность — всё хранится на телефоне. Без аккаунта и слежки.\n\nKinetempo — таймер, а не медицинское устройство. Следуйте указаниям своего врача."
+    },
+    "ro": {
+      "name": "Kinetempo",
+      "subtitle": "Cronometru kinetoterapie",
+      "keywords": "kinetoterapie,fizioterapie,recuperare,izometrie,cronometru,interval,exerciții,genunchi,menținere",
+      "promotionalText": "Pași, sunete și o numărătoare pe ecranul de blocare care continuă și cu telefonul blocat.",
+      "description": "Kinetempo cronometrează exercițiile de kinetoterapie, ca să te concentrezi pe mișcare, nu pe telefon.\n\n• Pași, nu doar secunde — contractă, ridică, menține, coboară, mișcare, pauză. Fiecare pas are sunetul și culoarea lui, cu ticuri în ultimele trei secunde.\n• Continuă cu ecranul blocat — semnalele sonore merg mai departe, iar Live Activity arată pasul curent și numărătoarea pe ecranul de blocare și în Dynamic Island.\n• Programe — combină exercițiile într-un bloc cu pauze între ele.\n• Presetări — izometrie, ridică‑menține‑coboară, repetări dinamice, cronometru simplu sau propria secvență de pași.\n• Video și animații — link YouTube, video din galerie, animație Lottie sau figurile schematice integrate, sincronizate cu cronometrul.\n• Distribuie — prin link, cod QR sau fișier. Importă ce îți trimite kinetoterapeutul.\n• Bibliotecă — catalog public de programe publicate de clinici și kinetoterapeuți.\n• Confidențial — totul rămâne pe telefon. Fără cont, fără urmărire.\n\nKinetempo este un cronometru, nu un dispozitiv medical. Urmează indicațiile medicului."
+    }
+  }
+}

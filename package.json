@@ -11,6 +11,7 @@
     "build": "node scripts/build-index.mjs"
   },
   "devDependencies": {
+    "jose": "^6.2.12",
     "zod": "^4.5.4"
   }
 }
