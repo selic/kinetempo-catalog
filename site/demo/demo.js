@@ -4,8 +4,8 @@
   const LABEL = { prep: 'Get ready', squeeze: 'Squeeze', hold: 'Hold', lift: 'Lift', release: 'Release', move: 'Move', timer: 'Timer', rest: 'Relax' };
   const HINT = { prep: 'Starting soon…', squeeze: 'Hold, keep breathing', hold: 'Hold it there', lift: 'Lift slowly', release: 'Lower with control', move: 'Move through the range', timer: 'Keep going', rest: 'Let go, breathe' };
   const PRESETS = [
-    { id: 'quadSets', title: 'Quad isometrics', steps: [{ tone: 'squeeze', ms: 8000 }, { tone: 'rest', ms: 4000 }], reps: 25, anim: 'quadSets' },
     { id: 'slr', title: 'Straight-leg raise', steps: [{ tone: 'squeeze', ms: 2000, label: 'Lock the knee', ticks: false }, { tone: 'lift', ms: 2000, ticks: false }, { tone: 'hold', ms: 3000, ticks: false }, { tone: 'release', ms: 3000, label: 'Lower slowly', ticks: false }, { tone: 'rest', ms: 2000 }], reps: 12, anim: 'straightLegRaise' },
+    { id: 'quadSets', title: 'Quad isometrics', steps: [{ tone: 'squeeze', ms: 8000 }, { tone: 'rest', ms: 4000 }], reps: 25, anim: 'quadSets' },
     { id: 'heel', title: 'Heel slides', steps: [{ tone: 'move', ms: 4000, label: 'Slide in (≤90°)', ticks: false }, { tone: 'move', ms: 4000, label: 'Slide out', ticks: false }], reps: 12, anim: 'heelSlides' },
     { id: 'pumps', title: 'Ankle pumps', steps: [{ tone: 'move', ms: 1000, label: 'Toes up', ticks: false }, { tone: 'move', ms: 1000, label: 'Toes down', ticks: false }], reps: 20, anim: 'anklePumps' },
     { id: 'prop', title: 'Heel prop (timer)', steps: [{ tone: 'timer', ms: 60000, label: 'Relax and let it hang' }], reps: 1, anim: 'heelProp' },
