@@ -45,7 +45,7 @@
 
   // ---- audio (WebAudio, same envelopes as the app) ----
   let ctx = null;
-  const audio = () => { if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === 'suspended') ctx.resume(); return ctx; };
+  const audio = () => { try { if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === 'suspended') ctx.resume(); } catch (e) { ctx = null; } return ctx; };
   function beep(f, dur, at, vol = 0.5, type = 'sine', glide) {
     const c = audio(), o = c.createOscillator(), g = c.createGain();
     o.type = type; o.frequency.setValueAtTime(f, at); if (glide) o.frequency.exponentialRampToValueAtTime(glide, at + dur);
@@ -89,7 +89,7 @@
   // ---- UI ----
   const $ = (id) => document.getElementById(id);
   const el = { demo: $('demo'), title: $('title'), clock: $('clock'), phase: $('phase'), count: $('count'), hint: $('hint'), dots: $('dots'), bar: $('bar'), cfg: $('cfg'), start: $('start'), reset: $('reset'), skip: $('skip'), fig: $('fig'), presets: $('presets') };
-  let preset = PRESETS[0], sched = build(preset), cueList = cues(sched), running = false, anchor = 0, pausedAt = 0, raf = 0, nextCue = 0, lastIdx = -2, doneFlag = false;
+  let preset = PRESETS[0], sched = build(preset), cueList = cues(sched), running = false, anchor = 0, pausedAt = 0, raf = 0, timer = 0, nextCue = 0, lastIdx = -2, doneFlag = false;
   const fmt = (ms) => { const s = Math.max(0, Math.round(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
 
   function selectPreset(p) { preset = p; sched = build(p); cueList = cues(sched); reset(); }
@@ -114,18 +114,17 @@
     if (p.index !== lastIdx) { lastIdx = p.index; el.demo.style.background = COLORS[tone]; el.phase.textContent = (p.label || LABEL[tone]).toUpperCase(); el.hint.textContent = HINT[tone]; [...el.dots.children].forEach((d, i) => { d.className = i + 1 < p.rep ? 'on' : i + 1 === p.rep ? 'act' : ''; }); }
     const secs = Math.max(1, Math.ceil(st.remaining / 1000)); el.count.textContent = secs >= 60 ? fmt(secs * 1000) : secs; el.count.classList.toggle('small', secs >= 60);
     drawFigure(el.fig, POSE[preset.anim]({ tone, stepIndex: p.stepIndex, progress: st.progress, loop }), COLORS[tone]);
-    raf = requestAnimationFrame(frame);
   }
   function idleLoop() { if (running) return; drawFigure(el.fig, POSE[preset.anim]({ tone: null, stepIndex: -1, progress: 0, loop: (performance.now() % 4000) / 4000 }), COLORS[preset.steps[0].tone]); requestAnimationFrame(idleLoop); }
   function start() {
     audio();
     if (doneFlag) { reset(); }
-    if (!running) { running = true; anchor = performance.now() - pausedAt; lastIdx = -2; nextCue = cueList.findIndex((c) => c.at > pausedAt); if (nextCue < 0) nextCue = cueList.length; el.start.textContent = 'Pause'; el.skip.hidden = false; raf = requestAnimationFrame(frame); }
-    else { running = false; pausedAt = performance.now() - anchor; cancelAnimationFrame(raf); el.start.textContent = 'Resume'; el.demo.style.background = COLORS.idle; el.phase.textContent = 'Paused'; idleLoop(); }
+    if (!running) { running = true; anchor = performance.now() - pausedAt; lastIdx = -2; nextCue = cueList.findIndex((c) => c.at > pausedAt); if (nextCue < 0) nextCue = cueList.length; el.start.textContent = 'Pause'; el.skip.hidden = false; clearInterval(timer); timer = setInterval(frame, 50); frame(); }
+    else { running = false; pausedAt = performance.now() - anchor; clearInterval(timer); el.start.textContent = 'Resume'; el.demo.style.background = COLORS.idle; el.phase.textContent = 'Paused'; idleLoop(); }
   }
-  function reset() { running = false; doneFlag = false; pausedAt = 0; cancelAnimationFrame(raf); renderIdle(); idleLoop(); }
+  function reset() { running = false; doneFlag = false; pausedAt = 0; clearInterval(timer); renderIdle(); idleLoop(); }
   function skip() { const st = stateAt(sched, performance.now() - anchor); if (st.done) return; const target = st.phase.end; if (running) anchor = performance.now() - target; else pausedAt = target; nextCue = cueList.findIndex((c) => c.at > target); if (!running) { lastIdx = -2; } }
-  function finish() { running = false; doneFlag = true; cancelAnimationFrame(raf); el.demo.style.background = COLORS.done; el.phase.textContent = 'Done!'; el.count.textContent = '✓'; el.count.classList.remove('small'); el.hint.textContent = `${preset.reps > 1 ? preset.reps + ' reps · ' : ''}${fmt(sched.total)}`; [...el.dots.children].forEach((d) => (d.className = 'on')); el.bar.style.width = '100%'; el.start.textContent = 'Again'; el.skip.hidden = true; pausedAt = 0; }
+  function finish() { running = false; doneFlag = true; clearInterval(timer); el.demo.style.background = COLORS.done; el.phase.textContent = 'Done!'; el.count.textContent = '✓'; el.count.classList.remove('small'); el.hint.textContent = `${preset.reps > 1 ? preset.reps + ' reps · ' : ''}${fmt(sched.total)}`; [...el.dots.children].forEach((d) => (d.className = 'on')); el.bar.style.width = '100%'; el.start.textContent = 'Again'; el.skip.hidden = true; pausedAt = 0; }
   el.start.onclick = start; el.reset.onclick = reset; el.skip.onclick = skip;
   reset();
 })();
