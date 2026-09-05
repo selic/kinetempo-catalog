@@ -205,7 +205,10 @@ for (const file of walk(SITE)) {
     const depth = rel.split('/').length - 1;
     const prefix = depth ? '../'.repeat(depth) : './';
     const fix = (html) => html.replaceAll('href="./', `href="${prefix}`);
-    writeFileSync(out, readFileSync(file, 'utf8').replace('<!--#header-->', fix(header)).replace('<!--#footer-->', fix(footer)));
+    // cache-bust local scripts/styles with the build time so GitHub Pages readers always get the current version
+    const stamp = Date.now().toString(36);
+    const html = readFileSync(file, 'utf8').replace('<!--#header-->', fix(header)).replace('<!--#footer-->', fix(footer)).replace(/(src|href)="([^"]+\.(?:js|css))"/g, `$1="$2?v=${stamp}"`);
+    writeFileSync(out, html);
   } else {
     cpSync(file, out);
   }
