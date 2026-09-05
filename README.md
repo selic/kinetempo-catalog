@@ -1,6 +1,7 @@
-# Kinetempo catalog
+# Kinetempo catalog & website
 
-Public, reviewable catalog of exercise programs for the [Kinetempo](https://github.com/selic/kinetempo) timer app.
+This repository is the public website of the Kinetempo app (landing page, privacy policy, terms, support,
+share-link landing, App Store / Play materials in `store/`) **and** a public, reviewable catalog of exercise programs for the [Kinetempo](https://github.com/selic/kinetempo) timer app.
 Programs are plain JSON files organised **by publisher** — a clinic, a physiotherapist, a doctor or an individual —
 each in its own directory. Anything merged here becomes visible in the app's Library tab.
 
@@ -12,7 +13,12 @@ publishers/
     exercises/<slug>.<locale>.kinetempo.json   # a single exercise
 ```
 
-`index.json` (built by CI and served from GitHub Pages) is what the app downloads.
+`site/` holds the static pages; CI builds `dist/` = site + `/catalog/index.json` (what the app downloads) and
+publishes it to GitHub Pages (custom domain via `CNAME`).
+
+- Authoring guide: [docs/AUTHORING.md](docs/AUTHORING.md) · по‑русски: [docs/AUTHORING.ru.md](docs/AUTHORING.ru.md)
+- Claude/Codex skill for authors: [skills/kinetempo-program-author](skills/kinetempo-program-author/SKILL.md)
+- Examples: [examples/](examples/)
 
 ## Publishing a program
 

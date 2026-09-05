@@ -188,12 +188,49 @@ if (errors.length) {
 console.log(`✔ ${publishers.length} publisher(s), ${entries.length} document(s) valid`);
 if (CHECK) process.exit(0);
 
+// ---- site + catalog ----
+const SITE = join(ROOT, 'site');
 rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
-cpSync(PUBLISHERS, join(DIST, 'publishers'), { recursive: true });
+// 1. static site with header/footer includes
+const header = readFileSync(join(SITE, '_header.html'), 'utf8');
+const footer = readFileSync(join(SITE, '_footer.html'), 'utf8');
+const walk = (dir) => readdirSync(dir).flatMap((f) => (statSync(join(dir, f)).isDirectory() ? walk(join(dir, f)) : [join(dir, f)]));
+for (const file of walk(SITE)) {
+  const rel = relative(SITE, file);
+  if (rel.startsWith('_')) continue;
+  const out = join(DIST, rel);
+  mkdirSync(join(out, '..'), { recursive: true });
+  if (rel.endsWith('.html')) {
+    const depth = rel.split('/').length - 1;
+    const prefix = depth ? '../'.repeat(depth) : './';
+    const fix = (html) => html.replaceAll('href="./', `href="${prefix}`);
+    writeFileSync(out, readFileSync(file, 'utf8').replace('<!--#header-->', fix(header)).replace('<!--#footer-->', fix(footer)));
+  } else {
+    cpSync(file, out);
+  }
+}
+// 2. catalog under /catalog/
+const CAT = join(DIST, 'catalog');
+mkdirSync(CAT, { recursive: true });
+cpSync(PUBLISHERS, join(CAT, 'publishers'), { recursive: true });
 const index = { schemaVersion: 1, generatedAt: new Date().toISOString(), publishers, entries };
-writeFileSync(join(DIST, 'index.json'), JSON.stringify(index));
-writeFileSync(join(DIST, 'index.pretty.json'), JSON.stringify(index, null, 2));
+writeFileSync(join(CAT, 'index.json'), JSON.stringify(index));
+writeFileSync(join(CAT, 'index.pretty.json'), JSON.stringify(index, null, 2));
+const rows = entries
+  .map((e) => {
+    const pub = publishers.find((p) => p.id === e.publisherId);
+    const mins = Math.round(e.durationMs / 60000);
+    return `<div class="card"><h3>${esc(e.name)}</h3><p>${esc(e.description)}</p><p style="margin-top:8px">${e.kind === 'complex' ? `${e.exerciseCount} exercises · ` : ''}${mins} min · ${esc(pub?.name ?? e.publisherId)}${pub?.verified ? ' ✓' : ''} · <a href="../${e.path.replace('publishers/', 'catalog/publishers/')}">JSON</a></p></div>`;
+  })
+  .join('\n');
+const catalogPage = readFileSync(join(SITE, '_catalog.html'), 'utf8').replace('<!--#entries-->', rows).replace('<!--#count-->', String(entries.length));
+writeFileSync(join(CAT, 'index.html'), catalogPage.replace('<!--#header-->', header.replaceAll('href="./', 'href="../')).replace('<!--#footer-->', footer.replaceAll('href="./', 'href="../')));
+// 3. custom domain + no jekyll
+if (existsSync(join(ROOT, 'CNAME'))) cpSync(join(ROOT, 'CNAME'), join(DIST, 'CNAME'));
 writeFileSync(join(DIST, '.nojekyll'), '');
-writeFileSync(join(DIST, 'index.html'), `<!doctype html><meta charset="utf-8"><title>Kinetempo catalog</title><body style="font-family:system-ui;background:#233044;color:#fff;padding:32px"><h1>Kinetempo catalog</h1><p>${entries.length} documents from ${publishers.length} publisher(s). Machine-readable index: <a style="color:#9cf" href="index.json">index.json</a>.</p></body>`);
-console.log(`→ dist/ written (${entries.length} entries)`);
+console.log(`→ dist/ written: site + catalog (${entries.length} entries)`);
+
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+}
