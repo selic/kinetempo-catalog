@@ -1,0 +1,16 @@
+{
+  "name": "kinetempo-catalog",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Public catalog of Kinetempo exercise programs, organised by publisher (clinics, physiotherapists, individuals)",
+  "author": "Eugene Samotija (selic) <es@defency.net> (https://defency.net)",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/build-index.mjs --check",
+    "build": "node scripts/build-index.mjs"
+  },
+  "devDependencies": {
+    "zod": "^4.5.4"
+  }
+}

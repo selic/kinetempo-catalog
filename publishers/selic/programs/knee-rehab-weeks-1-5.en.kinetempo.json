@@ -1,0 +1,202 @@
+{
+  "kind": "kinetempo.complex",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-05T07:30:00.000Z",
+  "exercises": [
+    {
+      "id": "knee-quad-sets",
+      "name": "Quad sets (isometric)",
+      "description": "Lie or sit with the leg straight, heel resting on the bed. Tighten the thigh, pressing the back of the knee down toward the bed — the kneecap pulls slightly upward. Hold 8 s, relax 4 s. Do not hold your breath; the knee itself does not move.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 8000,
+          "label": "Press down"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 4000
+        }
+      ],
+      "workMs": 8000,
+      "restMs": 4000,
+      "reps": 25,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": {
+        "kind": "builtin",
+        "ref": "quadSets"
+      },
+      "updatedAt": "2026-09-05T07:30:00.000Z"
+    },
+    {
+      "id": "knee-straight-leg-raise",
+      "name": "Straight-leg raise",
+      "description": "Lie on your back. First tighten the thigh (as in quad sets) and lock the knee fully straight. Lift the whole leg 30–40 cm keeping the knee locked, hold 2–3 s, lower slowly. If the knee bends during the lift, the quad is not locked — reset and try again.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 2000,
+          "label": "Lock the knee",
+          "ticks": false
+        },
+        {
+          "tone": "lift",
+          "durationMs": 2000,
+          "ticks": false
+        },
+        {
+          "tone": "hold",
+          "durationMs": 3000,
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 3000,
+          "label": "Lower slowly",
+          "ticks": false
+        },
+        {
+          "tone": "rest",
+          "durationMs": 2000
+        }
+      ],
+      "workMs": 2000,
+      "restMs": 2000,
+      "reps": 25,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": {
+        "kind": "builtin",
+        "ref": "straightLegRaise"
+      },
+      "updatedAt": "2026-09-05T07:30:00.000Z"
+    },
+    {
+      "id": "knee-heel-slides",
+      "name": "Heel slides",
+      "description": "Lie on your back, leg on the bed. Slowly slide the heel toward you, bending the knee — never past 90° — then slide back to full extension. The heel stays in contact with the bed the whole time. Slow tempo, no jerking; mild pulling is fine, sharp pain is a stop signal.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "move",
+          "durationMs": 4000,
+          "label": "Slide in (≤90°)",
+          "ticks": false
+        },
+        {
+          "tone": "move",
+          "durationMs": 4000,
+          "label": "Slide out",
+          "ticks": false
+        }
+      ],
+      "workMs": 4000,
+      "restMs": 0,
+      "reps": 37,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": {
+        "kind": "builtin",
+        "ref": "heelSlides"
+      },
+      "updatedAt": "2026-09-05T07:30:00.000Z"
+    },
+    {
+      "id": "knee-heel-prop",
+      "name": "Passive hyperextension (heel prop)",
+      "description": "Lie on your back. Place a pillow or rolled towel under the heel only, so nothing supports the back of the knee. Relax completely and let gravity straighten the knee for 5 minutes. A gentle stretch behind the knee is normal; do not press down with your hands.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "timer",
+          "durationMs": 300000,
+          "label": "Relax and let it hang"
+        }
+      ],
+      "workMs": 300000,
+      "restMs": 0,
+      "reps": 1,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": {
+        "kind": "builtin",
+        "ref": "heelProp"
+      },
+      "updatedAt": "2026-09-05T07:30:00.000Z"
+    },
+    {
+      "id": "knee-ankle-pumps",
+      "name": "Ankle pumps",
+      "description": "Every waking hour: point the foot up and down ×20, then ankle circles. Thrombosis prevention while on restricted weight-bearing.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "move",
+          "durationMs": 1000,
+          "label": "Toes up",
+          "ticks": false
+        },
+        {
+          "tone": "move",
+          "durationMs": 1000,
+          "label": "Toes down",
+          "ticks": false
+        }
+      ],
+      "workMs": 1000,
+      "restMs": 0,
+      "reps": 20,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": {
+        "kind": "builtin",
+        "ref": "anklePumps"
+      },
+      "updatedAt": "2026-09-05T07:30:00.000Z"
+    }
+  ],
+  "complex": {
+    "id": "knee-rehab-block-w1-5",
+    "name": "Knee rehab block (weeks 1–5)",
+    "description": "Post-op left knee arthroscopy (18.08.2026): meniscus repair, microfracture, plica resection. Non-weight-bearing, flexion ≤90°. 3 blocks per day (morning / afternoon / evening). Ice 20 min right after. Order: quad sets → straight-leg raises → heel slides → heel prop.",
+    "restBetweenMs": 30000,
+    "items": [
+      {
+        "exerciseId": "knee-quad-sets"
+      },
+      {
+        "exerciseId": "knee-straight-leg-raise"
+      },
+      {
+        "exerciseId": "knee-heel-slides"
+      },
+      {
+        "exerciseId": "knee-heel-prop",
+        "restAfterMs": 0
+      }
+    ],
+    "updatedAt": "2026-09-05T07:30:00.000Z"
+  },
+  "catalog": {
+    "tags": [
+      "knee",
+      "post-op",
+      "arthroscopy",
+      "meniscus",
+      "isometric",
+      "non-weight-bearing"
+    ],
+    "bodyParts": [
+      "knee",
+      "quadriceps",
+      "ankle"
+    ],
+    "level": "rehab",
+    "source": "Clinic instructions after left knee arthroscopy (meniscus repair, microfracture, plica resection), weeks 1–5",
+    "license": "CC-BY-4.0"
+  }
+}
