@@ -19,3 +19,8 @@ main{max-width:960px;margin:0 auto;padding:24px}
 footer{max-width:960px;margin:48px auto 24px;padding:0 24px;color:var(--muted);font-size:13px}
 .phase{display:inline-block;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:700}
 .work{background:var(--work)}.rest{background:var(--rest)}
+
+.shots{display:flex;gap:16px;overflow-x:auto;padding:8px 0 16px;scroll-snap-type:x mandatory}
+.shots figure{margin:0;flex:0 0 220px;scroll-snap-align:start}
+.shots img{width:220px;height:auto;border-radius:22px;box-shadow:0 14px 40px rgba(0,0,0,.4);display:block}
+.shots figcaption{font-size:13px;color:var(--muted);margin-top:8px;text-align:center}
