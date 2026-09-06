@@ -28,13 +28,54 @@ const timingOverride = z.object({
   sets: z.number().int().positive().optional(),
   setRestMs: z.number().int().nonnegative().optional(),
 });
+// An animation generated in the app travels as the spec itself rather than as a
+// reference, so a submission carrying one has to validate here too. Mirrors
+// src/anim/schema.ts in the app; angles and counts are capped because a spec
+// from outside must not be able to stall the renderer.
+const angle = z.number().finite().min(-200).max(200);
+const unit = z.number().finite().min(0).max(1);
+const angles = Object.fromEntries(
+  ['torso', 'neck', 'hip', 'knee', 'ankle', 'shoulder', 'elbow', 'hipFar', 'kneeFar', 'ankleFar', 'shoulderFar', 'elbowFar'].map((k) => [k, angle.optional()]),
+);
+const muscle = z.enum(['quad', 'hamstring', 'glute', 'calf', 'abs', 'chest', 'back', 'shoulder', 'biceps']);
+const prop = z.enum(['none', 'pillowUnderHeel', 'chair', 'wall', 'band', 'crutch']);
+const animTone = z.enum(['squeeze', 'lift', 'hold', 'release', 'move', 'timer', 'rest', 'prep', 'setRest', 'exerciseRest']);
+const keyframe = z.object({
+  t: unit,
+  ease: z.enum(['linear', 'in', 'out', 'inOut']).optional(),
+  highlight: z.partialRecord(muscle, unit).optional(),
+  arrow: z.object({ at: z.enum(['foot', 'knee', 'hip', 'hand', 'torso']), dir: z.enum(['up', 'down', 'left', 'right']) }).nullable().optional(),
+  prop: prop.optional(),
+  ...angles,
+});
+const animSpec = z.object({
+  v: z.literal(1),
+  name: z.string().max(80).optional(),
+  orientation: z.enum(['supine', 'prone', 'sideLying', 'seated', 'standing']),
+  ground: z.enum(['bed', 'floor', 'none']).optional(),
+  prop: prop.optional(),
+  base: z.object(angles).optional(),
+  constrain: z.object({ heelOnGround: z.boolean().optional() }).optional(),
+  idle: z.array(keyframe).min(1).max(24).optional(),
+  tracks: z
+    .array(
+      z.object({
+        when: z.object({ tone: z.union([animTone, z.array(animTone).min(1).max(10)]).optional(), step: z.union([z.number().int().min(0).max(19), z.literal('even'), z.literal('odd')]).optional() }).optional(),
+        keys: z.array(keyframe).min(1).max(24),
+      }),
+    )
+    .min(1)
+    .max(12)
+    .optional(),
+});
+const animation = z.union([z.object({ kind: z.enum(['builtin', 'url']), ref: z.string().max(500) }), z.object({ kind: z.literal('spec'), spec: animSpec })]);
 const exercise = z.object({
   id: z.string().min(1).max(64),
   name: z.string().min(1).max(120),
   description: z.string().max(4000).default(''),
   videoUrl: z.string().url().max(500).nullable().optional(),
   hadLocalVideo: z.boolean().optional(),
-  animation: z.object({ kind: z.enum(['builtin', 'url']), ref: z.string().max(500) }).nullable().optional(),
+  animation: animation.nullable().optional(),
   steps: z.array(step).min(1).max(20).optional(),
   workMs: z.number().int().positive().max(3_600_000),
   restMs: z.number().int().nonnegative().max(3_600_000),
