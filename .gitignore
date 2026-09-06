@@ -1,3 +1,7 @@
 node_modules/
 dist/
 .DS_Store
+
+# Release operations live in the private kinetempo-release repository
+store/
+app.json

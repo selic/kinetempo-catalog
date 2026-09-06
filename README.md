@@ -1,7 +1,7 @@
 # Kinetempo catalog & website
 
 This repository is the public website of the Kinetempo app (landing page, privacy policy, terms, support,
-share-link landing, App Store / Play materials in `store/`) **and** a public, reviewable catalog of exercise programs for the [Kinetempo](https://github.com/selic/kinetempo) timer app.
+share-link landing) **and** a public, reviewable catalog of exercise programs for the [Kinetempo](https://github.com/selic/kinetempo) timer app.
 Programs are plain JSON files organised **by publisher** — a clinic, a physiotherapist, a doctor or an individual —
 each in its own directory. Anything merged here becomes visible in the app's Library tab.
 
