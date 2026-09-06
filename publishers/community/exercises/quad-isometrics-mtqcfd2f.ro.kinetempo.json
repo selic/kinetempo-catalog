@@ -1,0 +1,32 @@
+{
+  "kind": "kinetempo.exercise",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T21:48:00.973Z",
+  "exercises": [
+    {
+      "id": "default-quad-isometrics",
+      "name": "Quad isometrics",
+      "description": "Press the knee down into the surface and hold.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 8000
+        },
+        {
+          "tone": "rest",
+          "durationMs": 4000
+        }
+      ],
+      "animation": null,
+      "workMs": 8000,
+      "restMs": 4000,
+      "reps": 25,
+      "sets": 1,
+      "setRestMs": 0,
+      "color": null,
+      "updatedAt": "2026-09-06T21:33:11.991Z"
+    }
+  ]
+}
