@@ -8,7 +8,12 @@ header.site .brand-word text{fill:#fff;font-family:inherit;font-size:12px;font-w
 /* Facing the icon: the drawing looks right, so it is flipped to push against the mark. */
 .brand-figure{flex:0 0 auto;align-self:flex-end;position:relative;height:118px;margin:0 auto 0 2px}
 .brand-figure svg{display:block;height:118px;width:auto;transform:scaleX(-1)}
-@media (max-width:720px){.brand-figure{display:none}}
+/* Narrow: the mark and the figure keep the first line, the nav takes its own. */
+@media (max-width:720px){
+  header.site{flex-wrap:wrap;padding-bottom:12px}
+  header.site nav{flex:1 0 100%;display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px}
+  header.site nav a{margin-left:0}
+}
 header.site .brand img{border-radius:22px;display:block;box-shadow:0 10px 30px rgba(0,0,0,.35)}
 header.site nav a{margin-left:18px;color:var(--muted);text-decoration:none;font-size:14px}
 main{max-width:960px;margin:0 auto;padding:24px}
