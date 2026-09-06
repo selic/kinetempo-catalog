@@ -21,8 +21,11 @@ why a whole exercise fits inside a link.
 2. **Write the draft** (shape below).
 3. **Build the link** by running the encoder at the end of this page in your code
    tool. Do not attempt it by hand.
-4. **Hand back the `kinetempo://` link** plus one or two sentences on what the
-   figure does. Tell them to tap it on the phone that has Kinetempo installed.
+4. **Hand back the link** plus one or two sentences on what the figure does.
+   Tell them to open it on the phone that has Kinetempo installed and press
+   **Open in Kinetempo** on the page it lands on. Hand over the plain `https://`
+   link — a `kinetempo://` address is not tappable in most chat apps, and the
+   page it opens carries the exercise in the address itself, uploading nothing.
 
 ## The draft
 
@@ -191,6 +194,9 @@ Run this in your code tool with the draft object. It needs no libraries: the
 payload is raw DEFLATE using stored blocks, which is exactly what the app
 decodes. Do not modify it, and do not try to produce the link by hand.
 
+The whole exercise rides in the fragment after `#`, which browsers never send to
+a server — the page reads it locally and offers to open the app.
+
 ```js
 function kinetempoLink(draft) {
   const B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
@@ -227,7 +233,7 @@ function kinetempoLink(draft) {
     if (b !== undefined) payload += B64[((b & 15) << 2) | ((c === undefined ? 0 : c) >> 6)];
     if (c !== undefined) payload += B64[c & 63];
   }
-  return 'kinetempo://s#' + payload;
+  return 'https://selic.github.io/kinetempo-catalog/s/#' + payload;
 }
 ```
 
