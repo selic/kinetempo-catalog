@@ -1,0 +1,192 @@
+{
+  "kind": "kinetempo.complex",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-curl-up",
+      "name": "Curl-up",
+      "description": "Întins pe spate, un genunchi flectat cu talpa pe sol, celălalt picior întins. Puneți ambele palme sub zona lombară: ele păstrează curbura naturală, care este esența acestei variante. Ridicați doar capul și umerii un centimetru-doi, ca și cum capul, gâtul și pieptul ar fi un singur bloc — fără să duceți bărbia în piept, fără să rulați coloana, fără să trageți de gât. Mențineți zece secunde, respirând normal, apoi coborâți. Schimbați piciorul flectat între runde.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Capul și umerii sus"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 10000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 10000,
+      "reps": 6,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-side-bridge-right",
+      "name": "Pod lateral — dreapta",
+      "description": "Întins pe partea dreaptă, genunchii flectați, sprijin pe cotul drept exact sub umăr, mâna stângă pe umărul opus. Ridicați șoldurile până când corpul formează o linie dreaptă de la genunchi la umeri. Mențineți zece secunde fără ca șoldurile să cadă sau trunchiul să se răsucească înainte ori înapoi. Pentru dificultate: întindeți picioarele și suprapuneți tălpile.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Șoldurile sus, corpul în linie"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 10000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 10000,
+      "reps": 6,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-side-bridge-left",
+      "name": "Pod lateral — stânga",
+      "description": "Aceeași menținere pe partea cealaltă: sprijin pe cotul stâng, mâna dreaptă pe umărul opus, șoldurile ridicate astfel încât genunchii, șoldurile și umerii să formeze o linie. Ambele părți primesc aceeași scară; o diferență clară între ele merită menționată medicului.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Șoldurile sus, corpul în linie"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 10000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 10000,
+      "reps": 6,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-bird-dog",
+      "name": "„Bird dog\"",
+      "description": "În patru labe: palmele sub umeri, genunchii sub șolduri, spatele drept. Întindeți brațul drept înainte și piciorul stâng înapoi până la nivelul trunchiului — nu mai sus, iar bazinul nu trebuie să se încline sau să se rotească. Un pahar cu apă pus pe zona lombară nu ar trebui să se verse. Mențineți zece secunde, reveniți la sol și schimbați părțile la repetarea următoare.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Braț și picior întinse, spate drept"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 10000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 10000,
+      "reps": 6,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "complex": {
+    "id": "kinetempo-back-core-endurance",
+    "name": "Zona lombară: scara de menținere pentru trunchi",
+    "description": "Cele trei mențineri care protejează coloana — curl-up, podul lateral și „bird dog\" — se execută ca o scară descrescătoare: șase mențineri, apoi patru, apoi două, câte zece secunde fiecare, cu zece secunde între ele. În total, aproximativ douăzeci de minute.\n\nȚinta este anduranța, nu efortul. Respirați normal în fiecare menținere — dacă nu puteți vorbi, contracția este prea puternică. Coastele jos, coloana nemișcată, gâtul lung; mai bine încheiați runda mai devreme decât să lăsați poziția să cedeze. Zilnic este în regulă. Evitați prima oră după trezire, când discurile sunt cel mai hidratate și o spate rigid tolerează cel mai greu flexia.\n\nOpriți-vă și cereți un consult dacă durerea coboară pe picior, apar furnicături, slăbiciune în laba piciorului sau orice schimbare a controlului vezicii ori al intestinului. Textele sunt scrise după descrierile publicate ale acestor exerciții; dacă medicul v-a dat altă dozare, urmați-o pe a lui. Nu este sfat medical.",
+    "restBetweenMs": 20000,
+    "items": [
+      {
+        "exerciseId": "kinetempo-curl-up"
+      },
+      {
+        "exerciseId": "kinetempo-curl-up",
+        "override": {
+          "reps": 4
+        }
+      },
+      {
+        "exerciseId": "kinetempo-curl-up",
+        "override": {
+          "reps": 2
+        }
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-right"
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-right",
+        "override": {
+          "reps": 4
+        }
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-right",
+        "override": {
+          "reps": 2
+        }
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-left"
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-left",
+        "override": {
+          "reps": 4
+        }
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-left",
+        "override": {
+          "reps": 2
+        }
+      },
+      {
+        "exerciseId": "kinetempo-bird-dog"
+      },
+      {
+        "exerciseId": "kinetempo-bird-dog",
+        "override": {
+          "reps": 4
+        }
+      },
+      {
+        "exerciseId": "kinetempo-bird-dog",
+        "override": {
+          "reps": 2
+        },
+        "restAfterMs": 0
+      }
+    ],
+    "updatedAt": "2026-09-06T00:00:00.000Z"
+  },
+  "catalog": {
+    "tags": [
+      "lower-back",
+      "core",
+      "endurance",
+      "isometric",
+      "curl-up",
+      "side-bridge",
+      "bird-dog"
+    ],
+    "bodyParts": [
+      "spine",
+      "core"
+    ],
+    "level": "beginner",
+    "source": "McGill, Low Back Disorders — the three spine-sparing holds and the descending repetition ladder",
+    "license": "CC-BY-4.0"
+  }
+}

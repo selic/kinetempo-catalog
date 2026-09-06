@@ -1,0 +1,10 @@
+{
+  "id": "kinetempo",
+  "name": "Kinetempo Library",
+  "type": "organisation",
+  "website": "https://selic.github.io/kinetempo-catalog/",
+  "description": "Curated base sets maintained alongside the app. Each one follows a published protocol, written from the source rather than copied from a leaflet, with the timing the protocol actually prescribes. Not medical advice.",
+  "verified": true,
+  "contact": "es@defency.net",
+  "country": "MD"
+}

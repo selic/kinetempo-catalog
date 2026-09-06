@@ -1,0 +1,44 @@
+{
+  "kind": "kinetempo.exercise",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-wall-squat",
+      "name": "Isometric wall squat",
+      "description": "Four two-minute holds with two minutes of recovery between them — fourteen minutes, three times a week. This is the dose used in the trials behind the 2023 network meta-analysis of 270 randomised trials, where isometric training lowered resting blood pressure more than aerobic, resistance, combined or interval training, and the wall squat was the most effective single mode.\n\nStand with your back flat against a wall and walk the feet out until the knees are bent somewhere near 90–100°, feet hip-width and under the knees. Pick a depth you can just finish two minutes in: the thighs should be burning by the end, not at thirty seconds. Breathe normally and steadily throughout — never hold your breath and never bear down, which spikes pressure instead of lowering it.\n\nCome out of the hold for dizziness, chest pain or pressure, a pounding headache, or any faintness. Ask your doctor first if your blood pressure is uncontrolled or unmedicated, if you have a heart condition or glaucoma, or if you are pregnant. This is an addition to prescribed treatment, never a replacement for it, and it does not replace measuring your pressure. Not medical advice.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 120000,
+          "label": "Hold the squat"
+        }
+      ],
+      "workMs": 120000,
+      "restMs": 0,
+      "reps": 1,
+      "sets": 4,
+      "setRestMs": 120000,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "catalog": {
+    "tags": [
+      "blood-pressure",
+      "isometric",
+      "wall-squat",
+      "hypertension",
+      "heart"
+    ],
+    "bodyParts": [
+      "quadriceps",
+      "knee"
+    ],
+    "level": "beginner",
+    "source": "Edwards et al., Exercise training and resting blood pressure: a large-scale pairwise and network meta-analysis, Br J Sports Med 2023",
+    "license": "CC-BY-4.0"
+  }
+}

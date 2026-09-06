@@ -1,0 +1,144 @@
+{
+  "kind": "kinetempo.complex",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-neck-isometrics",
+      "name": "Izometrie cervicală — patru direcții",
+      "description": "Așezați-vă drept. Apăsați capul în propria palmă și mențineți: fruntea, apoi ceafa, apoi fiecare tâmplă. Nimic nu se mișcă — mâna opune exact atâta rezistență câtă forță aplică capul. Folosiți aproximativ o treime din forță, cu maxilarul și umerii relaxați, fără să opriți respirația. Zece secunde pe direcție, cinci secunde pauză, trei runde.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Fruntea în palmă"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        },
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Ceafa în palme"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        },
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Tâmpla stângă în palmă"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        },
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Tâmpla dreaptă în palmă"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 5000,
+      "reps": 3,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-chin-tuck",
+      "name": "Retracția bărbiei",
+      "description": "Așezat sau întins, duceți bărbia drept înapoi — o „bărbie dublă\" ușoară — astfel încât ceafa să se alungească. Capul rămâne la nivel: nu este o încuviințare din cap. Ar trebui să simțiți o tensiune ușoară la baza craniului și lucrul mușchilor profunzi din față ai gâtului, nu o încordare în gât. Mențineți zece secunde, relaxați cinci, de zece ori.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Bărbia înapoi, gâtul lung"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 5000,
+      "reps": 10,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-upper-trap-stretch",
+      "name": "Întinderea trapezului și a ridicătorului",
+      "description": "Așezați-vă pe mână pentru a fixa umărul jos. Pentru trapez, înclinați urechea spre umărul opus; pentru ridicătorul scapulei, întoarceți întâi nasul spre axilă, apoi priviți în jos. Mâna liberă stă pe cap doar ca greutate ușoară — fără să trageți. Treizeci de secunde pe parte, de două ori, expirând în întindere. Senzația trebuie să fie o tracțiune largă pe partea laterală sau posterioară a gâtului, niciodată ascuțită și niciodată cu furnicături în braț.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "timer",
+          "durationMs": 30000,
+          "label": "Partea dreaptă"
+        },
+        {
+          "tone": "timer",
+          "durationMs": 30000,
+          "label": "Partea stângă"
+        }
+      ],
+      "workMs": 30000,
+      "restMs": 0,
+      "reps": 2,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "complex": {
+    "id": "kinetempo-neck-desk-block",
+    "name": "Gât: izometrie, retracția bărbiei și întinderi",
+    "description": "Aproximativ opt minute, o dată pe zi, pentru gâtul înțepenit de la birou: mențineri izometrice în patru direcții, apoi retracția bărbiei pentru flexorii profunzi ai gâtului și o întindere pentru trapezul superior și ridicătorul scapulei, pe fiecare parte.\n\nNimic nu trebuie să doară. Menținerile izometrice sunt blânde: apăsați cu capul în propria palmă și nimic nu se mișcă; o treime din forță este suficientă. Retracția bărbiei este o mișcare mică și precisă: bărbia alunecă drept înapoi, ca și cum ați face o „bărbie dublă\", capul nu coboară. Întinderile merg până la prima rezistență fermă, nu în durere.\n\nCereți un consult înainte de a începe dacă durerea a apărut după o cădere sau un whiplash, ori dacă apar amorțeli, furnicături sau slăbiciune într-un braț, amețeli sau dureri de cap noi și puternice. Nu este sfat medical.",
+    "restBetweenMs": 30000,
+    "items": [
+      {
+        "exerciseId": "kinetempo-neck-isometrics"
+      },
+      {
+        "exerciseId": "kinetempo-chin-tuck"
+      },
+      {
+        "exerciseId": "kinetempo-upper-trap-stretch",
+        "restAfterMs": 0
+      }
+    ],
+    "updatedAt": "2026-09-06T00:00:00.000Z"
+  },
+  "catalog": {
+    "tags": [
+      "neck",
+      "desk",
+      "isometric",
+      "posture",
+      "office",
+      "stretch"
+    ],
+    "bodyParts": [
+      "neck",
+      "spine"
+    ],
+    "level": "beginner",
+    "source": "Deep cervical flexor training: systematic review, PMC6263552; isometric hold dosing as used in office-worker trials",
+    "license": "CC-BY-4.0"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "kind": "kinetempo.complex",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-heel-drop-straight",
+      "name": "Coborârea călcâiului — genunchi întins",
+      "description": "Partea din față a ambelor tălpi pe marginea treptei, călcâiele libere, o mână pe perete sau pe balustradă pentru echilibru. Ridicați-vă pe vârfuri pe ambele picioare. Mutați greutatea pe piciorul dureros, țineți genunchiul complet întins și coborâți lent călcâiul sub nivelul treptei. Reveniți sus pe ambele picioare — niciodată doar pe cel dureros. Cincisprezece coborâri, trei serii, un minut între ele.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 2000,
+          "label": "Ridicare pe ambele picioare",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 3000,
+          "label": "Coborâre pe piciorul dureros",
+          "ticks": false
+        },
+        {
+          "tone": "rest",
+          "durationMs": 2000
+        }
+      ],
+      "workMs": 2000,
+      "restMs": 2000,
+      "reps": 15,
+      "sets": 3,
+      "setRestMs": 60000,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-heel-drop-bent",
+      "name": "Coborârea călcâiului — genunchi flectat",
+      "description": "Aceeași poziție, dar genunchiul care lucrează rămâne ușor flectat pe toată coborârea. Flexia genunchiului scoate gastrocnemianul din linia de tracțiune și mută încărcarea pe solear și pe tendonul propriu-zis — de aceea protocolul cere ambele variante. Ridicare pe ambele picioare, coborâre pe cel dureros în trei secunde, revenire pe ambele.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 2000,
+          "label": "Ridicare pe ambele picioare",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 3000,
+          "label": "Coborâre, genunchi flectat",
+          "ticks": false
+        },
+        {
+          "tone": "rest",
+          "durationMs": 2000
+        }
+      ],
+      "workMs": 2000,
+      "restMs": 2000,
+      "reps": 15,
+      "sets": 3,
+      "setRestMs": 60000,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "complex": {
+    "id": "kinetempo-achilles-eccentric",
+    "name": "Ahile: coborâri excentrice ale călcâiului",
+    "description": "De două ori pe zi, timp de douăsprezece săptămâni — protocolul clasic de încărcare excentrică pentru tendinopatia porțiunii mijlocii a tendonului lui Ahile: 3 × 15 cu genunchiul întins, apoi 3 × 15 cu genunchiul flectat, în total 180 de coborâri pe zi. Așezați partea din față a tălpilor pe marginea unei trepte, cu călcâiele libere. Ridicați-vă pe vârfuri pe ambele picioare, mutați greutatea pe piciorul dureros și coborâți încet călcâiul acestuia sub nivelul treptei, numărând până la trei. Reveniți sus pe ambele picioare: tendonul se antrenează doar la coborâre.\n\nO durere în tendon de până la aproximativ 5 din 10 în timpul lucrului este normală și permisă; a doua zi dimineața trebuie să fi trecut. Durerea ascuțită, umflătura sau durerea vizibil mai mare a doua zi înseamnă oprire și un consult. Dacă doare inserția pe calcaneu, nu porțiunea mijlocie, coborâți doar până la nivelul podelei, niciodată sub treaptă: tendinopatia inserțională de obicei nu tolerează întinderea. Acesta este un protocol publicat, nu o prescripție: indicațiile medicului dumneavoastră au prioritate. Nu este sfat medical.",
+    "restBetweenMs": 90000,
+    "items": [
+      {
+        "exerciseId": "kinetempo-heel-drop-straight"
+      },
+      {
+        "exerciseId": "kinetempo-heel-drop-bent"
+      }
+    ],
+    "updatedAt": "2026-09-06T00:00:00.000Z"
+  },
+  "catalog": {
+    "tags": [
+      "achilles",
+      "tendinopathy",
+      "eccentric",
+      "ankle",
+      "heel-drop"
+    ],
+    "bodyParts": [
+      "ankle",
+      "calf"
+    ],
+    "level": "rehab",
+    "source": "Alfredson et al., Am J Sports Med 1998; volume comparison: Stevens & Tan, JOSPT 2014;44(2):59-67",
+    "license": "CC-BY-4.0"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "kind": "kinetempo.exercise",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-plantar-heel-raise",
+      "name": "Fasciită plantară: ridicare pe vârf cu încărcare",
+      "description": "O dată la două zile, aproximativ trei luni. Rulați un prosop și așezați-l sub degete, astfel încât acestea să rămână ridicate — asta încarcă fascia plantară, nu doar gambele. Stați cu pernuța tălpii pe marginea unei trepte și ridicați-vă doar pe piciorul dureros: trei secunde sus, două secunde menținere în vârf, trei secunde jos.\n\nDouăsprezece repetări, trei serii, un minut între ele. La început, dacă doare prea tare, ridicați-vă pe ambele picioare, iar pe măsură ce devine mai ușor adăugați greutate — un rucsac cu cărți — trecând la 10 repetări × 4 serii, apoi 8 × 5, astfel încât ultima repetare din fiecare serie să fie mereu grea. Progresia este esența: în studiu, acest protocol a depășit întinderea fasciei la capitolul durere și funcție după trei luni.\n\nO durere de până la aproximativ 5 din 10 în timpul exercițiului, care trece până a doua zi dimineața, este acceptabilă. Nu judecați rezultatul înainte de trei luni. Nu este sfat medical.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 3000,
+          "label": "Ridicare",
+          "ticks": false
+        },
+        {
+          "tone": "hold",
+          "durationMs": 2000,
+          "label": "Menținere sus",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 3000,
+          "label": "Coborâre lentă",
+          "ticks": false
+        },
+        {
+          "tone": "rest",
+          "durationMs": 2000
+        }
+      ],
+      "workMs": 3000,
+      "restMs": 2000,
+      "reps": 12,
+      "sets": 3,
+      "setRestMs": 60000,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "catalog": {
+    "tags": [
+      "plantar-fasciitis",
+      "foot",
+      "high-load",
+      "heel-raise",
+      "tempo"
+    ],
+    "bodyParts": [
+      "foot",
+      "calf"
+    ],
+    "level": "rehab",
+    "source": "Rathleff et al., High-load strength training improves outcome in patients with plantar fasciitis, Scand J Med Sci Sports 2015;25(3):e292-300",
+    "license": "CC-BY-4.0"
+  }
+}
