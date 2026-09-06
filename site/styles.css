@@ -5,6 +5,9 @@ a{color:#9ecbff}
 header.site{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:960px;margin:0 auto}
 header.site .brand{display:flex;flex-direction:column;align-items:flex-start;gap:9px;text-decoration:none}
 header.site .brand-word text{fill:#fff;font-family:inherit;font-size:12px;font-weight:800}
+.brand-figure{flex:1 1 auto;align-self:stretch;position:relative;min-height:118px;margin:0 24px;overflow:hidden}
+.brand-figure svg{position:absolute;left:0;bottom:0;height:112px;width:auto;transform-origin:50% 100%;will-change:transform}
+@media (max-width:720px){.brand-figure{display:none}}
 header.site .brand img{border-radius:22px;display:block;box-shadow:0 10px 30px rgba(0,0,0,.35)}
 header.site nav a{margin-left:18px;color:var(--muted);text-decoration:none;font-size:14px}
 main{max-width:960px;margin:0 auto;padding:24px}
