@@ -7,9 +7,9 @@
 <section class="hero">
 <img class="hero-icon" src="icon.png" width="96" height="96" alt="Kinetempo icon" style="border-radius:22px;box-shadow:0 10px 30px rgba(0,0,0,.35)">
 <h1>Your physio timer with a figure that moves in time with you.</h1>
-<p>Isometric holds, lift–hold–release reps, slides, plain countdowns. Keep the app open and follow the schematic figure and the big countdown — the screen stays on. Lock the phone and the sound cues keep going: a distinct beep for every step, ticks before it ends. Programs of exercises and a public catalog from clinics and physiotherapists.</p>
-<p class="ai-line"><strong>Build your own in two minutes.</strong> Lay out the steps in the app, or describe the exercise to an assistant — it writes the whole program and <a href="#create">draws a figure for that movement</a>, then hands you a link that imports it. Standing, seated, lying down: the figure is joint angles, not a stock clip, so it is drawn for your exercise rather than picked from a shortlist.</p>
-<a class="cta" href="#download">Get the app</a><a class="cta ai" href="#create">Create with AI</a><a class="cta sec" href="demo/">Try it in the browser</a><a class="cta sec" href="./catalog/">Browse the catalog</a>
+<p>Isometric holds, lift–hold–release reps, slides, plain countdowns. Follow the figure and the big countdown while the screen stays on, or lock the phone and go by sound: a distinct beep for every step, ticks before it ends.</p>
+<p class="ai-line"><strong>The figure is drawn for your exercise.</strong> Standing, seated, lying down — it is joint angles moving in time with your steps, not a stock clip picked from a shortlist.</p>
+<a class="cta" href="#download">Get the app</a><a class="cta sec" href="demo/">Try it in the browser</a><a class="cta sec" href="./catalog/">Browse the catalog</a>
 </section>
 <section class="hero create" id="create" style="padding-top:8px">
 <div class="create-copy">
@@ -18,8 +18,7 @@
 <div class="ai-buttons">
 <a class="cta ai" id="ai-claude" href="https://claude.ai/new" rel="noopener">Create with Claude</a><a class="cta sec" id="ai-chatgpt" href="https://chatgpt.com/" rel="noopener">Create with ChatGPT</a><button class="cta sec" id="ai-copy" type="button">Copy the prompt</button>
 </div>
-<p class="ai-note">Claude and ChatGPT open with the request already written. For anything else — Gemini, a local model — copy it and paste it in. The assistant needs to be able to open a link and run code; without both it will send the animation as text you can paste into the exercise by hand.</p>
-<p class="ai-note">Already have an exercise and only want a figure for it? Point the assistant at <a href="./animation-only.md">the animation guide</a> instead — that one needs no code at all.</p>
+<p class="ai-note">Claude and ChatGPT open with the request already written; for anything else, copy it and paste it in. The assistant needs to be able to open a link and run code — without both it sends the animation as text you can paste into the exercise by hand. Only want a figure for an exercise you already have? Point it at <a href="./animation-only.md">the animation guide</a> instead, which needs no code at all.</p>
 </div>
 <figure class="demo-clip">
 <video id="ai-demo" src="./claude-demo.mp4" poster="./claude-demo.jpg" width="270" autoplay muted loop playsinline preload="metadata"></video>
@@ -27,30 +26,18 @@
 </figure>
 </section>
 <section class="grid">
-<div class="card"><h3>Build it in the app — animations included</h3><p>New exercise → pick a preset (isometric hold, lift · hold · release, dynamic reps, plain timer) or lay out your own steps: type, seconds, ticks, label. Add a description, a video link or a schematic animation, set reps and sets — done. Pick one of the built-in schematic animations (they move in time with the timer), or attach a Lottie / GIF. Combine exercises into a program with rests between them.</p></div>
-<div class="card"><h3>Or let an assistant do it</h3><p>Describe the movement, or paste the clinic's instruction sheet, and the assistant reads <a href="./anim-guide.md">the guide</a> and replies with a link that imports the finished exercise — steps, reps, description and a figure drawn for that movement. The app has the same buttons under <em>New exercise</em>. Authors filling the catalog can use the <a href="https://github.com/selic/kinetempo-catalog/blob/main/skills/kinetempo-program-author/SKILL.md">program-author skill</a> instead.</p></div>
-<div class="card"><h3>Share and publish</h3><p>Send a program by link, QR or file; a physiotherapist can hand it to a patient in one tap. The whole program travels inside the link — nothing is uploaded. Sending one to the <a href="./catalog/">public catalog</a> opens a request for review; once it is accepted it appears in everyone's Library.</p></div>
+<div class="card"><h3><span class="phase work">SQUEEZE</span> <span class="phase rest">RELAX</span></h3><p>Every step of a rep has its own colour, its own sound and its own pose: squeeze, lift, hold, release, move, rest. The last three seconds tick, so you read the tempo without watching the clock.</p></div>
+<div class="card"><h3>Sound keeps going when locked</h3><p>Lock the phone or put it face down and the cues carry on. iOS shows the time left on the Lock Screen; Android shows a countdown notification.</p></div>
+<div class="card"><h3>Build it your way</h3><p>Pick a preset — isometric hold, lift · hold · release, dynamic reps, plain timer — or lay out your own steps: type, seconds, ticks, label. Combine exercises into a program with rests between them.</p></div>
+<div class="card"><h3>Share by link, QR or file</h3><p>The whole program travels inside the link — nothing is uploaded — so a physiotherapist hands it to a patient in one tap. Send it to the <a href="./catalog/">public catalog</a> and, once accepted, it appears in everyone's Library.</p></div>
+<div class="card"><h3>Private by design</h3><p>Everything stays on your phone: no account, no tracking, and the only network request fetches that public catalog. English, Русский, Română — sounds and lock-screen labels included.</p></div>
 </section>
 
-<section class="grid">
-<div class="card"><h3><span class="phase work">SQUEEZE</span> <span class="phase rest">RELAX</span></h3><p>Every step of a rep has its own colour and sound: squeeze, lift, hold, release, move, rest. Ticks on the last three seconds.</p></div>
-<div class="card"><h3>Follow the figure, not the clock</h3><p>The built-in schematic figure moves in time with the timer — squeeze, lift, hold, lower — so you read the tempo at a glance. The screen stays on while you train.</p></div>
-<div class="card"><h3>Sound keeps going when locked</h3><p>Lock the phone or put it face down: every step change is a distinct beep and the last three seconds tick. iOS shows the time left and next steps on the Lock Screen; Android shows a countdown notification.</p></div>
-<div class="card"><h3>Programs</h3><p>Combine exercises into a block with rests between them. Share by link, QR or file — or publish to the public catalog.</p></div>
-<div class="card"><h3>Video and animations</h3><p>Attach a YouTube link, a video from your gallery, a Lottie animation, or use the built-in schematic figures that move in time with the timer.</p></div>
-<div class="card"><h3>Private by design</h3><p>Everything stays on your phone. No account, no tracking. The only network request fetches this public catalog.</p></div>
-<div class="card"><h3>English · Русский · Română</h3><p>Fully localised, including sounds and lock-screen labels.</p></div>
-</section>
-<section class="hero" id="screens"><h2>Screens</h2><p>Straight from the app.</p></section>
-<section class="shots"><figure><img src="screenshots/player-running.webp" alt="Player during a hold: the figure keeps the leg up" loading="lazy" width="480" height="1044"><figcaption>Hold — the figure keeps the leg up while you count</figcaption></figure>
-<figure><img src="screenshots/player-release.webp" alt="Player lowering the leg with control" loading="lazy" width="480" height="1044"><figcaption>Lower slowly — every step has its own colour and sound</figcaption></figure>
-<figure><img src="screenshots/lockscreen.webp" alt="Lock Screen Live Activity with the next steps" loading="lazy" width="480" height="1044"><figcaption>Lock Screen Live Activity with the next steps</figcaption></figure>
-<figure><img src="screenshots/exercise.webp" alt="Exercise card with animation and steps" loading="lazy" width="480" height="1044"><figcaption>Exercise card with animation and steps</figcaption></figure>
-<figure><img src="screenshots/editor.webp" alt="Editor: presets and step sequence" loading="lazy" width="480" height="1044"><figcaption>Editor: presets and step sequence</figcaption></figure>
-<figure><img src="screenshots/program.webp" alt="Program of exercises" loading="lazy" width="480" height="1044"><figcaption>Program of exercises</figcaption></figure>
-<figure><img src="screenshots/library.webp" alt="Public catalog in the Library tab" loading="lazy" width="480" height="1044"><figcaption>Public catalog in the Library tab</figcaption></figure>
-<figure><img src="screenshots/share.webp" alt="Share by link, QR or file" loading="lazy" width="480" height="1044"><figcaption>Share by link, QR or file</figcaption></figure>
-<figure><img src="screenshots/exercises.webp" alt="Your exercises" loading="lazy" width="480" height="1044"><figcaption>Your exercises</figcaption></figure></section>
+<section class="hero" id="screens" style="padding:28px 0 4px"><h2>Screens</h2></section>
+<section class="shots"><figure><img src="screenshots/player.jpg" alt="Player during a hold" loading="lazy" width="480" height="1043"><figcaption>A hold in progress — colour, count and figure together</figcaption></figure>
+<figure><img src="screenshots/exercise.jpg" alt="Exercise with a figure drawn for it" loading="lazy" width="480" height="1043"><figcaption>An exercise an assistant wrote, figure and all</figcaption></figure>
+<figure><img src="screenshots/program.jpg" alt="A program of exercises" loading="lazy" width="480" height="1043"><figcaption>A program: exercises in order, with rests</figcaption></figure>
+<figure><img src="screenshots/library.jpg" alt="The public catalog in the Library tab" loading="lazy" width="480" height="1043"><figcaption>The public catalog, inside the app</figcaption></figure></section>
 <section class="hero" id="try"><h2>Try it in your browser</h2><p>The player, re-implemented for the web: same steps, same sounds, same schematic figure. No install needed.</p><a class="cta" href="demo/">Open the demo</a></section>
 <section id="download" class="hero"><h2>Download</h2><p>App Store and Google Play links appear here once the app is published. Until then, testers can request a TestFlight invite at <a href="mailto:es@defency.net">es@defency.net</a>.</p></section>
 </main>
