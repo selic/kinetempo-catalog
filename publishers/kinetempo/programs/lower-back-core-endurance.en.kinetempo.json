@@ -25,7 +25,101 @@
       "reps": 6,
       "sets": 1,
       "setRestMs": 0,
-      "animation": null,
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "supine",
+          "ground": "floor",
+          "base": {
+            "knee": 85,
+            "kneeFar": 0,
+            "hip": 42,
+            "hipFar": 0,
+            "shoulder": 20,
+            "elbow": 40
+          },
+          "idle": [
+            {
+              "t": 0,
+              "torso": 0,
+              "neck": 0
+            },
+            {
+              "t": 1,
+              "torso": 16,
+              "neck": 6
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "squeeze"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": 0,
+                  "neck": 0,
+                  "highlight": {
+                    "abs": 0.2
+                  },
+                  "arrow": {
+                    "at": "torso",
+                    "dir": "up"
+                  }
+                },
+                {
+                  "t": 0.25,
+                  "torso": 16,
+                  "neck": 6,
+                  "highlight": {
+                    "abs": 1
+                  },
+                  "arrow": null
+                },
+                {
+                  "t": 1,
+                  "torso": 16,
+                  "neck": 6,
+                  "highlight": {
+                    "abs": 1
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "rest"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": 16,
+                  "neck": 6,
+                  "highlight": {
+                    "abs": 0.6
+                  }
+                },
+                {
+                  "t": 0.4,
+                  "torso": 0,
+                  "neck": 0,
+                  "highlight": {
+                    "abs": 0
+                  }
+                },
+                {
+                  "t": 1,
+                  "torso": 0,
+                  "neck": 0
+                }
+              ]
+            }
+          ],
+          "name": "Curl-up"
+        }
+      },
       "updatedAt": "2026-09-06T00:00:00.000Z"
     },
     {

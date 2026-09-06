@@ -52,7 +52,114 @@
       "reps": 3,
       "sets": 1,
       "setRestMs": 0,
-      "animation": null,
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "seated",
+          "ground": "floor",
+          "prop": "chair",
+          "base": {
+            "hip": 88,
+            "knee": 90,
+            "shoulder": 8,
+            "elbow": 10
+          },
+          "idle": [
+            {
+              "t": 0,
+              "shoulder": 8,
+              "elbow": 10
+            },
+            {
+              "t": 1,
+              "shoulder": 132,
+              "elbow": 118
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "squeeze",
+                "step": 0
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "shoulder": 132,
+                  "elbow": 118,
+                  "neck": 4
+                },
+                {
+                  "t": 1,
+                  "shoulder": 132,
+                  "elbow": 118,
+                  "neck": 6
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "squeeze",
+                "step": 2
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "shoulder": 150,
+                  "elbow": 140,
+                  "neck": -4
+                },
+                {
+                  "t": 1,
+                  "shoulder": 150,
+                  "elbow": 140,
+                  "neck": -6
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "squeeze"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "shoulder": 140,
+                  "elbow": 130,
+                  "neck": 0
+                },
+                {
+                  "t": 1,
+                  "shoulder": 140,
+                  "elbow": 130,
+                  "neck": 0
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "rest"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "shoulder": 8,
+                  "elbow": 10,
+                  "neck": 0
+                },
+                {
+                  "t": 1,
+                  "shoulder": 8,
+                  "elbow": 10,
+                  "neck": 0
+                }
+              ]
+            }
+          ],
+          "name": "Neck isometrics"
+        }
+      },
       "updatedAt": "2026-09-06T00:00:00.000Z"
     },
     {
@@ -76,7 +183,73 @@
       "reps": 10,
       "sets": 1,
       "setRestMs": 0,
-      "animation": null,
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "seated",
+          "ground": "floor",
+          "prop": "chair",
+          "base": {
+            "hip": 88,
+            "knee": 90,
+            "shoulder": 8,
+            "elbow": 10
+          },
+          "idle": [
+            {
+              "t": 0,
+              "neck": 0
+            },
+            {
+              "t": 1,
+              "neck": 14
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "squeeze"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "neck": 0,
+                  "arrow": null
+                },
+                {
+                  "t": 0.3,
+                  "neck": 14
+                },
+                {
+                  "t": 1,
+                  "neck": 14
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "rest"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "neck": 14
+                },
+                {
+                  "t": 0.5,
+                  "neck": 0
+                },
+                {
+                  "t": 1,
+                  "neck": 0
+                }
+              ]
+            }
+          ],
+          "name": "Chin tuck"
+        }
+      },
       "updatedAt": "2026-09-06T00:00:00.000Z"
     },
     {

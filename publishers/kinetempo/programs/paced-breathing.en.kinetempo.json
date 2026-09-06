@@ -28,7 +28,104 @@
       "reps": 90,
       "sets": 1,
       "setRestMs": 0,
-      "animation": null,
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "seated",
+          "ground": "floor",
+          "prop": "chair",
+          "base": {
+            "hip": 88,
+            "knee": 90,
+            "shoulder": 8,
+            "elbow": 10
+          },
+          "idle": [
+            {
+              "t": 0,
+              "torso": 4,
+              "highlight": {
+                "chest": 0.1
+              }
+            },
+            {
+              "t": 1,
+              "torso": -4,
+              "highlight": {
+                "chest": 1
+              }
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "lift"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": 4,
+                  "highlight": {
+                    "chest": 0.1
+                  },
+                  "arrow": null
+                },
+                {
+                  "t": 1,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "hold"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                },
+                {
+                  "t": 1,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "release"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                },
+                {
+                  "t": 1,
+                  "torso": 4,
+                  "highlight": {
+                    "chest": 0.1
+                  }
+                }
+              ]
+            }
+          ],
+          "name": "Paced breathing"
+        }
+      },
       "updatedAt": "2026-09-06T00:00:00.000Z"
     },
     {
@@ -67,7 +164,104 @@
       "reps": 15,
       "sets": 1,
       "setRestMs": 0,
-      "animation": null,
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "seated",
+          "ground": "floor",
+          "prop": "chair",
+          "base": {
+            "hip": 88,
+            "knee": 90,
+            "shoulder": 8,
+            "elbow": 10
+          },
+          "idle": [
+            {
+              "t": 0,
+              "torso": 4,
+              "highlight": {
+                "chest": 0.1
+              }
+            },
+            {
+              "t": 1,
+              "torso": -4,
+              "highlight": {
+                "chest": 1
+              }
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "lift"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": 4,
+                  "highlight": {
+                    "chest": 0.1
+                  },
+                  "arrow": null
+                },
+                {
+                  "t": 1,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "hold"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                },
+                {
+                  "t": 1,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "release"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                },
+                {
+                  "t": 1,
+                  "torso": 4,
+                  "highlight": {
+                    "chest": 0.1
+                  }
+                }
+              ]
+            }
+          ],
+          "name": "Paced breathing"
+        }
+      },
       "updatedAt": "2026-09-06T00:00:00.000Z"
     },
     {
@@ -100,7 +294,104 @@
       "reps": 4,
       "sets": 1,
       "setRestMs": 0,
-      "animation": null,
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "seated",
+          "ground": "floor",
+          "prop": "chair",
+          "base": {
+            "hip": 88,
+            "knee": 90,
+            "shoulder": 8,
+            "elbow": 10
+          },
+          "idle": [
+            {
+              "t": 0,
+              "torso": 4,
+              "highlight": {
+                "chest": 0.1
+              }
+            },
+            {
+              "t": 1,
+              "torso": -4,
+              "highlight": {
+                "chest": 1
+              }
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "lift"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": 4,
+                  "highlight": {
+                    "chest": 0.1
+                  },
+                  "arrow": null
+                },
+                {
+                  "t": 1,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "hold"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                },
+                {
+                  "t": 1,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "release"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": -4,
+                  "highlight": {
+                    "chest": 1
+                  }
+                },
+                {
+                  "t": 1,
+                  "torso": 4,
+                  "highlight": {
+                    "chest": 0.1
+                  }
+                }
+              ]
+            }
+          ],
+          "name": "Paced breathing"
+        }
+      },
       "updatedAt": "2026-09-06T00:00:00.000Z"
     }
   ],

@@ -32,7 +32,93 @@
       "reps": 15,
       "sets": 3,
       "setRestMs": 60000,
-      "animation": null,
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "standing",
+          "ground": "floor",
+          "idle": [
+            {
+              "t": 0,
+              "ankle": 18
+            },
+            {
+              "t": 1,
+              "ankle": -26
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "lift"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "ankle": 18,
+                  "highlight": {
+                    "calf": 0.3
+                  },
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "up"
+                  }
+                },
+                {
+                  "t": 1,
+                  "ankle": -26,
+                  "highlight": {
+                    "calf": 1
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "release"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "ankle": -26,
+                  "highlight": {
+                    "calf": 1
+                  },
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "down"
+                  }
+                },
+                {
+                  "t": 1,
+                  "ankle": 18,
+                  "highlight": {
+                    "calf": 0.5
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "rest"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "ankle": 18,
+                  "arrow": null
+                },
+                {
+                  "t": 1,
+                  "ankle": 18
+                }
+              ]
+            }
+          ],
+          "name": "Heel drop, knee straight"
+        }
+      },
       "updatedAt": "2026-09-06T00:00:00.000Z"
     },
     {
@@ -63,7 +149,97 @@
       "reps": 15,
       "sets": 3,
       "setRestMs": 60000,
-      "animation": null,
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "standing",
+          "ground": "floor",
+          "base": {
+            "knee": 22,
+            "hip": 12
+          },
+          "idle": [
+            {
+              "t": 0,
+              "ankle": 18
+            },
+            {
+              "t": 1,
+              "ankle": -26
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "lift"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "ankle": 18,
+                  "highlight": {
+                    "calf": 0.3
+                  },
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "up"
+                  }
+                },
+                {
+                  "t": 1,
+                  "ankle": -26,
+                  "highlight": {
+                    "calf": 1
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "release"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "ankle": -26,
+                  "highlight": {
+                    "calf": 1
+                  },
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "down"
+                  }
+                },
+                {
+                  "t": 1,
+                  "ankle": 18,
+                  "highlight": {
+                    "calf": 0.5
+                  }
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "rest"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "ankle": 18,
+                  "arrow": null
+                },
+                {
+                  "t": 1,
+                  "ankle": 18
+                }
+              ]
+            }
+          ],
+          "name": "Heel drop, knee bent"
+        }
+      },
       "updatedAt": "2026-09-06T00:00:00.000Z"
     }
   ],
