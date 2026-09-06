@@ -47,52 +47,42 @@
   }
 
   /**
-   * A wall push-up against the app icon. The hands stay planted on the wall, so
-   * the lean is not animated but solved: for a given elbow bend, bisect the
-   * body's forward tilt until the hand lands on the wall — the same trick the
-   * app uses to keep a heel on the ground.
+   * Standing hip extension with the wall for balance: the hands rest on the
+   * icon, the stance leg carries the weight, and the working leg swings back
+   * from the hip. Nothing about the trunk moves, so the hands stay put on the
+   * wall — only the shoulder angle is solved once, to reach it.
    */
-  const WALL_X = 116;
-  const PUSH = { torso: 0, neck: -10, hip: 0, knee: 3, ankle: 0, hipFar: -4, kneeFar: 5, ankleFar: 0, shoulder: 78, elbow: 6, shoulderFar: 71, elbowFar: 6 };
+  const WALL_X = 86;
+  const BASE = { torso: 5, neck: -3, hip: -3, knee: 4, ankle: -3, hipFar: -1, kneeFar: 3, ankleFar: 0, shoulder: 80, elbow: 10, shoulderFar: 74, elbowFar: 12 };
+  const BACK = { hip: -38, knee: 11, ankle: -13 };
 
-  const rotate = (pt, about, deg) => {
-    const a = rad(-deg);
-    const dx = pt.x - about.x, dy = pt.y - about.y;
-    return { x: about.x + dx * Math.cos(a) - dy * Math.sin(a), y: about.y + dx * Math.sin(a) + dy * Math.cos(a) };
-  };
-
-  /** Tip the whole body about the ankle, keep the foot flat, keep it on the floor. */
-  function tilted(angles, lean) {
-    const raw = solve(angles);
-    const about = raw.ankle;
-    const out = {};
-    for (const k of Object.keys(raw)) out[k] = rotate(raw[k], about, lean);
-    // The heel stays down, so the foot does not tip with the body.
-    out.toe = { x: out.ankle.x + SEG.foot, y: out.ankle.y };
-    out.toeFar = { x: out.ankleFar.x + SEG.foot, y: out.ankleFar.y };
-    const dy = GROUND_Y - Math.min(out.ankle.y, out.toe.y, out.ankleFar.y, out.toeFar.y);
-    for (const k of Object.keys(out)) out[k] = { x: out[k].x, y: out[k].y + dy };
-    return out;
-  }
-
-  function poseAt(bend) {
-    const angles = { ...PUSH, elbow: PUSH.elbow + bend * 64, elbowFar: PUSH.elbowFar + bend * 60, neck: PUSH.neck - bend * 6 };
-    let lo = 0, hi = 46;
-    for (let i = 0; i < 22; i++) {
+  /** Reach for the wall: the one angle that has to be solved, and only once. */
+  const SHOULDER = (() => {
+    let lo = 40, hi = 120;
+    for (let i = 0; i < 24; i++) {
       const mid = (lo + hi) / 2;
-      if (tilted(angles, mid).hand.x < WALL_X) lo = mid; else hi = mid;
+      if (solve({ ...BASE, shoulder: mid }).hand.x < WALL_X) lo = mid; else hi = mid;
     }
-    return { angles, lean: (lo + hi) / 2 };
-  }
+    return (lo + hi) / 2;
+  })();
 
   const ease = (t) => 0.5 - 0.5 * Math.cos(Math.PI * Math.min(1, Math.max(0, t)));
-  // Down 1.6 s, hold 0.6 s, up 1.6 s, rest 1.2 s.
-  const CYCLE = 5000;
-  function bendAt(ms) {
+  const poseAt = (t) => ({
+    ...BASE,
+    shoulder: SHOULDER,
+    shoulderFar: SHOULDER - 6,
+    hip: BASE.hip + (BACK.hip - BASE.hip) * t,
+    knee: BASE.knee + (BACK.knee - BASE.knee) * t,
+    ankle: BASE.ankle + (BACK.ankle - BASE.ankle) * t,
+  });
+
+  // Back 1.4 s, hold 0.6 s, return 1.4 s, rest 1.0 s.
+  const CYCLE = 4400;
+  function swingAt(ms) {
     const t = (ms % CYCLE) / 1000;
-    if (t < 1.6) return ease(t / 1.6);
-    if (t < 2.2) return 1;
-    if (t < 3.8) return 1 - ease((t - 2.2) / 1.6);
+    if (t < 1.4) return ease(t / 1.4);
+    if (t < 2.0) return 1;
+    if (t < 3.4) return 1 - ease((t - 2.0) / 1.4);
     return 0;
   }
 
@@ -101,8 +91,7 @@
   const bounds = (() => {
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
     for (let i = 0; i <= 24; i++) {
-      const { angles, lean } = poseAt(i / 24);
-      const s = tilted(angles, lean);
+      const s = solve(poseAt(i / 24));
       for (const p of Object.values(s)) {
         minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x);
         minY = Math.min(minY, -p.y); maxY = Math.max(maxY, -p.y);
@@ -143,9 +132,8 @@
     el.setAttribute('x2', b.x); el.setAttribute('y2', -b.y);
   };
 
-  function draw(bend) {
-    const { angles, lean } = poseAt(bend);
-    const s = tilted(angles, lean);
+  function draw(t) {
+    const s = solve(poseAt(t));
     set(parts.legFar, s.hip, s.kneeFar); set(parts.shankFar, s.kneeFar, s.ankleFar); set(parts.footFar, s.ankleFar, s.toeFar);
     set(parts.armFar, s.shoulder, s.elbowFar); set(parts.forearmFar, s.elbowFar, s.handFar);
     set(parts.torso, s.hip, s.shoulder); set(parts.neck, s.shoulder, s.head);
@@ -155,10 +143,10 @@
   }
 
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    draw(0.55);
+    draw(0.7);
     return;
   }
   const started = performance.now();
-  const tick = (now) => { draw(bendAt(now - started)); requestAnimationFrame(tick); };
+  const tick = (now) => { draw(swingAt(now - started)); requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
 })();
