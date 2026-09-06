@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Pushes store/asc/listing.json + store/screenshots/ios-6.9 to App Store Connect via the API.
- *   ASC_ISSUER_ID=… ASC_KEY_ID=… ASC_KEY_PATH=~/.appstoreconnect/private_keys/AuthKey_X.p8 node store/asc/push-listing.mjs [--dry] [--no-screenshots]
+ *   ASC_ISSUER_ID=… ASC_KEY_ID=… ASC_KEY_PATH=~/.appstoreconnect/private_keys/AuthKey_X.p8 node store/asc/push-listing.mjs [--dry] [--no-screenshots] [--replace-screenshots]
  */
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -13,6 +13,8 @@ const listing = JSON.parse(readFileSync(join(ROOT, 'store/asc/listing.json'), 'u
 const SHOTS = join(ROOT, 'store/screenshots/ios-6.9');
 const DRY = process.argv.includes('--dry');
 const NO_SHOTS = process.argv.includes('--no-screenshots');
+/** Screenshots are matched by file name, so a renamed set would pile up beside the old one. */
+const REPLACE_SHOTS = process.argv.includes('--replace-screenshots');
 const { ASC_ISSUER_ID, ASC_KEY_ID } = process.env;
 const KEY_PATH = (process.env.ASC_KEY_PATH ?? `~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8`).replace('~', process.env.HOME);
 if (!ASC_ISSUER_ID || !ASC_KEY_ID) throw new Error('ASC_ISSUER_ID and ASC_KEY_ID are required');
@@ -115,7 +117,13 @@ if (!NO_SHOTS) {
     let set = sets.find((s) => s.attributes.screenshotDisplayType === 'APP_IPHONE_67');
     if (!set) set = (await api('POST', '/appScreenshotSets', attrs('appScreenshotSets', { screenshotDisplayType: 'APP_IPHONE_67' }, { appStoreVersionLocalization: rel('appStoreVersionLocalizations', locId) }))).data;
     const existing = DRY ? [] : (await api('GET', `/appScreenshotSets/${set.id}/appScreenshots`)).data;
-    const have = new Set(existing.map((s) => s.attributes.fileName));
+    if (REPLACE_SHOTS) {
+      for (const s of existing) {
+        await api('DELETE', `/appScreenshots/${s.id}`);
+        console.log(`  ${locale}: ${s.attributes.fileName} removed`);
+      }
+    }
+    const have = new Set(REPLACE_SHOTS ? [] : existing.map((s) => s.attributes.fileName));
     for (const f of files) {
       if (have.has(f)) { console.log(`  ${locale}: ${f} already uploaded`); continue; }
       const buf = readFileSync(join(SHOTS, f));
