@@ -2,6 +2,7 @@
 
 This guide explains, field by field, how to write an exercise or a program that the Kinetempo app can import
 and that this catalog accepts. Russian version: [AUTHORING.ru.md](AUTHORING.ru.md).
+Which sets the catalog wants next, and the conventions volume publishing needs: [CONTENT-ROADMAP.md](CONTENT-ROADMAP.md).
 
 ## 1. Mental model
 
@@ -114,10 +115,17 @@ Field reference (exercise):
 | `reps`, `sets`, `setRestMs` | yes / no / no | reps ≥ 1; `sets` default 1; `setRestMs` = rest between sets |
 | `workMs`, `restMs` | yes  | legacy mirror of the first active / first rest step (older app versions read them) |
 | `videoUrl`     | no       | YouTube link or direct `.mp4` / `.m3u8`; local files are never accepted |
-| `animation`    | no       | `{ "kind": "builtin", "ref": "<id>" }` or `{ "kind": "url", "ref": "https://…/anim.json" }` (Lottie) / GIF |
+| `animation`    | no       | `{ "kind": "builtin", "ref": "<id>" }`, `{ "kind": "url", "ref": "https://…/anim.json" }` (Lottie / GIF), or `{ "kind": "spec", "spec": { … } }` — a figure described as joint angles and carried inside the document |
 | `updatedAt`    | yes      | ISO-8601; bump it when you change the exercise so the app can offer updates |
 
-Built-in animation ids: `quadSets`, `heelSlides`, `straightLegRaise`, `heelProp`, `anklePumps`.
+Built-in animation ids: `quadSets`, `heelSlides`, `straightLegRaise`, `heelProp`, `anklePumps`. All five are
+lying-down knee work; anything else — standing, seated, face down — needs a `spec`.
+
+A `spec` is the figure written out as anatomical joint angles rather than a picture, so it weighs a few hundred
+bytes, travels inside the document with no hosting, and follows the timer instead of looping on its own. The
+conventions, the format and worked examples are in
+[animation-only.md](https://selic.github.io/kinetempo-catalog/animation-only.md); an assistant can write one from
+a description of the movement.
 
 ## 5. Program document
 

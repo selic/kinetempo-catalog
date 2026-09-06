@@ -17,10 +17,17 @@ publishers/
 publishes it to GitHub Pages (custom domain via `CNAME`).
 
 - Authoring guide: [docs/AUTHORING.md](docs/AUTHORING.md) · по‑русски: [docs/AUTHORING.ru.md](docs/AUTHORING.ru.md)
+- Content roadmap (which base sets to publish next, and why): [docs/CONTENT-ROADMAP.md](docs/CONTENT-ROADMAP.md)
 - Claude/Codex skill for authors: [skills/kinetempo-program-author](skills/kinetempo-program-author/SKILL.md)
 - Examples: [examples/](examples/)
 
 ## Publishing a program
+
+**From the app.** Share → Send to the catalog posts the programme to a small worker
+([`worker/`](worker)) that opens the pull request for you. No GitHub account, no fork. CI validates it and a
+maintainer decides whether to merge — nothing is published automatically.
+
+**By hand,** for authors filling the catalog in bulk:
 
 1. Fork this repository and create `publishers/<your-id>/publisher.json` (see [publishers/selic](publishers/selic)).
    `<your-id>` is lowercase letters, digits and dashes.
@@ -36,7 +43,8 @@ website or registry entry in the pull request.
 ## Rules
 
 - Content is **not medical advice**. Programs written for a specific patient must say so in the description.
-- Only link videos and animations (YouTube, Lottie JSON, GIF); binary files are not accepted.
+- Only link videos and hosted animations (YouTube, Lottie JSON, GIF); binary files are not accepted. A schematic
+  figure is the exception — it is joint angles, not a file, and travels inside the document.
 - Keep descriptions factual: how to perform, what to avoid, stop signals.
 - One locale per file; add translations as separate files with the same slug.
 
