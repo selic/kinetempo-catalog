@@ -6,9 +6,12 @@ three timestamps in square brackets from your recording before sending.
 
 ---
 
-Thank you for the review. We have attached a demonstration video to App Review
-Information and replaced the binary: the submission now uses **build 6**, which
-also fixes a crash we found while preparing this recording.
+Thank you for the review. Please disregard the video in our previous message —
+it was recorded on an older build and is superseded by the one attached here.
+
+We have attached a new demonstration video to App Review Information and
+replaced the binary: the submission now uses **build 6**, which also fixes a
+crash we found while preparing this recording.
 
 The video shows the app end to end on a physical iPhone. Two parts of it are
 worth pointing out, because they are the parts that involve anything outside the
