@@ -1,0 +1,19 @@
+{
+  "kind": "kinetempo.exercise",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T10:00:00.000Z",
+  "exercises": [
+    {
+      "id": "e1",
+      "name": "Smoke test",
+      "description": "",
+      "workMs": 1000,
+      "restMs": 0,
+      "reps": 1,
+      "sets": 1,
+      "setRestMs": 0,
+      "updatedAt": "2026-09-06T10:00:00.000Z"
+    }
+  ]
+}
