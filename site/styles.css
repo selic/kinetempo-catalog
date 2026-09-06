@@ -33,6 +33,7 @@ footer{max-width:960px;margin:48px auto 24px;padding:0 24px;color:var(--muted);f
 .ai-note{font-size:15px!important;color:var(--muted);max-width:640px;margin:14px 0 0}
 .ai-fallback{display:block;width:100%;max-width:640px;margin-top:12px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.25);color:#fff;font:inherit;font-size:14px;min-height:90px}
 
-.demo-clip{margin:26px 0 0;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
-.demo-clip video{width:240px;height:auto;border-radius:22px;box-shadow:0 14px 40px rgba(0,0,0,.4);display:block;background:#000}
-.demo-clip figcaption{font-size:15px;color:var(--muted);max-width:400px}
+.demo-clip{margin:26px 0 0;display:flex;gap:26px;align-items:center;flex-wrap:wrap;background:var(--surface);border-radius:22px;padding:20px}
+.demo-clip video{width:270px;height:auto;border-radius:20px;box-shadow:0 14px 40px rgba(0,0,0,.4);display:block;background:#000;flex:0 0 auto}
+.demo-clip figcaption{font-size:16px;color:var(--muted);flex:1 1 260px;min-width:0}
+.demo-clip figcaption strong{color:#fff}
