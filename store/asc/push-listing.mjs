@@ -92,13 +92,12 @@ for (const [locale, l] of Object.entries(listing.locales)) {
 }
 
 // 4. review details
-if (!listing.review.phone) console.log('  review details skipped: set review.phone (+country number) in listing.json and re-run');
-else {
+{
   const rd = await api('GET', `/appStoreVersions/${version.id}/appStoreReviewDetail`).catch(() => null);
-  const ra = { contactFirstName: listing.review.firstName, contactLastName: listing.review.lastName, contactEmail: listing.review.email, contactPhone: listing.review.phone, demoAccountRequired: false, notes: listing.review.notes };
-  if (rd?.data) await api('PATCH', `/appStoreReviewDetails/${rd.data.id}`, { data: { type: 'appStoreReviewDetails', id: rd.data.id, attributes: ra } });
-  else await api('POST', '/appStoreReviewDetails', attrs('appStoreReviewDetails', ra, { appStoreVersion: rel('appStoreVersions', version.id) }));
-  console.log('  review details saved');
+  const ra = { contactFirstName: listing.review.firstName, contactLastName: listing.review.lastName, contactEmail: listing.review.email, demoAccountRequired: false, notes: listing.review.notes, ...(listing.review.phone ? { contactPhone: listing.review.phone } : {}) };
+  if (rd?.data) { await api('PATCH', `/appStoreReviewDetails/${rd.data.id}`, { data: { type: 'appStoreReviewDetails', id: rd.data.id, attributes: ra } }); console.log('  review details updated (notes' + (listing.review.phone ? ' + phone' : ', phone kept as is') + ')'); }
+  else if (listing.review.phone) { await api('POST', '/appStoreReviewDetails', attrs('appStoreReviewDetails', ra, { appStoreVersion: rel('appStoreVersions', version.id) })); console.log('  review details created'); }
+  else console.log('  review details skipped: no record yet and no phone in listing.json');
 }
 
 // 5. attach the latest processed build
