@@ -1,0 +1,165 @@
+{
+  "kind": "kinetempo.exercise",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T17:22:59.533Z",
+  "exercises": [
+    {
+      "id": "gen-mtq2x6nz",
+      "name": "Bodyweight squat",
+      "description": "Sit back and down for 2s, hold the bottom for 1s, drive up for 2s.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "move",
+          "durationMs": 2000,
+          "label": "Down"
+        },
+        {
+          "tone": "hold",
+          "durationMs": 1000,
+          "label": "Hold"
+        },
+        {
+          "tone": "lift",
+          "durationMs": 2000,
+          "label": "Up"
+        }
+      ],
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "standing",
+          "ground": "floor",
+          "idle": [
+            {
+              "t": 0,
+              "torso": 0,
+              "hip": 0,
+              "knee": 0,
+              "shoulder": 0,
+              "elbow": 0
+            },
+            {
+              "t": 1,
+              "torso": 28,
+              "hip": 118,
+              "knee": 105,
+              "shoulder": 85,
+              "elbow": 15
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "step": 0
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 0.2
+                  },
+                  "arrow": {
+                    "at": "hip",
+                    "dir": "down"
+                  },
+                  "torso": 0,
+                  "hip": 0,
+                  "knee": 0,
+                  "shoulder": 0,
+                  "elbow": 0
+                },
+                {
+                  "t": 1,
+                  "highlight": {
+                    "quad": 1,
+                    "glute": 0.8
+                  },
+                  "torso": 28,
+                  "hip": 118,
+                  "knee": 105,
+                  "shoulder": 85,
+                  "elbow": 15
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "hold"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 1,
+                    "glute": 0.8
+                  },
+                  "torso": 28,
+                  "hip": 118,
+                  "knee": 105,
+                  "shoulder": 85,
+                  "elbow": 15
+                }
+              ]
+            },
+            {
+              "when": {
+                "step": 2
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 1,
+                    "glute": 1
+                  },
+                  "arrow": {
+                    "at": "hip",
+                    "dir": "up"
+                  },
+                  "torso": 28,
+                  "hip": 118,
+                  "knee": 105,
+                  "shoulder": 85,
+                  "elbow": 15
+                },
+                {
+                  "t": 1,
+                  "highlight": {
+                    "quad": 0.2
+                  },
+                  "torso": 0,
+                  "hip": 0,
+                  "knee": 0,
+                  "shoulder": 0,
+                  "elbow": 0
+                }
+              ]
+            },
+            {
+              "keys": [
+                {
+                  "t": 0,
+                  "torso": 0,
+                  "hip": 0,
+                  "knee": 0,
+                  "shoulder": 0,
+                  "elbow": 0
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "workMs": 2000,
+      "restMs": 0,
+      "reps": 10,
+      "sets": 2,
+      "setRestMs": 60000,
+      "color": null,
+      "updatedAt": "2026-09-06T17:22:32.663Z"
+    }
+  ]
+}
