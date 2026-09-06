@@ -46,7 +46,8 @@ https://selic.github.io/kinetempo-catalog/catalog/index.json.
 Kinetempo times your physiotherapy exercises so you can focus on the movement, not the phone.
 
 • Steps, not just seconds — squeeze, lift, hold, release, move, rest. Every step has its own sound and colour, with ticks on the last three seconds.
-• Keeps going when the screen is locked — audio cues continue, and the Live Activity shows the current step and countdown on the Lock Screen and Dynamic Island.
+• Follow the figure — the built-in schematic figure moves in time with the timer and the screen stays on while you train; the big countdown and colours show every step.
+• Sound keeps going when locked — lock the phone and every step change is still a distinct beep, with ticks before it ends. The Lock Screen shows the time left and the next steps.
 • Programs — combine exercises into a block with rests between them, e.g. quad sets → straight-leg raises → heel slides → heel prop.
 • Presets — isometric hold, lift-hold-release, dynamic reps, plain countdown, or build your own step sequence.
 • Video and animation — attach a YouTube link or a video from your gallery, a Lottie animation, or use the built-in schematic figures that move in time with the timer.
@@ -60,7 +61,8 @@ Kinetempo is a timer, not a medical device. Follow your clinician's instructions
 Kinetempo отсчитывает время упражнений ЛФК, чтобы вы думали о движении, а не о телефоне.
 
 • Шаги, а не просто секунды — напрячь, поднять, задержать, опустить, движение, отдых. У каждого шага свой звук и цвет, последние три секунды — тики.
-• Работает при заблокированном экране — звуковые подсказки продолжаются, а Live Activity показывает текущий шаг и отсчёт на экране блокировки и в Dynamic Island.
+• Следите за фигурой — встроенная схематичная фигура двигается в такт таймеру, экран не гаснет во время занятия; крупный отсчёт и цвет показывают каждый шаг.
+• Звук не останавливается при блокировке — заблокируйте телефон, и каждая смена шага останется отдельным сигналом с тиками перед концом. На экране блокировки — остаток сессии и следующие шаги.
 • Комплексы — собирайте упражнения в блок с отдыхом между ними.
 • Пресеты — изометрия, поднять‑задержать‑опустить, динамика, простой таймер или своя последовательность шагов.
 • Видео и анимации — ссылка на YouTube, видео из галереи, Lottie‑анимация или встроенные схематичные фигуры, движущиеся в такт таймеру.
@@ -74,7 +76,8 @@ Kinetempo — таймер, а не медицинское устройство.
 Kinetempo cronometrează exercițiile de kinetoterapie, ca să te concentrezi pe mișcare, nu pe telefon.
 
 • Pași, nu doar secunde — contractă, ridică, menține, coboară, mișcare, pauză. Fiecare pas are sunetul și culoarea lui, cu ticuri în ultimele trei secunde.
-• Continuă cu ecranul blocat — semnalele sonore merg mai departe, iar Live Activity arată pasul curent și numărătoarea pe ecranul de blocare și în Dynamic Island.
+• Urmărește figura — figura schematică integrată se mișcă în ritmul cronometrului, iar ecranul rămâne aprins în timpul exercițiului; numărătoarea mare și culorile arată fiecare pas.
+• Sunetul continuă cu ecranul blocat — fiecare schimbare de pas rămâne un semnal distinct, cu ticuri înainte de final. Ecranul de blocare arată timpul rămas și pașii următori.
 • Programe — combină exercițiile într-un bloc cu pauze între ele.
 • Presetări — izometrie, ridică‑menține‑coboară, repetări dinamice, cronometru simplu sau propria secvență de pași.
 • Video și animații — link YouTube, video din galerie, animație Lottie sau figurile schematice integrate, sincronizate cu cronometrul.
