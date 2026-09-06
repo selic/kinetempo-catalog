@@ -47,45 +47,70 @@
   }
 
   /**
-   * A gait, not an exercise: the hip swings, the knee folds as the leg comes
-   * through, the arms swing against the legs. Phase advances with distance
-   * covered rather than with time, so the feet do not slide.
+   * A wall push-up against the app icon. The hands stay planted on the wall, so
+   * the lean is not animated but solved: for a given elbow bend, bisect the
+   * body's forward tilt until the hand lands on the wall — the same trick the
+   * app uses to keep a heel on the ground.
    */
-  const STRIDE = 78;
-  function poseAt(phase) {
-    const leg = (ph) => ({
-      hip: 24 * Math.sin(ph),
-      knee: 8 + 44 * Math.pow(Math.max(0, Math.cos(ph)), 1.3),
-      ankle: -7 * Math.cos(ph),
-    });
-    const near = leg(phase), far = leg(phase + Math.PI);
-    return {
-      torso: 4, neck: 0,
-      hip: near.hip, knee: near.knee, ankle: near.ankle,
-      hipFar: far.hip, kneeFar: far.knee, ankleFar: far.ankle,
-      shoulder: -18 * Math.sin(phase), elbow: 16,
-      shoulderFar: 18 * Math.sin(phase), elbowFar: 16,
-    };
+  const WALL_X = 116;
+  const PUSH = { torso: 0, neck: -10, hip: 0, knee: 3, ankle: 0, hipFar: -4, kneeFar: 5, ankleFar: 0, shoulder: 78, elbow: 6, shoulderFar: 71, elbowFar: 6 };
+
+  const rotate = (pt, about, deg) => {
+    const a = rad(-deg);
+    const dx = pt.x - about.x, dy = pt.y - about.y;
+    return { x: about.x + dx * Math.cos(a) - dy * Math.sin(a), y: about.y + dx * Math.sin(a) + dy * Math.cos(a) };
+  };
+
+  /** Tip the whole body about the ankle, keep the foot flat, keep it on the floor. */
+  function tilted(angles, lean) {
+    const raw = solve(angles);
+    const about = raw.ankle;
+    const out = {};
+    for (const k of Object.keys(raw)) out[k] = rotate(raw[k], about, lean);
+    // The heel stays down, so the foot does not tip with the body.
+    out.toe = { x: out.ankle.x + SEG.foot, y: out.ankle.y };
+    out.toeFar = { x: out.ankleFar.x + SEG.foot, y: out.ankleFar.y };
+    const dy = GROUND_Y - Math.min(out.ankle.y, out.toe.y, out.ankleFar.y, out.toeFar.y);
+    for (const k of Object.keys(out)) out[k] = { x: out[k].x, y: out[k].y + dy };
+    return out;
   }
-  /** Standing still — no phase of a walk has both legs straight, so it is its own pose. */
-  const STILL = { torso: 3, neck: 0, hip: 0, knee: 4, ankle: 0, hipFar: -6, kneeFar: 5, ankleFar: 0, shoulder: 5, elbow: 6, shoulderFar: -6, elbowFar: 8 };
-  const KEYS = Object.keys(STILL);
-  /** Eased toward the target every frame, so stopping and setting off are not a jump. */
-  const approach = (from, to, k) => Object.fromEntries(KEYS.map((key) => [key, from[key] + (to[key] - from[key]) * k]));
+
+  function poseAt(bend) {
+    const angles = { ...PUSH, elbow: PUSH.elbow + bend * 64, elbowFar: PUSH.elbowFar + bend * 60, neck: PUSH.neck - bend * 6 };
+    let lo = 0, hi = 46;
+    for (let i = 0; i < 22; i++) {
+      const mid = (lo + hi) / 2;
+      if (tilted(angles, mid).hand.x < WALL_X) lo = mid; else hi = mid;
+    }
+    return { angles, lean: (lo + hi) / 2 };
+  }
+
+  const ease = (t) => 0.5 - 0.5 * Math.cos(Math.PI * Math.min(1, Math.max(0, t)));
+  // Down 1.6 s, hold 0.6 s, up 1.6 s, rest 1.2 s.
+  const CYCLE = 5000;
+  function bendAt(ms) {
+    const t = (ms % CYCLE) / 1000;
+    if (t < 1.6) return ease(t / 1.6);
+    if (t < 2.2) return 1;
+    if (t < 3.8) return 1 - ease((t - 2.2) / 1.6);
+    return 0;
+  }
 
   // The app's viewBox assumes y-up; drawing it y-down would leave the frame
   // lopsided, so measure what the whole squat actually sweeps and fit that.
   const bounds = (() => {
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
     for (let i = 0; i <= 24; i++) {
-      const s = solve(poseAt((i / 24) * 2 * Math.PI));
+      const { angles, lean } = poseAt(i / 24);
+      const s = tilted(angles, lean);
       for (const p of Object.values(s)) {
         minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x);
         minY = Math.min(minY, -p.y); maxY = Math.max(maxY, -p.y);
       }
     }
     const pad = SEG.head + 8;
-    return { minX: minX - pad, minY: minY - pad, width: maxX - minX + 2 * pad, height: Math.max(maxY, -GROUND_Y) - minY + 2 * pad };
+    // No padding on the wall side: mirrored, that edge is where the hands meet the icon.
+    return { minX: minX - pad, minY: minY - pad, width: WALL_X - (minX - pad), height: Math.max(maxY, -GROUND_Y) - minY + 2 * pad };
   })();
 
   const NS = 'http://www.w3.org/2000/svg';
@@ -118,8 +143,9 @@
     el.setAttribute('x2', b.x); el.setAttribute('y2', -b.y);
   };
 
-  function draw(pose) {
-    const s = solve(pose);
+  function draw(bend) {
+    const { angles, lean } = poseAt(bend);
+    const s = tilted(angles, lean);
     set(parts.legFar, s.hip, s.kneeFar); set(parts.shankFar, s.kneeFar, s.ankleFar); set(parts.footFar, s.ankleFar, s.toeFar);
     set(parts.armFar, s.shoulder, s.elbowFar); set(parts.forearmFar, s.elbowFar, s.handFar);
     set(parts.torso, s.hip, s.shoulder); set(parts.neck, s.shoulder, s.head);
@@ -129,37 +155,10 @@
   }
 
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    draw(STILL);
+    draw(0.55);
     return;
   }
-
-  // Strolling: across the free space, a pause at each end, then back the other way.
-  const SPEED = 24; // px per second — an amble, not a march
-  const PAUSE = 1400;
-  let x = 0, dir = 1, phase = 0, restUntil = 0, last = performance.now();
-  let pose = { ...STILL };
-
-  function tick(now) {
-    const dt = Math.min(64, now - last);
-    last = now;
-    const span = Math.max(0, host.clientWidth - svg.getBoundingClientRect().width);
-    if (now >= restUntil) {
-      const dx = (SPEED * dt) / 1000;
-      x += dir * dx;
-      phase += (dx / STRIDE) * Math.PI;
-      if (x <= 0 || x >= span) {
-        x = Math.max(0, Math.min(span, x));
-        dir = -dir;
-        restUntil = now + PAUSE;
-        phase = 0;
-      }
-      pose = approach(pose, poseAt(phase), 1 - Math.exp(-dt / 90));
-    } else {
-      pose = approach(pose, STILL, 1 - Math.exp(-dt / 160));
-    }
-    draw(pose);
-    svg.style.transform = `translateX(${x}px) scaleX(${dir})`;
-    requestAnimationFrame(tick);
-  }
+  const started = performance.now();
+  const tick = (now) => { draw(bendAt(now - started)); requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
 })();
