@@ -1,0 +1,39 @@
+{
+  "kind": "kinetempo.exercise",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T16:54:38.519Z",
+  "exercises": [
+    {
+      "id": "knee-ankle-pumps",
+      "name": "Ankle pumps",
+      "description": "Every waking hour: point the foot up and down ×20, then ankle circles. Thrombosis prevention while on restricted weight-bearing.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "move",
+          "durationMs": 1000,
+          "label": "Toes up",
+          "ticks": false
+        },
+        {
+          "tone": "move",
+          "durationMs": 1000,
+          "label": "Toes down",
+          "ticks": false
+        }
+      ],
+      "animation": {
+        "kind": "builtin",
+        "ref": "anklePumps"
+      },
+      "workMs": 1000,
+      "restMs": 0,
+      "reps": 20,
+      "sets": 1,
+      "setRestMs": 0,
+      "color": null,
+      "updatedAt": "2026-09-06T05:54:02.525Z"
+    }
+  ]
+}
