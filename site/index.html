@@ -11,18 +11,20 @@
 <p class="ai-line"><strong>Build your own in two minutes.</strong> Lay out the steps in the app, or describe the exercise to an assistant — it writes the whole program and <a href="#create">draws a figure for that movement</a>, then hands you a link that imports it. Standing, seated, lying down: the figure is joint angles, not a stock clip, so it is drawn for your exercise rather than picked from a shortlist.</p>
 <a class="cta" href="#download">Get the app</a><a class="cta ai" href="#create">Create with AI</a><a class="cta sec" href="demo/">Try it in the browser</a><a class="cta sec" href="./catalog/">Browse the catalog</a>
 </section>
-<section class="hero" id="create" style="padding-top:8px">
+<section class="hero create" id="create" style="padding-top:8px">
+<div class="create-copy">
 <h2>Make your own in two minutes</h2>
 <p>Kinetempo is not a fixed set of workouts — it is a timer you shape, by hand or with an AI assistant. Describe the exercise in a chat and it replies with a link that adds it to the app, figure and all.</p>
 <div class="ai-buttons">
 <a class="cta ai" id="ai-claude" href="https://claude.ai/new" rel="noopener">Create with Claude</a><a class="cta sec" id="ai-chatgpt" href="https://chatgpt.com/" rel="noopener">Create with ChatGPT</a><button class="cta sec" id="ai-copy" type="button">Copy the prompt</button>
 </div>
 <p class="ai-note">Claude and ChatGPT open with the request already written. For anything else — Gemini, a local model — copy it and paste it in. The assistant needs to be able to open a link and run code; without both it will send the animation as text you can paste into the exercise by hand.</p>
-<figure class="demo-clip">
-<video src="./claude-demo.mp4" poster="./claude-demo.jpg" width="240" autoplay muted loop playsinline preload="metadata" controls></video>
-<figcaption><strong>What that looks like.</strong> Tap <em>Create with Claude</em>, say "body weight squats, 2s down, 1s hold, 2s up", answer two questions about reps and sets — and the assistant replies with a link that opens the finished exercise in the app, figure and all. The only thing cut from the recording is the half minute the assistant spent working.</figcaption>
-</figure>
 <p class="ai-note">Already have an exercise and only want a figure for it? Point the assistant at <a href="./animation-only.md">the animation guide</a> instead — that one needs no code at all.</p>
+</div>
+<figure class="demo-clip">
+<video id="ai-demo" src="./claude-demo.mp4" poster="./claude-demo.jpg" width="270" autoplay muted loop playsinline preload="metadata"></video>
+<figcaption><strong>Start to finish.</strong> Two questions about reps and sets, then a link that opens the finished exercise. The half minute the assistant spent working is the only thing cut.</figcaption>
+</figure>
 </section>
 <section class="grid">
 <div class="card"><h3>Build it in the app — animations included</h3><p>New exercise → pick a preset (isometric hold, lift · hold · release, dynamic reps, plain timer) or lay out your own steps: type, seconds, ticks, label. Add a description, a video link or a schematic animation, set reps and sets — done. Pick one of the built-in schematic animations (they move in time with the timer), or attach a Lottie / GIF. Combine exercises into a program with rests between them.</p></div>
@@ -58,6 +60,15 @@
   const q = encodeURIComponent(prompt);
   document.getElementById('ai-claude').href = 'https://claude.ai/new?q=' + q;
   document.getElementById('ai-chatgpt').href = 'https://chatgpt.com/?prompt=' + q;
+  // The clip loops silently; anyone who asked the system for less motion gets a still with controls instead.
+  const demo = document.getElementById('ai-demo');
+  if (demo && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    demo.autoplay = false;
+    demo.loop = false;
+    demo.controls = true;
+    demo.pause();
+  }
+
   const copy = document.getElementById('ai-copy');
   copy.addEventListener('click', async () => {
     try {
