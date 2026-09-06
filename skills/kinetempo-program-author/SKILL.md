@@ -22,8 +22,11 @@ Read `docs/AUTHORING.md` in this repository for the field reference; the essenti
 3. **Write the document** (see template). Ids: `<publisher-id>-<slug>`, stable, lowercase. Descriptions ≤ 4000 chars,
    factual, in the file's locale. Set `workMs`/`restMs` to the first active / first rest step durations.
    Set `updatedAt` and `exportedAt` to now (ISO-8601 UTC).
-4. **Attach visuals** only as links: `videoUrl` (YouTube/mp4) and `animation` — built-in ids
-   `quadSets`, `heelSlides`, `straightLegRaise`, `heelProp`, `anklePumps`, or `{ "kind": "url", "ref": "https://…/x.json" }`.
+4. **Attach visuals:** `videoUrl` (YouTube/mp4) and `animation` — a built-in id
+   (`quadSets`, `heelSlides`, `straightLegRaise`, `heelProp`, `anklePumps`), a hosted file
+   (`{ "kind": "url", "ref": "https://…/x.json" }`), or a generated figure carried in the document itself
+   (`{ "kind": "spec", "spec": { … } }`). For a spec, follow `site/anim-guide.md` — it has the joint
+   conventions, the format and worked examples.
 5. **Program:** put every referenced exercise in `exercises`, build `complex.items` in the prescribed order,
    `restBetweenMs` (default 30000), per-item `restAfterMs` / `override` when the protocol differs.
 6. **Catalog block:** `tags`, `bodyParts`, `level`, `source`, `reviewedBy` if known, `license`.
