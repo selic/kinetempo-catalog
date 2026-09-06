@@ -1,0 +1,144 @@
+{
+  "kind": "kinetempo.complex",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-neck-isometrics",
+      "name": "Neck isometrics — four directions",
+      "description": "Sit tall. Press the head into your own hand and hold — forehead, then the back of the head, then each temple. Nothing moves: the hand resists exactly as hard as the head pushes. Use about a third of your strength, keep the jaw and shoulders loose, and keep breathing. Ten seconds per direction, five seconds off, three rounds.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Forehead into the palm"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        },
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Back of the head into hands"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        },
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Left temple into the palm"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        },
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Right temple into the palm"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 5000,
+      "reps": 3,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-chin-tuck",
+      "name": "Chin tuck",
+      "description": "Sitting or lying, slide the chin straight back — a gentle double chin — while the back of the neck lengthens. The head stays level; this is not a nod. You should feel a mild pull at the base of the skull and the deep front muscles of the neck working, not the throat straining. Hold ten seconds, release for five, ten times.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Chin back, neck long"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 5000,
+      "reps": 10,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-upper-trap-stretch",
+      "name": "Upper trapezius and levator stretch",
+      "description": "Sit on your hand to anchor the shoulder down. For the trapezius, tip the ear toward the opposite shoulder; for the levator, turn the nose toward the armpit first and then look down. Use the free hand only as light weight on the head — no pulling. Thirty seconds a side, twice, breathing out into the stretch. It should feel like a broad pull along the side or back of the neck, never sharp, and never with pins and needles into the arm.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "timer",
+          "durationMs": 30000,
+          "label": "Right side"
+        },
+        {
+          "tone": "timer",
+          "durationMs": 30000,
+          "label": "Left side"
+        }
+      ],
+      "workMs": 30000,
+      "restMs": 0,
+      "reps": 2,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "complex": {
+    "id": "kinetempo-neck-desk-block",
+    "name": "Neck: isometrics, chin tucks and stretches",
+    "description": "About eight minutes, once a day, for the ordinary stiff neck of desk work: isometric holds in four directions, then chin tucks for the deep neck flexors, then a stretch for the upper trapezius and levator on each side.\n\nNone of it should hurt. The isometric holds are gentle — you push into your own hand and nothing moves; a third of your strength is plenty. The chin tuck is a small, precise movement: the chin slides straight back as if making a double chin, the head does not nod down. Stretches go to the first firm resistance, not into pain.\n\nGet assessed before starting if the neck pain came from a fall or a whiplash, or if it comes with numbness, pins and needles or weakness in an arm, dizziness, or headaches that are new and severe. Not medical advice.",
+    "restBetweenMs": 30000,
+    "items": [
+      {
+        "exerciseId": "kinetempo-neck-isometrics"
+      },
+      {
+        "exerciseId": "kinetempo-chin-tuck"
+      },
+      {
+        "exerciseId": "kinetempo-upper-trap-stretch",
+        "restAfterMs": 0
+      }
+    ],
+    "updatedAt": "2026-09-06T00:00:00.000Z"
+  },
+  "catalog": {
+    "tags": [
+      "neck",
+      "desk",
+      "isometric",
+      "posture",
+      "office",
+      "stretch"
+    ],
+    "bodyParts": [
+      "neck",
+      "spine"
+    ],
+    "level": "beginner",
+    "source": "Deep cervical flexor training: systematic review, PMC6263552; isometric hold dosing as used in office-worker trials",
+    "license": "CC-BY-4.0"
+  }
+}

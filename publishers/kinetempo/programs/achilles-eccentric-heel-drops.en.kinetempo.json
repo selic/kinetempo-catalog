@@ -1,0 +1,101 @@
+{
+  "kind": "kinetempo.complex",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-heel-drop-straight",
+      "name": "Heel drop — knee straight",
+      "description": "Balls of both feet on the edge of a step, heels free, a hand on the wall or rail for balance. Rise onto your toes on both legs. Shift your weight onto the painful leg, keep that knee fully straight, and lower the heel slowly below the level of the step. Come back up on both legs — never up on the painful one alone. Fifteen drops, three sets, a minute between sets.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 2000,
+          "label": "Up on both feet",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 3000,
+          "label": "Lower on the sore leg",
+          "ticks": false
+        },
+        {
+          "tone": "rest",
+          "durationMs": 2000
+        }
+      ],
+      "workMs": 2000,
+      "restMs": 2000,
+      "reps": 15,
+      "sets": 3,
+      "setRestMs": 60000,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-heel-drop-bent",
+      "name": "Heel drop — knee bent",
+      "description": "The same position, but the working knee stays slightly bent throughout the drop. Bending the knee takes the calf muscle out of the line of pull and moves the load onto the soleus and the tendon itself, which is why the protocol asks for both versions. Rise on both legs, lower on the painful one over three seconds, come back up on both.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 2000,
+          "label": "Up on both feet",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 3000,
+          "label": "Lower, knee bent",
+          "ticks": false
+        },
+        {
+          "tone": "rest",
+          "durationMs": 2000
+        }
+      ],
+      "workMs": 2000,
+      "restMs": 2000,
+      "reps": 15,
+      "sets": 3,
+      "setRestMs": 60000,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "complex": {
+    "id": "kinetempo-achilles-eccentric",
+    "name": "Achilles: eccentric heel drops",
+    "description": "Twice a day for twelve weeks — the classic eccentric loading protocol for mid-portion Achilles tendinopathy: 3 × 15 with the knee straight, then 3 × 15 with the knee bent, 180 drops a day in all. Stand with the balls of both feet on the edge of a step, heels free. Rise onto your toes on both legs, shift your weight onto the painful leg, and lower that heel below the level of the step over a slow three-count. Come back up on both legs — the tendon is trained on the way down only.\n\nTendon pain up to about 5 out of 10 during the work is expected and allowed; it should have settled by the next morning. Sharp pain, swelling, or pain that is clearly worse the following day means stop and get assessed. If the pain sits where the tendon meets the heel bone rather than in the mid-portion, lower only to floor level, never below the step — insertional tendinopathy usually does not tolerate the stretch. This is a published protocol, not a prescription: follow your own clinician if their instructions differ. Not medical advice.",
+    "restBetweenMs": 90000,
+    "items": [
+      {
+        "exerciseId": "kinetempo-heel-drop-straight"
+      },
+      {
+        "exerciseId": "kinetempo-heel-drop-bent"
+      }
+    ],
+    "updatedAt": "2026-09-06T00:00:00.000Z"
+  },
+  "catalog": {
+    "tags": [
+      "achilles",
+      "tendinopathy",
+      "eccentric",
+      "ankle",
+      "heel-drop"
+    ],
+    "bodyParts": [
+      "ankle",
+      "calf"
+    ],
+    "level": "rehab",
+    "source": "Alfredson et al., Am J Sports Med 1998; volume comparison: Stevens & Tan, JOSPT 2014;44(2):59-67",
+    "license": "CC-BY-4.0"
+  }
+}

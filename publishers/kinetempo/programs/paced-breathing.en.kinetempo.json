@@ -1,0 +1,135 @@
+{
+  "kind": "kinetempo.complex",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-breathing-six",
+      "name": "Six breaths a minute — 15 minutes",
+      "description": "Five seconds in through the nose, five seconds out, ninety times. Keep the breath quiet and unforced; the belly should rise before the chest. If five seconds is too long at first, breathe more shallowly rather than faster.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 5000,
+          "label": "Breathe in",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 5000,
+          "label": "Breathe out",
+          "ticks": false
+        }
+      ],
+      "workMs": 5000,
+      "restMs": 0,
+      "reps": 90,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-box-breathing",
+      "name": "Box breathing 4-4-4-4",
+      "description": "Four seconds in, four held, four out, four held empty — four minutes in all. A short, upright pattern for settling before something stressful. The holds are relaxed pauses, not strained ones; skip them if they make you tense.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 4000,
+          "label": "In",
+          "ticks": false
+        },
+        {
+          "tone": "hold",
+          "durationMs": 4000,
+          "label": "Hold",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 4000,
+          "label": "Out",
+          "ticks": false
+        },
+        {
+          "tone": "hold",
+          "durationMs": 4000,
+          "label": "Hold empty",
+          "ticks": false
+        }
+      ],
+      "workMs": 4000,
+      "restMs": 0,
+      "reps": 15,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-breathing-478",
+      "name": "4-7-8 before sleep",
+      "description": "Four seconds in through the nose, seven held, eight out through the mouth with the lips barely parted. Four cycles, lying down, once you are already in bed. Stop at four the first weeks — the long exhale can make you light-headed if you overdo it.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 4000,
+          "label": "In through the nose",
+          "ticks": false
+        },
+        {
+          "tone": "hold",
+          "durationMs": 7000,
+          "label": "Hold",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 8000,
+          "label": "Out through the mouth",
+          "ticks": false
+        }
+      ],
+      "workMs": 4000,
+      "restMs": 0,
+      "reps": 4,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "complex": {
+    "id": "kinetempo-paced-breathing",
+    "name": "Paced breathing",
+    "description": "Fifteen minutes at six breaths a minute — five seconds in, five seconds out — which is the dose behind the blood-pressure evidence for slow breathing: roughly 4–8 mmHg systolic across trials of ten to fifteen minutes a day. Sit upright and comfortable, breathe through the nose into the belly rather than the chest, and let the timer set the pace instead of counting.\n\nTwo shorter patterns come with this program for other moments: box breathing, 4-4-4-4, to settle before something stressful, and 4-7-8, four cycles, as a wind-down before sleep.\n\nIf the pace feels like a struggle, shorten it — light-headedness or tingling means you are breathing too deeply, not too slowly; stop, breathe normally, and start again with smaller breaths. Slow breathing supports treatment for high blood pressure, it does not replace it, and it is not a treatment for asthma or any breathing condition. Not medical advice.",
+    "restBetweenMs": 0,
+    "items": [
+      {
+        "exerciseId": "kinetempo-breathing-six",
+        "restAfterMs": 0
+      }
+    ],
+    "updatedAt": "2026-09-06T00:00:00.000Z"
+  },
+  "catalog": {
+    "tags": [
+      "breathing",
+      "blood-pressure",
+      "relaxation",
+      "sleep",
+      "box-breathing"
+    ],
+    "bodyParts": [
+      "breathing"
+    ],
+    "level": "beginner",
+    "source": "Chaddha et al., device- and non-device-guided slow breathing, meta-analysis 2019; mindful breathing at six breaths per minute, PMC10844494",
+    "license": "CC-BY-4.0"
+  }
+}

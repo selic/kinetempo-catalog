@@ -1,0 +1,192 @@
+{
+  "kind": "kinetempo.complex",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-curl-up",
+      "name": "Curl-up",
+      "description": "Lie on your back, one knee bent with the foot flat, the other leg straight. Slide both hands palm-down under the small of your back: they keep the natural hollow, which is the whole point of this version. Lift only the head and shoulders a centimetre or two, as if head, neck and chest were one block — no chin tucking, no curling the spine, no pulling on the neck. Hold ten seconds, breathing normally, then lower. Swap which knee is bent between rounds.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Head and shoulders up"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 10000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 10000,
+      "reps": 6,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-side-bridge-right",
+      "name": "Side bridge — right",
+      "description": "Lie on your right side with the knees bent, propped on the right elbow directly under the shoulder, left hand on the opposite shoulder. Lift the hips until the body makes a straight line from knees to shoulders. Hold ten seconds without letting the hips sag or the trunk roll forward or back. To make it harder, straighten the legs and stack the feet.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Hips up, body in line"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 10000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 10000,
+      "reps": 6,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-side-bridge-left",
+      "name": "Side bridge — left",
+      "description": "The same hold on the other side: on your left elbow, right hand on the opposite shoulder, hips lifted so that knees, hips and shoulders make one line. Both sides get the same ladder — a difference between them is worth mentioning to your clinician.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Hips up, body in line"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 10000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 10000,
+      "reps": 6,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-bird-dog",
+      "name": "Bird dog",
+      "description": "On hands and knees, hands under the shoulders, knees under the hips, back flat. Reach the right arm forward and the left leg back until both are level with the trunk — no higher, and the pelvis must not tilt or rotate. A glass of water on the small of your back should not spill. Hold ten seconds, return to the floor, and switch sides on the next repetition.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 10000,
+          "label": "Arm and leg out, back flat"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 10000
+        }
+      ],
+      "workMs": 10000,
+      "restMs": 10000,
+      "reps": 6,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "complex": {
+    "id": "kinetempo-back-core-endurance",
+    "name": "Lower back: core endurance ladder",
+    "description": "The three spine-sparing holds — curl-up, side bridge and bird dog — run as a descending ladder: six holds, then four, then two, ten seconds each with ten seconds between them. About twenty minutes end to end.\n\nThe target is endurance, not effort. Breathe normally through every hold — if you cannot talk, the brace is too hard. Keep the ribs down, the spine still and the neck long, and end a round early rather than let the position sag. Daily is fine. Avoid it in the first hour after getting up, when the discs are at their most swollen and a stiff back is least tolerant of bending.\n\nStop and get assessed for pain that shoots or radiates down a leg, pins and needles, weakness in a foot, or any change in bladder or bowel control. Written from the published descriptions of these holds; if your clinician has given you a different dose, use theirs. Not medical advice.",
+    "restBetweenMs": 20000,
+    "items": [
+      {
+        "exerciseId": "kinetempo-curl-up"
+      },
+      {
+        "exerciseId": "kinetempo-curl-up",
+        "override": {
+          "reps": 4
+        }
+      },
+      {
+        "exerciseId": "kinetempo-curl-up",
+        "override": {
+          "reps": 2
+        }
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-right"
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-right",
+        "override": {
+          "reps": 4
+        }
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-right",
+        "override": {
+          "reps": 2
+        }
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-left"
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-left",
+        "override": {
+          "reps": 4
+        }
+      },
+      {
+        "exerciseId": "kinetempo-side-bridge-left",
+        "override": {
+          "reps": 2
+        }
+      },
+      {
+        "exerciseId": "kinetempo-bird-dog"
+      },
+      {
+        "exerciseId": "kinetempo-bird-dog",
+        "override": {
+          "reps": 4
+        }
+      },
+      {
+        "exerciseId": "kinetempo-bird-dog",
+        "override": {
+          "reps": 2
+        },
+        "restAfterMs": 0
+      }
+    ],
+    "updatedAt": "2026-09-06T00:00:00.000Z"
+  },
+  "catalog": {
+    "tags": [
+      "lower-back",
+      "core",
+      "endurance",
+      "isometric",
+      "curl-up",
+      "side-bridge",
+      "bird-dog"
+    ],
+    "bodyParts": [
+      "spine",
+      "core"
+    ],
+    "level": "beginner",
+    "source": "McGill, Low Back Disorders — the three spine-sparing holds and the descending repetition ladder",
+    "license": "CC-BY-4.0"
+  }
+}

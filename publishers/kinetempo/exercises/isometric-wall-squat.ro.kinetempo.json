@@ -1,0 +1,44 @@
+{
+  "kind": "kinetempo.exercise",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-wall-squat",
+      "name": "Squat izometric la perete",
+      "description": "Patru mențineri de câte două minute, cu două minute de pauză între ele — paisprezece minute, de trei ori pe săptămână. Aceasta este doza folosită în studiile din meta-analiza în rețea din 2023, pe 270 de studii randomizate, în care antrenamentul izometric a scăzut tensiunea de repaus mai mult decât cel aerob, cu rezistență, combinat sau pe intervale, iar squatul la perete a fost cea mai eficientă variantă.\n\nLipiți spatele de perete și pășiți cu tălpile în față până când genunchii ajung la aproximativ 90–100°, tălpile la lățimea șoldurilor și sub genunchi. Alegeți o adâncime la care abia încheiați cele două minute: coapsele trebuie să ardă spre final, nu la treizeci de secunde. Respirați normal și continuu — nu vă țineți respirația și nu forțați expirul cu glota închisă, pentru că asta crește tensiunea în loc să o scadă.\n\nIeșiți din poziție dacă apar amețeli, durere sau presiune în piept, o durere de cap pulsatilă sau senzația de leșin. Întrebați medicul înainte dacă tensiunea nu este controlată sau tratată, dacă aveți o boală de inimă ori glaucom, sau dacă sunteți însărcinată. Este un adaos la tratamentul prescris, niciodată un înlocuitor, și nu înlocuiește măsurarea tensiunii. Nu este sfat medical.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 120000,
+          "label": "Mențineți poziția"
+        }
+      ],
+      "workMs": 120000,
+      "restMs": 0,
+      "reps": 1,
+      "sets": 4,
+      "setRestMs": 120000,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "catalog": {
+    "tags": [
+      "blood-pressure",
+      "isometric",
+      "wall-squat",
+      "hypertension",
+      "heart"
+    ],
+    "bodyParts": [
+      "quadriceps",
+      "knee"
+    ],
+    "level": "beginner",
+    "source": "Edwards et al., Exercise training and resting blood pressure: a large-scale pairwise and network meta-analysis, Br J Sports Med 2023",
+    "license": "CC-BY-4.0"
+  }
+}

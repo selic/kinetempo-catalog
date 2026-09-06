@@ -1,0 +1,61 @@
+{
+  "kind": "kinetempo.exercise",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-plantar-heel-raise",
+      "name": "Plantar fasciitis: high-load heel raise",
+      "description": "Every other day for about three months. Roll up a towel and put it under your toes so they are held bent upward — that is what loads the plantar fascia rather than only the calf. Stand with the ball of the foot on the edge of a step and rise on the painful leg alone: three seconds up, two seconds held at the top, three seconds down.\n\nTwelve repetitions, three sets, a minute between sets. Use both legs to rise at first if one is too painful, and add load as it gets easier — a rucksack with books — moving to 10 repetitions × 4 sets, then 8 × 5, so the last repetition of every set is always hard. That progression is the point: in the trial this protocol beat plantar-specific stretching on pain and function at three months.\n\nPain during the exercise up to about 5 out of 10 that settles by the next morning is acceptable. Give it three months before judging it. Not medical advice.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 3000,
+          "label": "Rise",
+          "ticks": false
+        },
+        {
+          "tone": "hold",
+          "durationMs": 2000,
+          "label": "Hold at the top",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 3000,
+          "label": "Lower slowly",
+          "ticks": false
+        },
+        {
+          "tone": "rest",
+          "durationMs": 2000
+        }
+      ],
+      "workMs": 3000,
+      "restMs": 2000,
+      "reps": 12,
+      "sets": 3,
+      "setRestMs": 60000,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "catalog": {
+    "tags": [
+      "plantar-fasciitis",
+      "foot",
+      "high-load",
+      "heel-raise",
+      "tempo"
+    ],
+    "bodyParts": [
+      "foot",
+      "calf"
+    ],
+    "level": "rehab",
+    "source": "Rathleff et al., High-load strength training improves outcome in patients with plantar fasciitis, Scand J Med Sci Sports 2015;25(3):e292-300",
+    "license": "CC-BY-4.0"
+  }
+}

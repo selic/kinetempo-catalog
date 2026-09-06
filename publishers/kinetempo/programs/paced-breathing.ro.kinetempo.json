@@ -1,0 +1,135 @@
+{
+  "kind": "kinetempo.complex",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-06T00:00:00.000Z",
+  "exercises": [
+    {
+      "id": "kinetempo-breathing-six",
+      "name": "Șase respirații pe minut — 15 minute",
+      "description": "Cinci secunde inspir pe nas, cinci secunde expir, de nouăzeci de ori. Respirația rămâne liniștită și fără efort; abdomenul se ridică înaintea pieptului. Dacă cinci secunde par prea mult la început, respirați mai superficial, nu mai repede.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 5000,
+          "label": "Inspirați",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 5000,
+          "label": "Expirați",
+          "ticks": false
+        }
+      ],
+      "workMs": 5000,
+      "restMs": 0,
+      "reps": 90,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-box-breathing",
+      "name": "Respirație „în pătrat\" 4-4-4-4",
+      "description": "Patru secunde inspir, patru menținere, patru expir, patru pauză cu plămânii goi — în total patru minute. Un tipar scurt pentru a vă calma înaintea unei situații tensionate. Menținerile sunt pauze relaxate, nu forțate; dacă vă încordează, renunțați la ele.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 4000,
+          "label": "Inspir",
+          "ticks": false
+        },
+        {
+          "tone": "hold",
+          "durationMs": 4000,
+          "label": "Menținere",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 4000,
+          "label": "Expir",
+          "ticks": false
+        },
+        {
+          "tone": "hold",
+          "durationMs": 4000,
+          "label": "Pauză cu plămânii goi",
+          "ticks": false
+        }
+      ],
+      "workMs": 4000,
+      "restMs": 0,
+      "reps": 15,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "kinetempo-breathing-478",
+      "name": "Respirație 4-7-8 înainte de somn",
+      "description": "Patru secunde inspir pe nas, șapte menținere, opt expir pe gură cu buzele abia întredeschise. Patru cicluri, întins, când sunteți deja în pat. În primele săptămâni opriți-vă la patru: expirul lung poate da amețeli dacă exagerați.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 4000,
+          "label": "Inspir pe nas",
+          "ticks": false
+        },
+        {
+          "tone": "hold",
+          "durationMs": 7000,
+          "label": "Menținere",
+          "ticks": false
+        },
+        {
+          "tone": "release",
+          "durationMs": 8000,
+          "label": "Expir pe gură",
+          "ticks": false
+        }
+      ],
+      "workMs": 4000,
+      "restMs": 0,
+      "reps": 4,
+      "sets": 1,
+      "setRestMs": 0,
+      "animation": null,
+      "updatedAt": "2026-09-06T00:00:00.000Z"
+    }
+  ],
+  "complex": {
+    "id": "kinetempo-paced-breathing",
+    "name": "Respirație în ritm",
+    "description": "Cincisprezece minute în ritm de șase respirații pe minut — cinci secunde inspir, cinci secunde expir. Aceasta este doza din spatele dovezilor privind efectul respirației lente asupra tensiunii: aproximativ 4–8 mmHg sistolic în studiile de zece-cincisprezece minute pe zi. Stați drept și comod, respirați pe nas către abdomen, nu în piept, și lăsați cronometrul să dea ritmul în locul numărătorii.\n\nÎmpreună cu programul se importă două tipare scurte pentru alte momente: respirația „în pătrat\" 4-4-4-4, pentru a vă calma înaintea unei situații stresante, și 4-7-8, patru cicluri, ca destindere înainte de somn.\n\nDacă ritmul devine un efort, reduceți amplitudinea: amețeala ușoară sau furnicăturile înseamnă că respirați prea adânc, nu prea rar — opriți-vă, respirați normal și reluați cu volume mai mici. Respirația lentă susține tratamentul hipertensiunii, dar nu îl înlocuiește, și nu este un tratament pentru astm sau alte boli respiratorii. Nu este sfat medical.",
+    "restBetweenMs": 0,
+    "items": [
+      {
+        "exerciseId": "kinetempo-breathing-six",
+        "restAfterMs": 0
+      }
+    ],
+    "updatedAt": "2026-09-06T00:00:00.000Z"
+  },
+  "catalog": {
+    "tags": [
+      "breathing",
+      "blood-pressure",
+      "relaxation",
+      "sleep",
+      "box-breathing"
+    ],
+    "bodyParts": [
+      "breathing"
+    ],
+    "level": "beginner",
+    "source": "Chaddha et al., device- and non-device-guided slow breathing, meta-analysis 2019; mindful breathing at six breaths per minute, PMC10844494",
+    "license": "CC-BY-4.0"
+  }
+}
