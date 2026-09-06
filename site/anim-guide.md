@@ -190,9 +190,11 @@ Limits: at most 12 tracks, 24 keyframes per track, angles within ±200°.
 
 ## Building the link
 
-Run this in your code tool with the draft object. It needs no libraries: the
-payload is raw DEFLATE using stored blocks, which is exactly what the app
-decodes. Do not modify it, and do not try to produce the link by hand.
+Run this in your code tool with the draft object. Use the version that matches
+the language your tool runs — JavaScript below, Python after it. Both produce
+the same kind of link. Do not modify them, and do not try to produce a link by
+hand: it is a compressed binary payload, not something you can assemble in your
+head.
 
 The whole exercise rides in the fragment after `#`, which browsers never send to
 a server — the page reads it locally and offers to open the app.
@@ -235,6 +237,48 @@ function kinetempoLink(draft) {
   }
   return 'https://selic.github.io/kinetempo-catalog/s/#' + payload;
 }
+```
+
+If your code tool runs **Python** instead, use this. It compresses properly,
+because Python has zlib built in where a browser JavaScript sandbox does not, so
+the links come out roughly half as long.
+
+```python
+import json, zlib, time, datetime
+
+def kinetempo_link(draft):
+    B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
+    now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
+    steps = draft['steps']
+    active = next((s for s in steps if s['tone'] != 'rest'), steps[0])
+    rest = next((s for s in steps if s['tone'] == 'rest'), None)
+    doc = {
+        'kind': 'kinetempo.exercise', 'schemaVersion': 1, 'app': 'kinetempo', 'exportedAt': now,
+        'exercises': [{
+            'id': 'gen-' + format(int(time.time() * 1000), 'x'),
+            'name': draft['name'],
+            'description': draft.get('description', ''),
+            'steps': steps,
+            'animation': {'kind': 'spec', 'spec': draft['animation']},
+            'workMs': max(1, active['durationMs']),
+            'restMs': rest['durationMs'] if rest else 0,
+            'reps': draft['reps'], 'sets': draft.get('sets', 1), 'setRestMs': draft.get('setRestMs', 0),
+            'updatedAt': now,
+        }],
+    }
+    c = zlib.compressobj(9, zlib.DEFLATED, -15)  # -15 = raw DEFLATE, the format the app decodes
+    data = c.compress(json.dumps(doc, separators=(',', ':')).encode()) + c.flush()
+    out = ''
+    for i in range(0, len(data), 3):
+        a = data[i]
+        b = data[i + 1] if i + 1 < len(data) else None
+        d = data[i + 2] if i + 2 < len(data) else None
+        out += B64[a >> 2] + B64[((a & 3) << 4) | ((b or 0) >> 4)]
+        if b is not None:
+            out += B64[((b & 15) << 2) | ((d or 0) >> 6)]
+        if d is not None:
+            out += B64[d & 63]
+    return 'https://selic.github.io/kinetempo-catalog/s/#' + out
 ```
 
 Before you hand the link over, check the draft yourself: every joint name is
