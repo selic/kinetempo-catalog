@@ -245,7 +245,10 @@ for (const file of walk(SITE)) {
   if (rel.endsWith('.html')) {
     const depth = rel.split('/').length - 1;
     const prefix = depth ? '../'.repeat(depth) : './';
-    const fix = (html) => html.replaceAll('href="./', `href="${prefix}`);
+    // `./` in the shared header means the site root, not the page's own folder — a nested
+    // page like /demo/ or /catalog/ would otherwise ask for its own copy of the icon and
+    // the script. Both attributes carry such paths, not just href.
+    const fix = (html) => html.replaceAll('href="./', `href="${prefix}`).replaceAll('src="./', `src="${prefix}`);
     // cache-bust local scripts/styles with the build time so GitHub Pages readers always get the current version
     const stamp = Date.now().toString(36);
     const html = readFileSync(file, 'utf8').replace('<!--#header-->', fix(header)).replace('<!--#footer-->', fix(footer)).replace(/(src|href)="([^"]+\.(?:js|css))"/g, `$1="$2?v=${stamp}"`);
@@ -269,7 +272,8 @@ const rows = entries
   })
   .join('\n');
 const catalogPage = readFileSync(join(SITE, '_catalog.html'), 'utf8').replace('<!--#entries-->', rows).replace('<!--#count-->', String(entries.length));
-writeFileSync(join(CAT, 'index.html'), catalogPage.replace('<!--#header-->', header.replaceAll('href="./', 'href="../')).replace('<!--#footer-->', footer.replaceAll('href="./', 'href="../')));
+const upOne = (html) => html.replaceAll('href="./', 'href="../').replaceAll('src="./', 'src="../');
+writeFileSync(join(CAT, 'index.html'), catalogPage.replace('<!--#header-->', upOne(header)).replace('<!--#footer-->', upOne(footer)));
 // 3. custom domain + no jekyll
 if (existsSync(join(ROOT, 'CNAME'))) cpSync(join(ROOT, 'CNAME'), join(DIST, 'CNAME'));
 writeFileSync(join(DIST, '.nojekyll'), '');
