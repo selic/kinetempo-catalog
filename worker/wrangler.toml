@@ -1,0 +1,11 @@
+name = "kinetempo-submissions"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# Per-address submission counter.
+[[kv_namespaces]]
+binding = "SUBMISSIONS"
+id = "6a73ebfbb8fa4225aa1148562868ec3c"
+
+# GITHUB_TOKEN is a secret, never a variable:
+#   npx wrangler secret put GITHUB_TOKEN
