@@ -1,1 +1,14 @@
-[{"relation":["delegate_permission/common.handle_all_urls"],"target":{"namespace":"android_app","package_name":"net.defency.kinetempo","sha256_cert_fingerprints":["REPLACE_WITH_PLAY_APP_SIGNING_SHA256"]}}]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "net.defency.kinetempo",
+      "sha256_cert_fingerprints": [
+        "1C:C6:EF:54:C9:8D:45:D6:5C:A5:61:6C:C7:D8:55:CD:20:BC:1F:A2:7E:5F:1C:85:19:F7:D8:F8:B2:F2:58:83"
+      ]
+    }
+  }
+]
