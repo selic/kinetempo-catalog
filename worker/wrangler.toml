@@ -2,6 +2,12 @@ name = "kinetempo-submissions"
 main = "src/index.js"
 compatibility_date = "2026-09-01"
 
+# On a domain we own, so the endpoint baked into the app can be re-pointed
+# without shipping a new version of it.
+[[routes]]
+pattern = "submit-kinetempo.defency.net"
+custom_domain = true
+
 # Per-address submission counter.
 [[kv_namespaces]]
 binding = "SUBMISSIONS"
