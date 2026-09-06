@@ -32,10 +32,15 @@ A **fine-grained** personal access token, scoped to this repository only, with:
 - **Contents: Read and write** — to create the branch and the file
 - **Pull requests: Read and write** — to open the pull request
 
-Nothing else. Prefer a separate machine account over a personal one: pull
-requests then arrive from someone other than the reviewer, which is what makes
-reviewing them mean anything. Fine-grained tokens expire — put the date in a
-calendar, or submissions will fail silently when it lapses.
+Nothing else. A token on the repository owner's own account is fine, and is in
+fact narrower than the alternative: a machine account has to be added as a
+collaborator, which grants everything that role allows, where this token grants
+two permissions on one repository. A machine account buys only cosmetics — pull
+requests listed as coming from someone other than the reviewer — and is worth it
+later, if enough submissions arrive that telling them apart at a glance matters.
+
+Fine-grained tokens expire, and submissions will fail **silently** when this one
+does. Put the date in a calendar.
 
 ## What it does
 
