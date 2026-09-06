@@ -21,7 +21,64 @@
       "reps": 1,
       "sets": 4,
       "setRestMs": 120000,
-      "animation": null,
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "standing",
+          "ground": "floor",
+          "prop": "wall",
+          "idle": [
+            {
+              "t": 0,
+              "hip": 0,
+              "knee": 0
+            },
+            {
+              "t": 1,
+              "hip": 88,
+              "knee": 92
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "squeeze"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "hip": 88,
+                  "knee": 92,
+                  "shoulder": 10,
+                  "highlight": {
+                    "quad": 0.5
+                  }
+                },
+                {
+                  "t": 0.5,
+                  "hip": 88,
+                  "knee": 92,
+                  "shoulder": 10,
+                  "highlight": {
+                    "quad": 0.8
+                  }
+                },
+                {
+                  "t": 1,
+                  "hip": 88,
+                  "knee": 92,
+                  "shoulder": 10,
+                  "highlight": {
+                    "quad": 1
+                  }
+                }
+              ]
+            }
+          ],
+          "name": "Isometric wall squat"
+        }
+      },
       "updatedAt": "2026-09-06T00:00:00.000Z"
     }
   ],
