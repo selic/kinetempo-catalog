@@ -12,13 +12,10 @@ head.ref  starts with  submission/
 
 **Setup it depends on:**
 
-- pushes allowed to `submission/*`, so translations can be committed.
-
-The routine does **not** send the Telegram message itself: the environment's network
-policy refuses `api.telegram.org` (403 on CONNECT). It posts its report as a pull request
-comment, and `.github/workflows/telegram.yml` forwards the verdict — GitHub's runners have
-egress. That workflow needs `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in the repository
-secrets; without them it exits quietly.
+- pushes allowed to `submission/*`, so translations can be committed;
+- `api.telegram.org` on the environment's allowed-domain list — its network access is
+  `Custom`, and without that entry the send fails with a 403 on CONNECT;
+- `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` among the environment variables.
 
 ---
 
@@ -115,6 +112,14 @@ secrets; without them it exits quietly.
    Затем 2–4 предложения простым текстом: что это за упражнение, что вызывает сомнение,
    что человеку нужно решить. Ничего не выдумывай: если чего-то не проверил — так и напиши.
 
-Телеграм ты не вызываешь: сеть в этой среде закрыта для `api.telegram.org`.
-Уведомление отправит workflow `.github/workflows/telegram.yml`, поймав твой комментарий —
-поэтому строка `**Verdict:**` в отчёте обязательна, по ней он и срабатывает.
+10. **Отправь в Телеграм** одно сообщение, по-русски:
+
+    ```sh
+    curl -sS -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
+      -d chat_id="$TELEGRAM_CHAT_ID" -d parse_mode=HTML -d disable_web_page_preview=true \
+      --data-urlencode text="<b>НАЗВАНИЕ УПРАЖНЕНИЯ</b>
+    вердикт одним словом
+    ССЫЛКА НА PR"
+    ```
+
+    Одно сообщение на запуск. Если ты завершился молча на шаге 1 — не отправляй ничего.
