@@ -80,14 +80,35 @@ async function overRateLimit(request, env) {
 }
 
 /** Lowercase, letters and digits only, so it can never escape the publisher directory. */
+/**
+ * A slug becomes a branch name and a file path, so it stays ASCII. Non-Latin names
+ * are transliterated rather than kept: macOS and Linux normalise unicode file names
+ * differently (NFD against NFC), and a Cyrillic path created on one shows up as both
+ * deleted and untracked when checked out on the other.
+ */
+const CYRILLIC = {
+  а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z', и: 'i',
+  й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't',
+  у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'shch', ъ: '', ы: 'y',
+  ь: '', э: 'e', ю: 'yu', я: 'ya',
+};
+
 function slugOf(doc) {
   const head = doc.complex ?? doc.exercises[0];
   const slug = head.name
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, '-')
-    .replace(/^-|-$/g, '')
-    .slice(0, 40);
-  return slug || 'programme';
+    // Compose first: decomposed й is и plus a breve, and stripping marks would turn it into i.
+    .normalize('NFC')
+    .replace(/[\u0400-\u04ff]/g, (c) => CYRILLIC[c] ?? '')
+    // Romanian ă î â ș ț decompose to a letter plus a mark; dropping the mark keeps the letter.
+    .normalize('NFD')
+    .replace(/\p{M}+/gu, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40)
+    .replace(/-+$/, '');
+  // A name in a script we do not transliterate leaves nothing behind.
+  return slug || (doc.complex ? 'programme' : 'exercise');
 }
 
 const base64 = (text) => {
