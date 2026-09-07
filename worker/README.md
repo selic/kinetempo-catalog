@@ -53,9 +53,10 @@ does. Put the date in a calendar.
   The slug is stripped to letters and digits, so it cannot escape that directory,
   and the stamp goes in the name rather than the locale segment — the catalog
   parses that segment and rejects anything that is not a language it supports.
-- Answers with `{ "url": …, "number": … }` — the pull request it opened, or the one an
-  identical submission opened before (then `"duplicate": true`, and no second request is
-  created) — or a message the app can show a person.
+- Answers with the pull request URL — the one it opened, or the one an identical
+  submission opened before (then `"duplicate": true`, and no second request is created) —
+  or a message the app can show a person. The number is the last segment of that URL;
+  there is no separate field for it.
 
 `GET /status?pr=1,2,3`
 

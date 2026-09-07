@@ -7,8 +7,8 @@
  * and where the payload can be checked before it reaches GitHub.
  *
  * The pull request is deliberately not merged automatically — the repository's
- * own CI validates it, and a person decides what gets published. Its number goes
- * back to the app, which asks `/status` later what the person decided.
+ * own CI validates it, and a person decides what gets published. The app follows
+ * the request afterwards by asking `/status` what the person decided.
  */
 
 const REPO_OWNER = 'selic';
@@ -59,12 +59,12 @@ export default {
     // A second tap on Send, or the same programme a week later, should not open a second
     // pull request. The fingerprint covers what makes a submission the same submission.
     const seen = await alreadySubmitted(doc, env);
-    if (seen) return json(200, { ...seen, duplicate: true });
+    if (seen) return json(200, { url: seen, duplicate: true });
 
     try {
-      const pr = await openPullRequest(env, doc, submission.contact, submission.locale);
-      await rememberSubmission(doc, pr, env);
-      return json(201, pr);
+      const url = await openPullRequest(env, doc, submission.contact, submission.locale);
+      await rememberSubmission(doc, url, env);
+      return json(201, { url });
     } catch (e) {
       // The token and the GitHub response stay here; the app gets something it can show a person.
       console.error('submission failed', e);
@@ -120,27 +120,13 @@ async function fingerprint(doc) {
 
 /** The pull request opened for an identical submission, or null. */
 async function alreadySubmitted(doc, env) {
-  const stored = await env.SUBMISSIONS.get(`doc:${await fingerprint(doc)}`);
-  if (!stored) return null;
-  // Records written before the number was kept hold the bare URL; the number is in it.
-  try {
-    const pr = JSON.parse(stored);
-    if (pr && typeof pr.url === 'string') return pr;
-  } catch {
-    /* the older format */
-  }
-  return { url: stored, number: numberFromUrl(stored) };
+  return env.SUBMISSIONS.get(`doc:${await fingerprint(doc)}`);
 }
 
-async function rememberSubmission(doc, pr, env) {
+async function rememberSubmission(doc, url, env) {
   // Ninety days: long enough to catch a resend, short enough that a rejected programme
   // can be reworked and sent again without hunting down the record.
-  await env.SUBMISSIONS.put(`doc:${await fingerprint(doc)}`, JSON.stringify(pr), { expirationTtl: 90 * 24 * 3600 });
-}
-
-function numberFromUrl(url) {
-  const m = /\/pull\/(\d+)/.exec(url);
-  return m ? Number(m[1]) : undefined;
+  await env.SUBMISSIONS.put(`doc:${await fingerprint(doc)}`, url, { expirationTtl: 90 * 24 * 3600 });
 }
 
 /**
@@ -286,5 +272,5 @@ async function openPullRequest(env, doc, contact, locale) {
     method: 'POST',
     body: JSON.stringify({ title: `Submission: ${head.name}`, head: branch, base: BASE_BRANCH, body: facts }),
   });
-  return { url: pr.html_url, number: pr.number };
+  return pr.html_url;
 }
