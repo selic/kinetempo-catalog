@@ -69,3 +69,25 @@ does. Put the date in a calendar.
   a request is open and an hour once it is decided.
 - Up to 25 numbers per request, 60 requests per address per hour. A number it cannot read
   is left out of the answer rather than reported as gone, so the app keeps what it knew.
+
+`POST /count` with `{ "ids": ["kinetempo-paced-breathing"] }`
+
+- Adds one to a counter per document id. That is the whole record: no address, no
+  identifier, nothing about who asked or what else they asked for.
+- Sent by the catalog page as a beacon with `text/plain`, so the browser makes no
+  preflight request and the reader waits for nothing.
+- Forty per address per hour, using the same hourly counter as everything else here —
+  which never learns which document was named. That leaves the numbers inflatable by
+  someone determined; they order a page of exercises, and buying them accuracy would
+  cost exactly the tracking the app promises not to do.
+- Increments are read-then-write, so two opens in the same instant count as one. For a
+  popularity hint that is a rounding error, and the alternative is a Durable Object per
+  document.
+
+`GET /counts`
+
+- The whole aggregate at once: `{ "generatedAt", "counts": { "<id>": n } }`, cached five
+  minutes.
+- Asked for by the catalog's own build, once per deploy, which bakes the numbers into the
+  page — so a reader's browser never talks to us to find out what is popular. A failure
+  here leaves every count at zero and never breaks that build.
