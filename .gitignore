@@ -5,3 +5,6 @@ dist/
 # Release operations live in the private kinetempo-release repository
 store/
 app.json
+
+# Local wrangler dev state (miniflare caches, KV, traces).
+worker/.wrangler/
