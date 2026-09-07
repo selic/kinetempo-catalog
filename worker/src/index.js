@@ -46,8 +46,14 @@ export default {
     const limited = await overRateLimit(request, env);
     if (limited) return json(429, { error: 'Too many submissions from here. Try again in an hour.' });
 
+    // A second tap on Send, or the same programme a week later, should not open a second
+    // pull request. The fingerprint covers what makes a submission the same submission.
+    const seen = await alreadySubmitted(doc, env);
+    if (seen) return json(200, { url: seen, duplicate: true });
+
     try {
       const url = await openPullRequest(env, doc, submission.contact, submission.locale);
+      await rememberSubmission(doc, url, env);
       return json(201, { url });
     } catch (e) {
       // The token and the GitHub response stay here; the app gets something it can show a person.
@@ -77,6 +83,40 @@ async function overRateLimit(request, env) {
   if (used >= RATE_LIMIT) return true;
   await env.SUBMISSIONS.put(key, String(used + 1), { expirationTtl: 3600 });
   return false;
+}
+
+/**
+ * What makes two submissions the same one: the name and the shape of every exercise —
+ * its steps, their tones and durations, the reps and sets. A reworded description or a
+ * different animation is a new submission; the same programme sent twice is not.
+ */
+async function fingerprint(doc) {
+  const head = doc.complex ?? doc.exercises[0];
+  const shape = {
+    name: head.name.trim().toLowerCase(),
+    exercises: doc.exercises.map((e) => ({
+      name: e.name?.trim().toLowerCase(),
+      reps: e.reps,
+      sets: e.sets,
+      steps: (e.steps ?? []).map((s) => [s.tone, s.durationMs]),
+      workMs: e.workMs,
+      restMs: e.restMs,
+    })),
+  };
+  const bytes = new TextEncoder().encode(JSON.stringify(shape));
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return [...new Uint8Array(digest)].slice(0, 16).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** The pull request opened for an identical submission, or null. */
+async function alreadySubmitted(doc, env) {
+  return env.SUBMISSIONS.get(`doc:${await fingerprint(doc)}`);
+}
+
+async function rememberSubmission(doc, url, env) {
+  // Ninety days: long enough to catch a resend, short enough that a rejected programme
+  // can be reworked and sent again without hunting down the record.
+  await env.SUBMISSIONS.put(`doc:${await fingerprint(doc)}`, url, { expirationTtl: 90 * 24 * 3600 });
 }
 
 /** Lowercase, letters and digits only, so it can never escape the publisher directory. */
