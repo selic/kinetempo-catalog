@@ -53,4 +53,18 @@ does. Put the date in a calendar.
   The slug is stripped to letters and digits, so it cannot escape that directory,
   and the stamp goes in the name rather than the locale segment — the catalog
   parses that segment and rejects anything that is not a language it supports.
-- Answers with the pull request URL, or a message the app can show a person.
+- Answers with `{ "url": …, "number": … }` — the pull request it opened, or the one an
+  identical submission opened before (then `"duplicate": true`, and no second request is
+  created) — or a message the app can show a person.
+
+`GET /status?pr=1,2,3`
+
+- Answers `{ "items": [{ "number", "state", "url", "title", "updatedAt" }] }`, where the
+  state is `open`, `accepted` (merged) or `declined` (closed unmerged). This is how the
+  app's **My submissions** screen shows what a review decided.
+- The repository is public, so the app could ask GitHub itself — but unauthenticated calls
+  are limited per address, and a phone behind carrier NAT shares its address with thousands
+  of others. Here the token lifts that limit and KV caches each answer, five minutes while
+  a request is open and an hour once it is decided.
+- Up to 25 numbers per request, 60 requests per address per hour. A number it cannot read
+  is left out of the answer rather than reported as gone, so the app keeps what it knew.

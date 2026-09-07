@@ -10,6 +10,11 @@ otherwise the routine wakes on every pull request in the repository and burns it
 head.ref  starts with  submission/
 ```
 
+**What the person who sent it sees:** the app remembers the pull request number and
+asks the worker about it later, showing *waiting* while the request is open, *accepted*
+once it is merged and *declined* once it is closed unmerged. So a rejection has to be
+**closed** — a request left open reads, on their phone, as still being considered.
+
 **Setup it depends on:**
 
 - pushes allowed to `submission/*`, so translations can be committed;

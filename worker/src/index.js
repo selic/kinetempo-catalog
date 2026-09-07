@@ -7,7 +7,8 @@
  * and where the payload can be checked before it reaches GitHub.
  *
  * The pull request is deliberately not merged automatically — the repository's
- * own CI validates it, and a person decides what gets published.
+ * own CI validates it, and a person decides what gets published. Its number goes
+ * back to the app, which asks `/status` later what the person decided.
  */
 
 const REPO_OWNER = 'selic';
@@ -21,13 +22,22 @@ const LOCALES = ['en', 'ru', 'ro'];
 const MAX_BYTES = 200 * 1024;
 /** Submissions allowed from one address per hour. */
 const RATE_LIMIT = 5;
+/** Status lookups allowed from one address per hour — cached and cheap, but not free. */
+const STATUS_LIMIT = 60;
+/** Pull requests one status request may ask about. */
+const MAX_STATUS_IDS = 25;
 
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
 
 export default {
   async fetch(request, env) {
+    const path = new URL(request.url).pathname;
+    if (path === '/status') {
+      if (request.method !== 'GET') return json(405, { error: 'Ask for the status with GET.' });
+      return pullRequestStatuses(request, env);
+    }
+    if (path !== '/submit') return json(404, { error: 'Not found.' });
     if (request.method !== 'POST') return json(405, { error: 'Send the document with POST.' });
-    if (new URL(request.url).pathname !== '/submit') return json(404, { error: 'Not found.' });
 
     const body = await request.text();
     if (body.length > MAX_BYTES) return json(413, { error: 'That programme is too large to submit. Split it into several.' });
@@ -43,18 +53,18 @@ export default {
     const problem = checkDocument(doc);
     if (problem) return json(400, { error: problem });
 
-    const limited = await overRateLimit(request, env);
+    const limited = await overRateLimit(request, env, 'submit', RATE_LIMIT);
     if (limited) return json(429, { error: 'Too many submissions from here. Try again in an hour.' });
 
     // A second tap on Send, or the same programme a week later, should not open a second
     // pull request. The fingerprint covers what makes a submission the same submission.
     const seen = await alreadySubmitted(doc, env);
-    if (seen) return json(200, { url: seen, duplicate: true });
+    if (seen) return json(200, { ...seen, duplicate: true });
 
     try {
-      const url = await openPullRequest(env, doc, submission.contact, submission.locale);
-      await rememberSubmission(doc, url, env);
-      return json(201, { url });
+      const pr = await openPullRequest(env, doc, submission.contact, submission.locale);
+      await rememberSubmission(doc, pr, env);
+      return json(201, pr);
     } catch (e) {
       // The token and the GitHub response stay here; the app gets something it can show a person.
       console.error('submission failed', e);
@@ -76,11 +86,11 @@ function checkDocument(doc) {
   return null;
 }
 
-async function overRateLimit(request, env) {
+async function overRateLimit(request, env, kind, limit) {
   const ip = request.headers.get('cf-connecting-ip') ?? 'unknown';
-  const key = `rate:${ip}:${Math.floor(Date.now() / 3_600_000)}`;
+  const key = `rate:${kind}:${ip}:${Math.floor(Date.now() / 3_600_000)}`;
   const used = Number((await env.SUBMISSIONS.get(key)) ?? 0);
-  if (used >= RATE_LIMIT) return true;
+  if (used >= limit) return true;
   await env.SUBMISSIONS.put(key, String(used + 1), { expirationTtl: 3600 });
   return false;
 }
@@ -110,13 +120,80 @@ async function fingerprint(doc) {
 
 /** The pull request opened for an identical submission, or null. */
 async function alreadySubmitted(doc, env) {
-  return env.SUBMISSIONS.get(`doc:${await fingerprint(doc)}`);
+  const stored = await env.SUBMISSIONS.get(`doc:${await fingerprint(doc)}`);
+  if (!stored) return null;
+  // Records written before the number was kept hold the bare URL; the number is in it.
+  try {
+    const pr = JSON.parse(stored);
+    if (pr && typeof pr.url === 'string') return pr;
+  } catch {
+    /* the older format */
+  }
+  return { url: stored, number: numberFromUrl(stored) };
 }
 
-async function rememberSubmission(doc, url, env) {
+async function rememberSubmission(doc, pr, env) {
   // Ninety days: long enough to catch a resend, short enough that a rejected programme
   // can be reworked and sent again without hunting down the record.
-  await env.SUBMISSIONS.put(`doc:${await fingerprint(doc)}`, url, { expirationTtl: 90 * 24 * 3600 });
+  await env.SUBMISSIONS.put(`doc:${await fingerprint(doc)}`, JSON.stringify(pr), { expirationTtl: 90 * 24 * 3600 });
+}
+
+function numberFromUrl(url) {
+  const m = /\/pull\/(\d+)/.exec(url);
+  return m ? Number(m[1]) : undefined;
+}
+
+/**
+ * What became of the pull requests the app opened. The catalog is a public
+ * repository, so the app could ask GitHub itself — but unauthenticated calls are
+ * limited per address, and a phone behind carrier NAT shares its address with
+ * thousands of others. Here the token lifts that limit and KV holds the answer,
+ * so a screen that refreshes on every open costs GitHub almost nothing.
+ */
+async function pullRequestStatuses(request, env) {
+  const asked = (new URL(request.url).searchParams.get('pr') ?? '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => /^[0-9]{1,7}$/.test(s))
+    .map(Number);
+  const numbers = [...new Set(asked)].slice(0, MAX_STATUS_IDS);
+  if (numbers.length === 0) return json(400, { error: 'Ask with ?pr=1,2,3.' });
+  if (await overRateLimit(request, env, 'status', STATUS_LIMIT)) return json(429, { error: 'Too many status checks from here. Try again in an hour.' });
+
+  const items = [];
+  for (const n of numbers) {
+    const item = await pullRequestState(env, n);
+    if (item) items.push(item);
+  }
+  return json(200, { items });
+}
+
+/** `open`, `accepted` (merged) or `declined` (closed unmerged) — the three a person cares about. */
+async function pullRequestState(env, number) {
+  const key = `pr:${number}`;
+  const cached = await env.SUBMISSIONS.get(key, 'json');
+  if (cached) return cached;
+
+  let pr;
+  try {
+    pr = await github(env, `/repos/${REPO_OWNER}/${REPO_NAME}/pulls/${number}`);
+  } catch (e) {
+    // A request we cannot read — deleted, or GitHub having a moment — leaves the
+    // app's own record alone rather than reporting a state that is not true.
+    console.error('status lookup failed', number, e);
+    return null;
+  }
+  const item = {
+    number,
+    state: pr.merged_at ? 'accepted' : pr.state === 'closed' ? 'declined' : 'open',
+    url: pr.html_url,
+    title: pr.title,
+    updatedAt: pr.merged_at ?? pr.closed_at ?? pr.updated_at,
+  };
+  // Nothing is cached forever: a closed request can be reopened, and an open one
+  // is the state most worth being fresh.
+  await env.SUBMISSIONS.put(key, JSON.stringify(item), { expirationTtl: item.state === 'open' ? 300 : 3600 });
+  return item;
 }
 
 /** Lowercase, letters and digits only, so it can never escape the publisher directory. */
@@ -209,5 +286,5 @@ async function openPullRequest(env, doc, contact, locale) {
     method: 'POST',
     body: JSON.stringify({ title: `Submission: ${head.name}`, head: branch, base: BASE_BRANCH, body: facts }),
   });
-  return pr.html_url;
+  return { url: pr.html_url, number: pr.number };
 }
