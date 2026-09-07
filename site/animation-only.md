@@ -105,6 +105,12 @@ by itself.
 `"odd"` — parity is how an out-and-back movement alternates. A track with no
 `when` matches anything, so put it last.
 
+**Parity only works for an even number of steps.** Steps are numbered from zero,
+so in a three-step rep — down, hold, up — "up" is index 2, which is even like
+"down": an `"odd"` track never matches and the descent plays twice. Use exact
+indices (`"step": 0`, `"step": 2`) whenever the rep has an odd number of steps,
+or when two steps share a tone and must animate differently.
+
 **Keyframes** place angles at `t`, a fraction of the phase from 0 to 1. Each
 joint is interpolated across only the keys that name it, so a joint that holds
 still needs mentioning once or not at all. `ease` controls the approach to a key:
