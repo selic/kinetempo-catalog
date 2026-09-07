@@ -4,6 +4,11 @@ on:
   pull_request:
   push:
     branches: [main]
+  # The open counts that order the catalog are baked into the page at build time, so
+  # without this the list would freeze between commits.
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -24,9 +29,16 @@ jobs:
           node-version: 22
       - run: npm ci
       - run: npm run validate
+      # Not just the schema: the page is rendered from every document, so a file that
+      # validates can still break the build that deploys it. On a pull request that has
+      # to fail here rather than on main, and with no network — the open counts are a
+      # deploy-time luxury, not something a review should wait for or depend on.
+      - run: npm run build
+        env:
+          KINETEMPO_COUNTS_URL: 'off'
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request'
     needs: validate
     runs-on: ubuntu-latest
     environment:

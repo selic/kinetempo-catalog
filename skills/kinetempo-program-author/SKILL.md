@@ -29,7 +29,11 @@ Read `docs/AUTHORING.md` in this repository for the field reference; the essenti
    conventions, the format and worked examples.
 5. **Program:** put every referenced exercise in `exercises`, build `complex.items` in the prescribed order,
    `restBetweenMs` (default 30000), per-item `restAfterMs` / `override` when the protocol differs.
-6. **Catalog block:** `tags`, `bodyParts`, `level`, `source`, `reviewedBy` if known, `license`.
+6. **Catalog block:** `tags`, `bodyParts`, `level`, `category`, `source`, `reviewedBy` if known, `license`.
+   `category` is exactly one of `back-neck` · `knee` · `foot-ankle` · `shoulder` · `hip-pelvis` ·
+   `breathing-bp` · `balance` · `pelvic-floor` · `general`, and it names the problem the person
+   arrived with rather than the anatomy involved — a wall squat prescribed for blood pressure is
+   `breathing-bp`, not `knee`. It is what the catalog is browsed by; `tags` stay free-form.
 7. **Save** to `publishers/<id>/programs/<slug>.<locale>.kinetempo.json` (or `exercises/`), create
    `publisher.json` if missing, run `npm run validate`, fix every reported issue, then open a PR
    (`gh pr create`) with the PR template filled in.
@@ -64,7 +68,7 @@ Read `docs/AUTHORING.md` in this repository for the field reference; the essenti
     "items": [ { "exerciseId": "<publisher>-<slug>" } ],
     "updatedAt": "<ISO>"
   },
-  "catalog": { "tags": [], "bodyParts": [], "level": "rehab", "source": "…", "license": "CC-BY-4.0" }
+  "catalog": { "tags": [], "bodyParts": [], "level": "rehab", "category": "knee", "source": "…", "license": "CC-BY-4.0" }
 }
 ```
 

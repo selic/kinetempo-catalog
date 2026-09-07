@@ -157,9 +157,31 @@ Same envelope with `"kind": "kinetempo.complex"`, **all referenced exercises emb
 | `tags`       | free-form, lowercase, ≤ 12 (`knee`, `post-op`, `isometric`, `balance`) |
 | `bodyParts`  | `knee`, `hip`, `ankle`, `shoulder`, `spine`, `wrist`, `quadriceps`, `hamstrings`, `calf`, `core`, … |
 | `level`      | `rehab`, `beginner`, `intermediate`, `advanced` |
+| `category`   | one of the nine below — the shelf the catalog files it on |
 | `source`     | protocol / paper / clinic document the program follows |
 | `reviewedBy` | name and role of the reviewing clinician (optional, shown in the app) |
 | `license`    | default `CC-BY-4.0` |
+
+### `category` — pick exactly one
+
+`back-neck` · `knee` · `foot-ankle` · `shoulder` · `hip-pelvis` · `breathing-bp` · `balance` ·
+`pelvic-floor` · `general`
+
+It is what a reader browses by, so it names the problem they arrived with rather than the
+anatomy involved: an isometric wall squat prescribed for blood pressure is `breathing-bp`,
+not `knee`, even though the knee is what bends. Where two fit, choose the one the protocol
+was written to treat. `tags` stay free-form and carry everything else.
+
+The field is optional and old documents without it still validate — they simply sit outside
+every category filter, which is a good reason to fill it in.
+
+### Being featured is not a field
+
+The Featured row on the catalog page is a maintainer's decision, kept in `featured.json` at
+the root of this repository. There is no flag an author can set on their own document, and a
+pull request that adds one to `featured.json` for its own content will not be merged. Paid
+placement exists, is labelled **Sponsored** on the page, and runs to an end date — write to
+es@defency.net rather than opening a pull request.
 
 ## 7. Validate and submit
 
