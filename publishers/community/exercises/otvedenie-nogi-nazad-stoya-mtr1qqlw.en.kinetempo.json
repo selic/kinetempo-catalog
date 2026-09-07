@@ -1,0 +1,129 @@
+{
+  "kind": "kinetempo.exercise",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-07T09:09:30.851Z",
+  "exercises": [
+    {
+      "id": "gen-mtr0px0f",
+      "name": "Отведение ноги назад стоя",
+      "description": "Стоя, держась за опору. Отведите прямую ногу назад от бедра, корпус неподвижен. 3с отвести, 2с держать, 3с вернуть.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 3000,
+          "label": "Отвести назад"
+        },
+        {
+          "tone": "hold",
+          "durationMs": 2000,
+          "label": "Держать"
+        },
+        {
+          "tone": "release",
+          "durationMs": 3000,
+          "label": "Вернуть"
+        }
+      ],
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "standing",
+          "ground": "floor",
+          "prop": "chair",
+          "base": {
+            "shoulder": 45,
+            "elbow": 20,
+            "hipFar": 0,
+            "kneeFar": 0
+          },
+          "idle": [
+            {
+              "t": 0,
+              "hip": 0
+            },
+            {
+              "t": 1,
+              "hip": -20
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "lift"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "glute": 0.5
+                  },
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "left"
+                  },
+                  "hip": 0,
+                  "knee": 0
+                },
+                {
+                  "t": 1,
+                  "highlight": {
+                    "glute": 1
+                  },
+                  "hip": -20
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "hold"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "glute": 1
+                  },
+                  "hip": -20,
+                  "knee": 0
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "release"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "right"
+                  },
+                  "hip": -20,
+                  "knee": 0
+                },
+                {
+                  "t": 1,
+                  "highlight": {
+                    "glute": 0.2
+                  },
+                  "hip": 0
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "workMs": 3000,
+      "restMs": 0,
+      "reps": 15,
+      "sets": 2,
+      "setRestMs": 60000,
+      "color": null,
+      "updatedAt": "2026-09-07T09:08:49.088Z"
+    }
+  ]
+}
