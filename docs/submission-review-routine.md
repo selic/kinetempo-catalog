@@ -12,8 +12,13 @@ head.ref  starts with  submission/
 
 **Setup it depends on:**
 
-- pushes allowed to `submission/*`, so translations can be committed;
-- `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` available to the run.
+- pushes allowed to `submission/*`, so translations can be committed.
+
+The routine does **not** send the Telegram message itself: the environment's network
+policy refuses `api.telegram.org` (403 on CONNECT). It posts its report as a pull request
+comment, and `.github/workflows/telegram.yml` forwards the verdict — GitHub's runners have
+egress. That workflow needs `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in the repository
+secrets; without them it exits quietly.
 
 ---
 
@@ -46,7 +51,14 @@ head.ref  starts with  submission/
    `publishers/*/publisher.json` — **стоп**: не переводи, не коммить, сразу пиши отчёт
    с вердиктом «требует человека» и перечисли лишние файлы.
 
-3. **Проверь содержимое.** Открой файл и убедись:
+3. **Сверь язык.** Имя файла объявляет язык (`.en.`, `.ru.`, `.ro.`), но приложение
+   подставляет туда **язык интерфейса**, а человек мог написать текст на другом.
+   Решает **содержимое**: если оно на другом из трёх поддерживаемых языков — переименуй
+   файл в ветке под фактический язык (`git mv`) и отметь это в отчёте. Если текст на
+   языке, которого в каталоге нет, или смешан из нескольких — не переименовывай,
+   вердикт «требует человека».
+
+5. **Проверь содержимое.** Открой файл и убедись:
    - **нет лишнего**: контактов, ссылок (кроме `videoUrl` на YouTube или Vimeo), рекламы,
      упоминаний других приложений, эмодзи в названии, ВЕРСАЛЬНОГО НАБОРА;
    - **нет медицинских утверждений**: «лечит», «избавляет от боли», диагнозов, дозировок.
@@ -71,19 +83,19 @@ head.ref  starts with  submission/
    - углы в человеческих пределах: колено 0…150, бедро −30…120, локоть 0…150.
      Схема пропускает и ±200, поэтому это твоя проверка, а не её.
 
-5. **Сделай недостающие языковые версии.** В каталоге три языка: `en`, `ru`, `ro`.
+6. **Сделай недостающие языковые версии.** В каталоге три языка: `en`, `ru`, `ro`.
    Переведи `name`, `description` и `label` у шагов на два недостающих, скопировав
    остальные поля без изменений, и положи файлы рядом с оригиналом, поменяв только
    сегмент языка в имени. Переводи как физиотерапевт, а не буквально. `id` во всех
    трёх файлах должен совпадать.
 
-6. **Проверь, что ветка проходит CI**: `npm ci && npm run validate`. Если валидация падает —
+7. **Проверь, что ветка проходит CI**: `npm ci && npm run validate`. Если валидация падает —
    переводы не коммить, писать отчёт с текстом ошибки.
 
-7. **Закоммить переводы** в ту же ветку: `git commit -m "Add ru and ro versions of <name>"`,
+8. **Закоммить переводы** в ту же ветку: `git commit -m "Add ru and ro versions of <name>"`,
    `git push`. Оригинальный файл не трогай. Если пуш запрещён — приложи переводы к отчёту текстом.
 
-8. **Напиши отчёт комментарием к PR**, по-английски — репозиторий публичный:
+9. **Напиши отчёт комментарием к PR**, по-английски — репозиторий публичный:
 
    ```
    ## Automated review
@@ -104,14 +116,6 @@ head.ref  starts with  submission/
    Затем 2–4 предложения простым текстом: что это за упражнение, что вызывает сомнение,
    что человеку нужно решить. Ничего не выдумывай: если чего-то не проверил — так и напиши.
 
-9. **Отправь в Телеграм** одно сообщение, по-русски:
-
-   ```sh
-   curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
-     -d chat_id="$TELEGRAM_CHAT_ID" -d parse_mode=HTML -d disable_web_page_preview=true \
-     --data-urlencode text="<b>Новая заявка в каталог</b>
-   Название · вердикт одним словом
-   <a href=\"ССЫЛКА НА PR\">Открыть pull request</a>"
-   ```
-
-   Если запуск завершился молча на шаге 1 — не отправляй ничего.
+Телеграм ты не вызываешь: сеть в этой среде закрыта для `api.telegram.org`.
+Уведомление отправит workflow `.github/workflows/telegram.yml`, поймав твой комментарий —
+поэтому строка `**Verdict:**` в отчёте обязательна, по ней он и срабатывает.
