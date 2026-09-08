@@ -43,10 +43,16 @@
 <script>
 (() => {
   const say = (key, fallback) => window.ktText?.(key) ?? fallback;
+  // A token no assistant's fetcher has seen: they cache what they read — a quarter
+  // of an hour for one, out of a search index for another — and a guide corrected
+  // this morning would otherwise be read as it was yesterday.
+  const fresh = (text) => text.replace('anim-guide.txt', `anim-guide.txt?v=${Math.random().toString(36).slice(2, 8)}`);
   const prompt = () =>
-    say(
-      'aiPrompt',
-      'Read https://selic.github.io/kinetempo-catalog/anim-guide.txt and follow it to make me a Kinetempo exercise with an animation — or a whole programme of them, if that is what I need.\n\nFirst ask me which of the two, then whatever you need about the movements, the timing and the repetitions, and reply with the import link. If a programme is too long for a link, send the .kinetempo.json file instead.'
+    fresh(
+        say(
+        'aiPrompt',
+        'Read https://selic.github.io/kinetempo-catalog/anim-guide.txt and follow it to make me a Kinetempo exercise with an animation — or a whole programme of them, if that is what I need.\n\nFirst ask me which of the two, then whatever you need about the movements, the timing and the repetitions, and reply with the import link. If a programme is too long for a link, send the .kinetempo.json file instead.'
+      )
     );
   const q = () => encodeURIComponent(prompt());
   const links = () => {
