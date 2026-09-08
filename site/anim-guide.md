@@ -104,6 +104,14 @@ and `restAfterMs` on one of them overrides the programme's own pause after that
 exercise. The app imports the exercises and the programme together, in the order
 you list them.
 
+**Never hand over several exercises in one document as a substitute for a
+programme.** A document without a `complex` block imports as loose exercises,
+however many it holds: they land in the Exercises tab one by one, in no order,
+with nothing tying them together, and the person has to assemble the programme
+by hand. If a programme is what was asked for, `kinetempo_program_link` is the
+only thing that produces one — and when it raises `LinkTooLong`, the answer is
+the file, not a document of loose exercises.
+
 Do not write the `id` fields yourself. The builder generates them and points the
 programme's items at them; an item naming an exercise that is not in the same
 document imports as a hole in the programme, and `check_document` refuses it
