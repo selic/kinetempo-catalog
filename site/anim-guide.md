@@ -19,18 +19,21 @@ why a whole exercise fits inside a link.
    reasonably infer — most exercises are well known. If they gave you steps and
    reps already, do not ask again.
 2. **Write the draft** (shape below).
-3. **Build the link** by running the encoder at the end of this page in your code
-   tool. Do not attempt it by hand.
-4. **Hand it over.** If your code tool can produce a file the person downloads,
-   write the whole document to `<name>.kinetempo.json` and give them that: the
-   app takes it under **Import → Import from file**, and a file is carried by
-   the tool rather than retyped by you, so nothing can drift on the way.
-   Otherwise hand back the link, checked first — see the section below. Give the
-   plain `https://` form: a `kinetempo://` address is not tappable in most chat
-   apps, and the page it opens carries the exercise in the address itself,
-   uploading nothing. Tell them to open it on the phone that has Kinetempo
-   installed and press **Open in Kinetempo** there.
-5. **Say what the figure does**, in one or two sentences.
+3. **Build the link** by running `kinetempo_link(draft)` from **Building the
+   link** below in your code tool. It refuses anything the app would refuse, so
+   read what it says rather than working around it. Never write a payload by hand.
+4. **Check what you are about to send.** Draft the reply, then copy the link out
+   of the draft and run `check_link` on that text. Keep correcting and checking
+   until it returns `None`. This is not optional: it is the step that catches the
+   one way these links actually break.
+5. **Hand it over.** Give the plain `https://` form: a `kinetempo://` address is
+   not tappable in most chat apps, and the page it opens carries the exercise in
+   the address itself, uploading nothing. Tell them to open it on the phone that
+   has Kinetempo installed and press **Open in Kinetempo** there. If the link
+   came out too long — or if your tool can hand over files and you would rather
+   not risk the copy at all — write the document to `<name>.kinetempo.json`
+   instead: **Import → Import from file** takes it at any size.
+6. **Say what the figure does**, in one or two sentences.
 
 ## The draft
 
@@ -85,14 +88,258 @@ read.
 
 ## Building the link
 
-Run this in your code tool with the draft object. Use the version that matches
-the language your tool runs — JavaScript below, Python after it. Both produce
-the same kind of link. Do not modify them, and do not try to produce a link by
-hand: it is a compressed binary payload, not something you can assemble in your
-head.
+Run this in your code tool with the draft. It builds the document, refuses
+anything the app would refuse, compresses it and hands back a link — together
+with the document, so that when the link comes out too long you can write a file
+instead. Do not modify it, and never assemble a payload by hand: it is a
+compressed binary blob, not something that can be written out.
 
 The whole exercise rides in the fragment after `#`, which browsers never send to
 a server — the page reads it locally and offers to open the app.
+
+```python
+"""Build a Kinetempo link, and check it the way the app does."""
+import base64, json, time, datetime, zlib
+
+B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
+LINK_LIMIT = 2000           # a longer address is cut off before the app sees it
+TONES = ('squeeze', 'lift', 'hold', 'release', 'move', 'timer', 'rest')
+TRACK_TONES = TONES + ('prep', 'setRest', 'exerciseRest')
+JOINTS = ('torso', 'neck', 'hip', 'knee', 'ankle', 'shoulder', 'elbow',
+          'hipFar', 'kneeFar', 'ankleFar', 'shoulderFar', 'elbowFar')
+MUSCLES = ('quad', 'hamstring', 'glute', 'calf', 'abs', 'chest', 'back', 'shoulder', 'biceps')
+PROPS = ('none', 'pillowUnderHeel', 'chair', 'wall', 'band', 'crutch')
+
+
+class LinkTooLong(Exception):
+    """The document is fine, the address is not. `.document` is what to write to a file."""
+    def __init__(self, length, document):
+        super().__init__(f'link is {length} characters, over the {LINK_LIMIT} an address survives')
+        self.length, self.document = length, document
+
+
+def check_document(doc):
+    """Every rule the app enforces. Returns a list of problems; empty means it will import."""
+    bad = []
+    def want(cond, msg):
+        if not cond: bad.append(msg)
+
+    want(doc.get('kind') in ('kinetempo.exercise', 'kinetempo.complex'), 'kind must name a Kinetempo document')
+    want(doc.get('schemaVersion') == 1, 'schemaVersion must be 1')
+    want(doc.get('app') == 'kinetempo', 'app must be "kinetempo"')
+    want(isinstance(doc.get('exportedAt'), str) and len(doc['exportedAt']) <= 40, 'exportedAt must be a short ISO string')
+    exercises = doc.get('exercises')
+    want(isinstance(exercises, list) and 1 <= len(exercises) <= 100, 'exercises must hold 1 to 100 entries')
+    for i, e in enumerate(exercises if isinstance(exercises, list) else []):
+        at = f'exercises[{i}]'
+        want(isinstance(e.get('id'), str) and 1 <= len(e['id']) <= 64, f'{at}.id')
+        want(isinstance(e.get('name'), str) and 1 <= len(e['name']) <= 120, f'{at}.name: 1 to 120 characters')
+        want(len(e.get('description', '')) <= 4000, f'{at}.description: at most 4000 characters')
+        want(isinstance(e.get('updatedAt'), str) and len(e['updatedAt']) <= 40, f'{at}.updatedAt')
+        want(isinstance(e.get('workMs'), int) and 0 < e['workMs'] <= 3_600_000, f'{at}.workMs: above zero, at most an hour')
+        want(isinstance(e.get('restMs'), int) and 0 <= e['restMs'] <= 3_600_000, f'{at}.restMs')
+        want(isinstance(e.get('reps'), int) and 0 < e['reps'] <= 1000, f'{at}.reps: 1 to 1000')
+        want(isinstance(e.get('sets', 1), int) and 0 < e.get('sets', 1) <= 100, f'{at}.sets: 1 to 100')
+        want(isinstance(e.get('setRestMs', 0), int) and 0 <= e.get('setRestMs', 0) <= 3_600_000, f'{at}.setRestMs')
+        steps = e.get('steps')
+        if steps is not None:
+            want(isinstance(steps, list) and 1 <= len(steps) <= 20, f'{at}.steps: 1 to 20 of them')
+            for j, s in enumerate(steps if isinstance(steps, list) else []):
+                want(s.get('tone') in TONES, f'{at}.steps[{j}].tone: one of {", ".join(TONES)}')
+                want(isinstance(s.get('durationMs'), int) and 0 <= s['durationMs'] <= 3_600_000, f'{at}.steps[{j}].durationMs')
+                want(len(s.get('label', '')) <= 40, f'{at}.steps[{j}].label: at most 40 characters')
+            want(any(s.get('tone') != 'rest' and s.get('durationMs', 0) > 0 for s in steps),
+                 f'{at}.steps: needs one active step longer than zero, or the session cannot be built')
+        anim = e.get('animation')
+        if isinstance(anim, dict) and anim.get('kind') == 'spec':
+            bad += check_spec(anim.get('spec'), f'{at}.animation.spec')
+        elif isinstance(anim, dict):
+            want(anim.get('kind') in ('builtin', 'url') and isinstance(anim.get('ref'), str), f'{at}.animation')
+    return bad
+
+
+def check_spec(spec, at):
+    bad = []
+    def want(cond, msg):
+        if not cond: bad.append(msg)
+    if not isinstance(spec, dict):
+        return [f'{at}: missing']
+    want(spec.get('v') == 1, f'{at}.v must be 1')
+    want(spec.get('orientation') in ('supine', 'prone', 'sideLying', 'seated', 'standing'), f'{at}.orientation')
+    want(spec.get('ground', 'floor') in ('bed', 'floor', 'none'), f'{at}.ground')
+    want(spec.get('prop', 'none') in PROPS, f'{at}.prop')
+
+    def keys(ks, kat):
+        want(isinstance(ks, list) and 1 <= len(ks) <= 24, f'{kat}: 1 to 24 keyframes')
+        for j, k in enumerate(ks if isinstance(ks, list) else []):
+            want(isinstance(k.get('t'), (int, float)) and 0 <= k['t'] <= 1, f'{kat}[{j}].t must be between 0 and 1')
+            want(k.get('ease', 'inOut') in ('linear', 'in', 'out', 'inOut'), f'{kat}[{j}].ease')
+            for name, v in k.items():
+                if name in ('t', 'ease', 'highlight', 'arrow', 'prop'):
+                    continue
+                want(name in JOINTS, f'{kat}[{j}].{name}: not a joint — use {", ".join(JOINTS)}')
+                want(isinstance(v, (int, float)) and -200 <= v <= 200, f'{kat}[{j}].{name}: keep the angle within ±200°')
+            for m, v in (k.get('highlight') or {}).items():
+                want(m in MUSCLES, f'{kat}[{j}].highlight.{m}: not a muscle')
+                want(isinstance(v, (int, float)) and 0 <= v <= 1, f'{kat}[{j}].highlight.{m}: 0 to 1')
+            arrow = k.get('arrow')
+            if isinstance(arrow, dict):
+                want(arrow.get('at') in ('foot', 'knee', 'hip', 'hand', 'torso'), f'{kat}[{j}].arrow.at')
+                want(arrow.get('dir') in ('up', 'down', 'left', 'right'), f'{kat}[{j}].arrow.dir')
+
+    if 'idle' in spec:
+        keys(spec['idle'], f'{at}.idle')
+    if 'tracks' in spec:
+        tracks = spec['tracks']
+        want(isinstance(tracks, list) and 1 <= len(tracks) <= 12, f'{at}.tracks: 1 to 12 of them, and never an empty list')
+        for i, tr in enumerate(tracks if isinstance(tracks, list) else []):
+            when = tr.get('when', {})
+            if 'tone' in when:
+                for t in (when['tone'] if isinstance(when['tone'], list) else [when['tone']]):
+                    want(t in TRACK_TONES, f'{at}.tracks[{i}].when.tone: {t} is not a tone')
+            if 'step' in when:
+                st = when['step']
+                want(st in ('even', 'odd') or (isinstance(st, int) and 0 <= st <= 19), f'{at}.tracks[{i}].when.step')
+            keys(tr.get('keys'), f'{at}.tracks[{i}].keys')
+    return bad
+
+
+def b64url(data):
+    out = ''
+    for i in range(0, len(data), 3):
+        a = data[i]
+        b = data[i + 1] if i + 1 < len(data) else None
+        c = data[i + 2] if i + 2 < len(data) else None
+        out += B64[a >> 2] + B64[((a & 3) << 4) | ((b or 0) >> 4)]
+        if b is not None:
+            out += B64[((b & 15) << 2) | ((c or 0) >> 6)]
+        if c is not None:
+            out += B64[c & 63]
+    return out
+
+
+def decode(payload):
+    """What the app does with the fragment: base64url, raw inflate, JSON."""
+    raw = base64.urlsafe_b64decode(payload + '=' * (-len(payload) % 4))
+    return json.loads(zlib.decompress(raw, -15))
+
+
+def document_for(draft):
+    now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
+    steps = draft['steps']
+    active = next((s for s in steps if s['tone'] != 'rest'), steps[0])
+    rest = next((s for s in steps if s['tone'] == 'rest'), None)
+    return {
+        'kind': 'kinetempo.exercise', 'schemaVersion': 1, 'app': 'kinetempo', 'exportedAt': now,
+        'exercises': [{
+            'id': 'gen-' + format(int(time.time() * 1000), 'x'),
+            'name': draft['name'],
+            'description': draft.get('description', ''),
+            'steps': steps,
+            'animation': {'kind': 'spec', 'spec': draft['animation']},
+            'workMs': max(1, active['durationMs']),
+            'restMs': rest['durationMs'] if rest else 0,
+            'reps': draft['reps'], 'sets': draft.get('sets', 1), 'setRestMs': draft.get('setRestMs', 0),
+            'updatedAt': now,
+        }],
+    }
+
+
+def kinetempo_link(draft):
+    """Returns (link, document). Raises ValueError with the app's own complaints, or LinkTooLong."""
+    doc = document_for(draft)
+    problems = check_document(doc)
+    if problems:
+        raise ValueError('the app would refuse this document:\n- ' + '\n- '.join(problems))
+    data = json.dumps(doc, separators=(',', ':'), ensure_ascii=False).encode()
+    c = zlib.compressobj(9, zlib.DEFLATED, -15)     # -15 = raw DEFLATE, the format the app inflates
+    payload = b64url(c.compress(data) + c.flush())
+    if decode(payload) != doc:
+        raise AssertionError('the payload does not decode back to the document — do not send it')
+    link = 'https://selic.github.io/kinetempo-catalog/s/#' + payload
+    if len(link) > LINK_LIMIT:
+        raise LinkTooLong(len(link), doc)
+    return link, doc
+
+
+def check_link(sent, original):
+    """
+    Run this on the link as it stands in your draft reply — copy it out of the
+    message, not out of the variable. Returns None when it will import, or what
+    is wrong with it and where.
+    """
+    sent = sent.strip()
+    if sent != original:
+        for i, (a, b) in enumerate(zip(original, sent)):
+            if a != b:
+                return (f'character {i} changed on the way into the message: '
+                        f'{b!r} where the encoder wrote {a!r} — near …{sent[max(0, i - 20):i + 20]}…')
+        return f'the link is {len(sent)} characters, {len(original)} were written'
+    try:
+        doc = decode(sent.split('#', 1)[1])
+    except Exception as e:
+        return f'the payload does not decode: {e}'
+    problems = check_document(doc)
+    return None if not problems else 'the app would refuse it:\n- ' + '\n- '.join(problems)
+```
+
+Use it like this:
+
+```python
+from pathlib import Path
+
+try:
+    link, doc = kinetempo_link(draft)
+    print(link)
+except LinkTooLong as e:
+    Path('exercise.kinetempo.json').write_text(json.dumps(e.document, ensure_ascii=False), encoding='utf8')
+    # hand over that file instead: Import → Import from file takes it, at any size
+```
+
+### Then check the link you are about to send
+
+A payload retyped into a reply rather than carried across is what breaks these
+links in practice. One wrong character a few hundred in, and everything after it
+decompresses into shuffled fragments of the exercise — deflate does not fail on
+that, it happily reconstructs rubble.
+
+So when the reply is drafted, copy the link **out of the message** and check that
+text:
+
+```python
+problem = check_link('…paste the link from your draft here…', link)
+```
+
+- Returns `None` — send it.
+- `character 344 changed…` — it names the position and the character the encoder
+  wrote there. Fix that one character in the draft, or replace the whole link,
+  and run the check again. Repeat until it returns `None`.
+- `the payload does not decode` or a list of refusals — do not send the link at
+  all; write the file instead.
+
+Checking by re-running the encoder and decoding its fresh output proves nothing:
+it passes every time while never looking at the text being sent.
+
+### The numbers behind the limits
+
+- **A tapped link is cut off past about 2000 characters** — measured on iOS, a
+  2014-character link opens and a 2048-character one does not. This is the only
+  size limit, and it is on the address, not on the exercise: a 2813-byte document
+  imported without complaint through a 590-character link.
+- Compression is what buys the room. A Russian description of 2000 characters
+  still comes out as a 1591-character link; at the schema's own maximum of 4000
+  the link reaches 2144 and `kinetempo_link` refuses it, which is when the file
+  is the answer.
+- A QR code is exempt: the camera hands the payload straight to the app without
+  the operating system opening a URL. Its own limit is about 2800 characters.
+
+### If your tool has no zlib
+
+JavaScript sandboxes usually have no inflate. This encoder writes **stored**
+DEFLATE blocks instead — valid DEFLATE that holds the JSON verbatim, so no
+compression is involved. Its payload is about three times longer, which fits one
+tersely written exercise and nothing more; the checks above still apply, and
+`check_document` should be ported alongside it rather than skipped.
 
 ```js
 function kinetempoLink(draft) {
@@ -114,6 +361,9 @@ function kinetempoLink(draft) {
       updatedAt: now,
     }],
   };
+  // LEN counts BYTES of the JSON, not characters. They are the same in English
+  // and differ on the first Cyrillic letter — two bytes each — and a header that
+  // counts characters produces a link that decodes to rubbish.
   const bytes = new TextEncoder().encode(JSON.stringify(doc));
   const raw = [];
   let i = 0;
@@ -134,165 +384,14 @@ function kinetempoLink(draft) {
 }
 ```
 
-If your code tool runs **Python** instead, use this one. It writes the same kind
-of link.
-
-```python
-import json, time, datetime
-
-def kinetempo_link(draft):
-    B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
-    now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
-    steps = draft['steps']
-    active = next((s for s in steps if s['tone'] != 'rest'), steps[0])
-    rest = next((s for s in steps if s['tone'] == 'rest'), None)
-    doc = {
-        'kind': 'kinetempo.exercise', 'schemaVersion': 1, 'app': 'kinetempo', 'exportedAt': now,
-        'exercises': [{
-            'id': 'gen-' + format(int(time.time() * 1000), 'x'),
-            'name': draft['name'],
-            'description': draft.get('description', ''),
-            'steps': steps,
-            'animation': {'kind': 'spec', 'spec': draft['animation']},
-            'workMs': max(1, active['durationMs']),
-            'restMs': rest['durationMs'] if rest else 0,
-            'reps': draft['reps'], 'sets': draft.get('sets', 1), 'setRestMs': draft.get('setRestMs', 0),
-            'updatedAt': now,
-        }],
-    }
-    # Stored DEFLATE blocks: no compression, so the JSON is still readable inside
-    # the payload. That is on purpose — see below.
-    data = json.dumps(doc, separators=(',', ':')).encode()
-    raw = bytearray()
-    i = 0
-    while True:
-        n = min(65535, len(data) - i)
-        nlen = 0xFFFF ^ n
-        raw += bytes([1 if i + n >= len(data) else 0, n & 255, n >> 8, nlen & 255, nlen >> 8])
-        raw += data[i:i + n]
-        i += n
-        if i >= len(data):
-            break
-    out = ''
-    for i in range(0, len(raw), 3):
-        a = raw[i]
-        b = raw[i + 1] if i + 1 < len(raw) else None
-        d = raw[i + 2] if i + 2 < len(raw) else None
-        out += B64[a >> 2] + B64[((a & 3) << 4) | ((b or 0) >> 4)]
-        if b is not None:
-            out += B64[((b & 15) << 2) | ((d or 0) >> 6)]
-        if d is not None:
-            out += B64[d & 63]
-    return 'https://selic.github.io/kinetempo-catalog/s/#' + out
-```
-
-Do not write your own encoder from the description of the format. If you do
-anyway, the trap is the block header: `LEN` counts the **bytes** of the JSON, not
-its characters. The two are the same in English and differ the moment a name is
-in Cyrillic — two bytes per letter — and a header that counts characters
-produces a link that decodes to rubbish from the middle of the first block.
-
-### How long a link may be, and which encoder to use
-
-**A tapped link has to stay under about 2000 characters.** Beyond that the
-address is cut off before the app ever sees it, and the app reports a damaged
-link. Measured on iOS: a 2014-character link opens, a 2048-character one does
-not; treat it as the ceiling everywhere. This is the only size limit that
-matters, and it is on the *link*, not on the exercise.
-
-The document's own size is not a limit. A 2813-byte document imported without
-complaint through a 590-character compressed link. So the question is only ever
-how many characters the link comes out to:
-
-| | payload | one exercise with an animation |
-|---|---|---|
-| stored (both encoders above) | about 4 characters per 3 bytes of JSON | ~1900 characters |
-| compressed (`zlib.compressobj(9, zlib.DEFLATED, -15)`) | roughly half of that or less | ~700 characters |
-
-So: **stored while the JSON stays under ~1400 bytes**, which covers one exercise
-written tersely. Past that the stored link crosses 2000 characters and stops
-working, and the choice is to compress, to trim the draft, or — best — to hand
-over the document as a file, where no limit applies at all.
-
-Compressed is the fragile form: one wrong character a few hundred in turns
-everything after it into shuffled fragments of the exercise, which is what
-happens when a payload is retyped into a reply instead of carried across. In a
-stored payload every four characters stand for three characters of the JSON and
-nothing else, so a slip costs three letters — a misspelt label, or a loud
-failure — and the link can be read and repaired by hand. Compress only when the
-length forces it, and then be certain the payload reaches the person exactly as
-printed.
-
-A QR code is not subject to the 2000-character ceiling: the camera hands the
-payload straight to the app without going through the operating system's URL
-opening. Its own limit is about 2800 characters.
-
-**Keep the document small** — it is what keeps you inside the ceiling:
-
-- `json.dumps(doc, separators=(',', ':'), ensure_ascii=False)`. Without
-  `ensure_ascii=False` every Cyrillic letter becomes `\uXXXX` and the document
-  roughly triples.
-- Description to a couple of sentences, step labels to a word or two.
-- Drop `idle` when the first track already starts from the neutral pose, and
-  `ground` when the default suits.
-- Leave out joints that stay at 0 through a whole track, and `highlight` values
-  that only repeat the previous key.
-- One pair of keyframes per phase, not a raster of them.
-
-The limits the app does enforce are the ones under **Limits** above, plus at most
-20 steps, a name up to 120 characters and a description up to 4000. None of them
-is about size, and breaking one refuses the whole document, animation and all —
-a spec with thirteen tracks does not lose a track, it loses the exercise.
-
-## Check the link before you hand it over
-
-**Decode the link exactly as you are about to send it, not the variable that
-holds it.** Copy the string out of your message draft, paste it back into your
-code tool, and decode that. This is the whole point of the check: the encoder is
-rarely wrong, and what breaks links is the payload being retyped rather than
-carried across verbatim. Two hundred characters in, one wrong letter, and the
-rest of the exercise decompresses into rubble — a link that looks perfectly
-normal and fails later, on someone's phone, where you cannot see it happen.
-
-```python
-import base64, hashlib, json, zlib
-sent = '…paste here the link exactly as it stands in your draft message…'
-payload = sent.split('#', 1)[1]
-assert len(payload) == LENGTH, 'characters were lost or added'
-assert hashlib.sha256(payload.encode()).hexdigest()[:8] == FINGERPRINT, 'a character changed'
-back = json.loads(zlib.decompress(base64.urlsafe_b64decode(payload + '=' * (-len(payload) % 4)), -15))
-assert back['exercises'][0]['name'] == draft['name']
-assert len(back['exercises'][0]['steps']) == len(draft['steps'])
-```
-
-`LENGTH` and `FINGERPRINT` are the two numbers the encoder printed. They are the
-part that cannot be faked: a check that re-runs the encoder and decodes its fresh
-output passes every time and proves nothing, because it never looks at the text
-you are actually sending.
-
-```js
-const sent = '…paste here the link exactly as it stands in your draft message…';
-const payload = sent.split('#')[1];
-if (payload.length !== LENGTH) throw new Error('characters were lost or added');
-const bin = Uint8Array.from(atob(payload.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
-const stream = new Blob([bin]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
-const back = JSON.parse(await new Response(stream).text());
-if (back.exercises[0].name !== draft.name) throw new Error('the link does not hold the draft');
-if (back.exercises[0].steps.length !== draft.steps.length) throw new Error('the link does not hold the draft');
-```
-
-The stored-block encoder above writes no compressed data, so its links decode
-the same way — `DecompressionStream` reads them too.
-
-If the check throws — or if handing the link over would mean typing the payload
-out rather than passing the exact text through — do not send a link at all. Give
-the animation JSON instead (see the last section): it is longer, but it is text
-a person can read, and a slip in it fails loudly rather than turning the whole
-exercise to noise.
+One consolation for the stored form: because the JSON sits in it verbatim, a
+damaged link can be read and repaired by hand. A compressed one cannot — it can
+only be built again.
 
 Check the draft itself too: every joint name is from the table above, every `t`
 is between 0 and 1, no angle is absurd, and the body position matches the
 exercise.
+
 
 ## If you cannot run code
 
