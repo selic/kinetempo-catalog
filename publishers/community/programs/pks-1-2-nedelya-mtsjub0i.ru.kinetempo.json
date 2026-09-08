@@ -6,19 +6,19 @@
   "exercises": [
     {
       "id": "gen-1a080a187c0-0",
-      "name": "Ankle pump",
-      "description": "Lying on your back, leg straight. Pull the toes toward you, then point them away. Smooth, no jerking — this helps move fluid and reduce swelling.",
+      "name": "Насос стопой",
+      "description": "Лёжа на спине, нога прямая. Тяни носок на себя, затем от себя. Плавно, без рывков — это против отёка.",
       "videoUrl": null,
       "steps": [
         {
           "tone": "move",
           "durationMs": 2000,
-          "label": "Toes toward you"
+          "label": "Носок на себя"
         },
         {
           "tone": "move",
           "durationMs": 2000,
-          "label": "Toes away"
+          "label": "Носок от себя"
         }
       ],
       "animation": {
@@ -95,19 +95,19 @@
     },
     {
       "id": "gen-1a080a187c1-1",
-      "name": "Quad isometric hold",
-      "description": "Heel resting on a bolster, knee unsupported. Tighten the thigh and press the knee down toward the bed. Hold, then release.",
+      "name": "Изометрия квадрицепса",
+      "description": "Пятка на валике, колено на весу. Напряги бедро и дожми колено вниз, к постели. Держи, потом отпусти.",
       "videoUrl": null,
       "steps": [
         {
           "tone": "squeeze",
           "durationMs": 5000,
-          "label": "Press the knee down"
+          "label": "Дожми колено вниз"
         },
         {
           "tone": "release",
           "durationMs": 2000,
-          "label": "Release"
+          "label": "Отпусти"
         },
         {
           "tone": "rest",
@@ -201,19 +201,19 @@
     },
     {
       "id": "gen-1a080a187c1-2",
-      "name": "Straight-leg raise",
-      "description": "First lock the knee straight, then lift the whole leg. If the knee starts to bend, stop raising it higher.",
+      "name": "Подъём прямой ноги",
+      "description": "Сначала замкни колено, потом подними всю ногу целиком. Если колено проседает — не поднимай выше.",
       "videoUrl": null,
       "steps": [
         {
           "tone": "squeeze",
           "durationMs": 2000,
-          "label": "Lock the knee"
+          "label": "Замкни колено"
         },
         {
           "tone": "lift",
           "durationMs": 2000,
-          "label": "Lift"
+          "label": "Подъём"
         },
         {
           "tone": "hold",
@@ -222,7 +222,7 @@
         {
           "tone": "release",
           "durationMs": 3000,
-          "label": "Lower slowly"
+          "label": "Медленно вниз"
         },
         {
           "tone": "rest",
@@ -356,14 +356,14 @@
     },
     {
       "id": "gen-1a080a187c1-3",
-      "name": "Heel slide",
-      "description": "Keep the heel on the bed the whole time. Slide it toward the buttock until you feel a light stretch, hold, then straighten slowly.",
+      "name": "Скольжение пятки",
+      "description": "Пятка не отрывается от постели. Тяни её к ягодице до лёгкого натяжения, задержи, медленно выпрями.",
       "videoUrl": null,
       "steps": [
         {
           "tone": "move",
           "durationMs": 4000,
-          "label": "Heel toward you"
+          "label": "Пятку к себе"
         },
         {
           "tone": "hold",
@@ -372,7 +372,7 @@
         {
           "tone": "move",
           "durationMs": 4000,
-          "label": "Straighten slowly"
+          "label": "Медленно выпрямляй"
         },
         {
           "tone": "rest",
@@ -472,14 +472,14 @@
     },
     {
       "id": "gen-1a080a187c1-4",
-      "name": "Seated knee extension",
-      "description": "Sitting on a chair, feet on the floor. Straighten the knee with no added weight, hold, then lower slowly. No resistance band.",
+      "name": "Разгибание колена сидя",
+      "description": "Сидя на стуле, стопы на полу. Выпрями колено без веса, задержи, медленно опусти. Без резинки.",
       "videoUrl": null,
       "steps": [
         {
           "tone": "lift",
           "durationMs": 3000,
-          "label": "Straighten the knee"
+          "label": "Выпрями колено"
         },
         {
           "tone": "hold",
@@ -488,7 +488,7 @@
         {
           "tone": "release",
           "durationMs": 3000,
-          "label": "Lower slowly"
+          "label": "Медленно вниз"
         },
         {
           "tone": "rest",
@@ -608,8 +608,8 @@
   ],
   "complex": {
     "id": "gen-1a080a187c1-p",
-    "name": "ACL: weeks 1–2",
-    "description": "Early phase after ACL reconstruction: swelling control, full extension, activating the quadriceps, flexion to about 90°.",
+    "name": "ПКС: 1–2 неделя",
+    "description": "Ранний этап после пластики ПКС: отёк, полное разгибание, включение квадрицепса, сгибание до ~90°.",
     "restBetweenMs": 45000,
     "items": [
       {
