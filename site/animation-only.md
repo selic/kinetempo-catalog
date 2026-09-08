@@ -1,5 +1,7 @@
 # Drawing a Kinetempo exercise animation
 
+<!--#updated-->
+
 You are drawing the moving figure for one exercise that someone already has in
 Kinetempo — an interval timer for rehab and training. Hand back the animation as
 JSON. Nothing else: no link, no exercise, no timings. They have those already.

@@ -381,7 +381,7 @@ for (const file of walk(SITE)) {
     // markdown, where a URL is text rather than a link, and its fetch tool may
     // refuse to follow one it was never handed. So a shared section is inlined
     // rather than linked, and lives in exactly one file.
-    const md = readFileSync(file, 'utf8').replace(/<!--#include ([\w.-]+)#(\w+)[^>]*-->/g, (_, src, region) => {
+    let md = readFileSync(file, 'utf8').replace(/<!--#include ([\w.-]+)#(\w+)[^>]*-->/g, (_, src, region) => {
       const text = readFileSync(join(SITE, src), 'utf8');
       const m = text.match(new RegExp(`<!--#${region}-start-->\\n([\\s\\S]*?)<!--#${region}-end-->`));
       if (!m) throw new Error(`${rel}: no region ${region} in ${src}`);
@@ -395,6 +395,9 @@ for (const file of walk(SITE)) {
     // address answer as text/html — GitHub Pages redirects the bare path to it —
     // and the raw source stays one click away as text/plain for anything that
     // wants it. The address is what the app hands out, so it cannot change.
+    // A reader that fetched an old copy can say so: the date is the first thing on
+    // the page, and a stale answer quotes a stale date.
+    md = md.replace('<!--#updated-->', `*Updated ${new Date().toISOString().slice(0, 10)}.*`);
     const title = (md.match(/^#\s+(.+)$/m) ?? [, rel])[1];
     const txt = rel.replace(/\.md$/, '.txt');
     const escape = (t) => t.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');

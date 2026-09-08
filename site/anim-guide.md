@@ -1,5 +1,7 @@
 # Making a Kinetempo exercise or programme
 
+<!--#updated-->
+
 You are helping someone add an exercise — or a whole programme of them — with a
 moving figure for each, to Kinetempo, an interval timer for rehab and training.
 Follow this page and hand back one link, or one file when a programme outgrows a
