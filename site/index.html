@@ -13,7 +13,7 @@
 <section class="hero create" id="create" style="padding-top:8px">
 <div class="create-copy">
 <h2 data-i18n="createTitle">Make your own in two minutes</h2>
-<p data-i18n="createLead">Kinetempo is not a fixed set of workouts — it is a timer you shape, by hand or with an AI assistant. Describe the exercise in a chat and it replies with a link that adds it to the app, figure and all.</p>
+<p data-i18n="createLead">Kinetempo is not a fixed set of workouts — it is a timer you shape, by hand or with an AI assistant. Describe one exercise, or a whole programme of them, and the chat replies with a link that adds it to the app — every exercise with its own figure.</p>
 <div class="ai-buttons">
 <a class="cta ai" id="ai-claude" href="https://claude.ai/new" rel="noopener" data-i18n="aiClaude">Create with Claude</a><a class="cta sec" id="ai-chatgpt" href="https://chatgpt.com/" rel="noopener" data-i18n="aiChatgpt">Create with ChatGPT</a><button class="cta sec" id="ai-copy" type="button" data-i18n="aiCopy">Copy the prompt</button>
 </div>
@@ -46,7 +46,7 @@
   const prompt = () =>
     say(
       'aiPrompt',
-      'Read https://selic.github.io/kinetempo-catalog/anim-guide.txt and follow it to make me a Kinetempo exercise with an animation.\n\nAsk me whatever you need about the movement, the timing and the number of repetitions, then reply with the import link.'
+      'Read https://selic.github.io/kinetempo-catalog/anim-guide.txt and follow it to make me a Kinetempo exercise with an animation — or a whole programme of them, if that is what I need.\n\nFirst ask me which of the two, then whatever you need about the movements, the timing and the repetitions, and reply with the import link. If a programme is too long for a link, send the .kinetempo.json file instead.'
     );
   const q = () => encodeURIComponent(prompt());
   const links = () => {

@@ -37,7 +37,7 @@
       ctaCatalog: 'Открыть каталог',
       createTitle: 'Своё упражнение за две минуты',
       createLead:
-        'Kinetempo — не фиксированный набор тренировок, а таймер, который вы настраиваете: руками или с ИИ-ассистентом. Опишите упражнение в чате, и он ответит ссылкой, добавляющей его в приложение вместе с фигуркой.',
+        'Kinetempo — не фиксированный набор тренировок, а таймер, который вы настраиваете: руками или с ИИ-ассистентом. Опишите в чате упражнение — или сразу целую программу, — и в ответ придёт ссылка, которая добавит это в приложение: каждое упражнение со своей фигуркой.',
       aiClaude: 'Создать с Claude',
       aiChatgpt: 'Создать с ChatGPT',
       aiCopy: 'Скопировать запрос',
@@ -137,7 +137,7 @@
       demoTone_rest: "Расслабь",
       demoHint_rest: "Отпусти, выдохни",
       aiPrompt:
-        'Прочитай https://selic.github.io/kinetempo-catalog/anim-guide.txt и сделай по нему упражнение для Kinetempo с анимацией.\n\nСпроси всё, что нужно знать про движение, тайминг и число повторов, а потом пришли ссылку для импорта.',
+        'Прочитай https://selic.github.io/kinetempo-catalog/anim-guide.txt и сделай по нему упражнение для Kinetempo с анимацией — или целую программу упражнений, если нужна она.\n\nСначала спроси, что из двух, потом всё, что нужно знать про движения, тайминг и число повторов, и пришли ссылку для импорта. Если программа не влезет в ссылку — пришли файл .kinetempo.json.',
     },
     ro: {
       docTitle: 'Kinetempo — cronometru pentru exerciții de fizioterapie',
@@ -160,7 +160,7 @@
       ctaCatalog: 'Vezi catalogul',
       createTitle: 'Fă-ți propriul exercițiu în două minute',
       createLead:
-        'Kinetempo nu este un set fix de antrenamente — este un cronometru pe care îl construiești, manual sau cu un asistent AI. Descrie exercițiul într-o conversație și primești un link care îl adaugă în aplicație, cu tot cu siluetă.',
+        'Kinetempo nu este un set fix de antrenamente — este un cronometru pe care îl construiești, manual sau cu un asistent AI. Descrie un exercițiu sau un program întreg, iar conversația îți răspunde cu un link care îl adaugă în aplicație — fiecare exercițiu cu silueta lui.',
       aiClaude: 'Creează cu Claude',
       aiChatgpt: 'Creează cu ChatGPT',
       aiCopy: 'Copiază solicitarea',
@@ -260,7 +260,7 @@
       demoTone_rest: "Relaxează",
       demoHint_rest: "Relaxează, expiră",
       aiPrompt:
-        'Citește https://selic.github.io/kinetempo-catalog/anim-guide.txt și urmează-l ca să-mi faci un exercițiu Kinetempo cu animație.\n\nÎntreabă-mă ce ai nevoie despre mișcare, timpi și numărul de repetări, apoi răspunde cu linkul de import.',
+        'Citește https://selic.github.io/kinetempo-catalog/anim-guide.txt și urmează-l ca să-mi faci un exercițiu Kinetempo cu animație — sau un program întreg, dacă de asta am nevoie.\n\nÎntreabă-mă întâi care dintre cele două, apoi ce ai nevoie despre mișcări, timpi și repetări, și răspunde cu linkul de import. Dacă programul este prea lung pentru un link, trimite fișierul .kinetempo.json.',
     },
   };
 
