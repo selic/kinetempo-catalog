@@ -6,6 +6,7 @@ Programs are plain JSON files organised **by publisher** — a clinic, a physiot
 each in its own directory. Anything merged here becomes visible in the app's Library tab.
 
 ```
+featured.json                            # maintainer's picks and paid slots (see below)
 publishers/
   <publisher-id>/
     publisher.json                       # who publishes, type, website, verified flag
@@ -34,11 +35,25 @@ maintainer decides whether to merge — nothing is published automatically.
 2. Export a program from Kinetempo (Share → Export file) and drop the file into `programs/` or `exercises/`.
    Name it `<slug>.<locale>.kinetempo.json` (`en`, `ru`, `ro`).
 3. Optionally add a `catalog` block: `tags`, `bodyParts`, `level` (`rehab`, `beginner`, `intermediate`, `advanced`),
-   `source`, `reviewedBy`, `license` (default CC-BY-4.0).
+   `category` (one of nine — what the reader browses by), `source`, `reviewedBy`, `license` (default CC-BY-4.0).
 4. Run `npm install && npm run validate` and open a pull request. CI validates the schema; a maintainer reviews the content.
 
 Clinics and licensed practitioners can ask for the `verified: true` badge by linking the publisher to an official
 website or registry entry in the pull request.
+
+## How the catalog page is ordered
+
+Everything is stated on the page itself, and it is worth stating here too.
+
+- The list is ordered by how often each document has been opened — a single number per document, counted by
+  the [submission worker](worker) with nothing recorded about who opened it. Readers can re-sort it.
+- **Verified** means we checked *who the publisher is* — a real clinic, a real licence. It does not mean a
+  clinician reviewed the exercises. It is a badge and a filter, and it never moves anything up the list.
+- The **Featured** row is a maintainer's decision, listed in [`featured.json`](featured.json). Authors cannot
+  set it on their own documents.
+- A featured slot can be paid for. It is labelled **Sponsored**, it needs an end date and a name to bill
+  (`"sponsored": true` requires `until` and `paidBy`, or the build fails), and it buys that row and nothing
+  else — never a position in the list below it.
 
 ## Rules
 

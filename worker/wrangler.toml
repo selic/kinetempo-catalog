@@ -8,7 +8,8 @@ compatibility_date = "2026-09-01"
 pattern = "submit-kinetempo.defency.net"
 custom_domain = true
 
-# Per-address submission counter.
+# Per-address rate limiting, submission fingerprints, cached pull request states
+# and the per-document open counts behind the catalog's "most opened" order.
 [[kv_namespaces]]
 binding = "SUBMISSIONS"
 id = "6a73ebfbb8fa4225aa1148562868ec3c"

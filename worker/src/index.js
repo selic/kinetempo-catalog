@@ -26,12 +26,27 @@ const RATE_LIMIT = 5;
 const STATUS_LIMIT = 60;
 /** Pull requests one status request may ask about. */
 const MAX_STATUS_IDS = 25;
+/** Opens one address may report per hour. A person browsing the catalog opens a handful. */
+const COUNT_LIMIT = 40;
+/** Documents one report may name. The catalog page reports one at a time; the app may batch. */
+const MAX_COUNT_IDS = 10;
+/** How long the aggregate served to the site builder is allowed to be stale. */
+const COUNTS_CACHE_S = 300;
 
-const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
+const json = (status, body, headers = {}) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', ...headers } });
 
 export default {
   async fetch(request, env) {
     const path = new URL(request.url).pathname;
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: { ...cors(), 'access-control-allow-headers': 'content-type' } });
+    if (path === '/count') {
+      if (request.method !== 'POST') return json(405, { error: 'Report an open with POST.' });
+      return countOpens(request, env);
+    }
+    if (path === '/counts') {
+      if (request.method !== 'GET') return json(405, { error: 'Ask for the counts with GET.' });
+      return openCounts(request, env);
+    }
     if (path === '/status') {
       if (request.method !== 'GET') return json(405, { error: 'Ask for the status with GET.' });
       return pullRequestStatuses(request, env);
@@ -93,6 +108,73 @@ async function overRateLimit(request, env, kind, limit) {
   if (used >= limit) return true;
   await env.SUBMISSIONS.put(key, String(used + 1), { expirationTtl: 3600 });
   return false;
+}
+
+/**
+ * How many times a document in the catalog has been opened, so the site can sort by
+ * something other than the alphabet.
+ *
+ * What is stored is a number per document id and nothing else — no address, no
+ * identifier, no record of who opened what. Abuse is held down by the same hourly
+ * per-address counter the rest of this worker uses, which forgets the address after
+ * an hour and never learns which document it asked about. That leaves the number
+ * inflatable by someone determined; it is a popularity hint on a page of exercises,
+ * not a payout, and buying it accuracy would cost exactly the tracking this app
+ * promises not to do.
+ */
+async function countOpens(request, env) {
+  let ids;
+  try {
+    // Sent as text/plain (sendBeacon) so the browser makes no preflight request.
+    ids = JSON.parse(await request.text())?.ids;
+  } catch {
+    return json(400, { error: 'The body is not JSON.' }, cors());
+  }
+  if (!Array.isArray(ids)) return json(400, { error: 'Send { "ids": ["..."] }.' }, cors());
+  // Wide enough for every id the catalog's own schema allows in practice — curated
+  // slugs, and the uuids the app generates — and narrow enough that an id can only
+  // ever be the tail of a key here. The catalog's build warns about any id this would
+  // turn away, so a counter stuck at zero is noticed rather than wondered about.
+  const wanted = [...new Set(ids.filter((id) => typeof id === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(id)))].slice(0, MAX_COUNT_IDS);
+  if (wanted.length === 0) return json(400, { error: 'No usable document id.' }, cors());
+  if (await overRateLimit(request, env, 'count', COUNT_LIMIT)) return json(429, { error: 'Too many opens reported from here.' }, cors());
+
+  for (const id of wanted) {
+    const key = `open:${id}`;
+    // Read-then-write, so two opens landing in the same instant count as one. For a
+    // popularity hint that is a rounding error, and the alternative is a Durable
+    // Object per document.
+    const used = Number((await env.SUBMISSIONS.get(key)) ?? 0);
+    await env.SUBMISSIONS.put(key, String(used + 1));
+  }
+  return json(202, { counted: wanted.length }, cors());
+}
+
+/**
+ * The whole aggregate in one answer. The site build asks for it once per deploy and
+ * bakes the numbers into the catalog page, so this is called by a workflow rather
+ * than by a reader — hence one response for everything rather than a lookup per id.
+ */
+async function openCounts(request, env) {
+  const cached = await env.SUBMISSIONS.get('counts:cache', 'json');
+  if (cached) return json(200, cached, { ...cors(), 'cache-control': `public, max-age=${COUNTS_CACHE_S}` });
+
+  const counts = {};
+  let cursor;
+  do {
+    const page = await env.SUBMISSIONS.list({ prefix: 'open:', cursor });
+    for (const k of page.keys) counts[k.name.slice('open:'.length)] = Number((await env.SUBMISSIONS.get(k.name)) ?? 0);
+    cursor = page.list_complete ? undefined : page.cursor;
+  } while (cursor);
+
+  const body = { generatedAt: new Date().toISOString(), counts };
+  await env.SUBMISSIONS.put('counts:cache', JSON.stringify(body), { expirationTtl: COUNTS_CACHE_S });
+  return json(200, body, { ...cors(), 'cache-control': `public, max-age=${COUNTS_CACHE_S}` });
+}
+
+/** The catalog page lives on another origin, so its reports need saying so. */
+function cors() {
+  return { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'GET, POST, OPTIONS' };
 }
 
 /**

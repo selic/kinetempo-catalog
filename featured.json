@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "kind": "entry",
+      "id": "kinetempo-back-core-endurance",
+      "note": "The most asked-for set, and one where the hold time is the whole prescription."
+    },
+    {
+      "kind": "entry",
+      "id": "kinetempo-achilles-eccentric",
+      "note": "Alfredson: 180 slow heel drops a day. Nothing else in the catalog needs a timer more."
+    },
+    {
+      "kind": "entry",
+      "id": "kinetempo-paced-breathing",
+      "note": "Six breaths a minute for ten minutes — the easiest thing here to start with."
+    }
+  ]
+}

@@ -54,3 +54,51 @@ footer{max-width:960px;margin:48px auto 24px;padding:0 24px;color:var(--muted);f
 .demo-clip video{height:min(480px,70vh);width:auto;max-width:100%;border-radius:20px;box-shadow:0 14px 40px rgba(0,0,0,.4);display:block;background:#000}
 .demo-clip figcaption{font-size:14px;color:var(--muted);margin-top:10px;max-width:260px}
 .demo-clip figcaption strong{color:#fff}
+
+/* ---- catalog: search, facets, cards ---- */
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.linkish{background:none;border:0;padding:0;color:#9ecbff;font:inherit;cursor:pointer;text-decoration:underline}
+.disclosure{font-size:14px!important;color:var(--muted);max-width:720px;margin-top:12px}
+.disclosure strong{color:#fff}
+main h2{font-size:22px;margin:40px 0 0}
+
+.filters{margin-top:16px;display:flex;flex-direction:column;gap:14px}
+.filters .search input{width:100%;max-width:520px;padding:11px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:#fff;font:inherit;font-size:16px}
+.filters .search input::placeholder{color:rgba(255,255,255,.45)}
+.filter-row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:14px;color:var(--muted)}
+.filter-row select{margin-left:6px;padding:7px 9px;border-radius:9px;border:1px solid rgba(255,255,255,.18);background:#1b2536;color:#fff;font:inherit;font-size:14px}
+.filter-row .toggle{display:flex;align-items:center;gap:7px;cursor:pointer}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chips-label{font-size:13px;color:var(--muted);margin-right:2px;min-width:66px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:transparent;color:#fff;font:inherit;font-size:13px;cursor:pointer}
+.chip:hover{border-color:rgba(255,255,255,.4)}
+.chip.on{background:#fff;color:var(--ink);border-color:#fff;font-weight:600}
+.chip-n{opacity:.55;font-size:12px}
+.chip.on .chip-n{opacity:.6}
+/* The long tail of tags stays folded until someone asks for it. */
+.chips .chip.extra{display:none}
+.chips.all .chip.extra{display:inline-flex}
+
+.result-line{font-size:14px;color:var(--muted);margin:0}
+.empty{color:var(--muted);margin:24px 0}
+
+.entry .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.entry .badges:empty{display:none}
+.badge{font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
+.badge.ok{background:var(--rest);color:#fff}
+.badge.pick{background:var(--work);color:#fff}
+/* A paid slot is outlined rather than filled: it must read as a label, never as approval. */
+.badge.paid{background:transparent;border:1px solid rgba(255,255,255,.45);color:var(--muted)}
+.badge.lvl{background:rgba(255,255,255,.12);color:var(--muted)}
+.entry .meta{font-size:13px!important;color:var(--muted);margin-bottom:8px!important}
+.entry .tag-line{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px!important}
+.tag{padding:3px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:transparent;color:var(--muted);font:inherit;font-size:12px;cursor:pointer}
+.tag:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+.tag.on{background:#fff;color:var(--ink);border-color:#fff}
+.entry .actions{display:flex;gap:14px;align-items:center;margin-top:14px!important;font-size:14px}
+.entry .actions .open{font-weight:700;text-decoration:none;color:#fff;background:var(--work);padding:7px 13px;border-radius:10px}
+.entry .actions .json{color:var(--muted);font-size:13px}
+
+.featured .grid{margin-top:14px}
