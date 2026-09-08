@@ -1,0 +1,638 @@
+{
+  "kind": "kinetempo.complex",
+  "schemaVersion": 1,
+  "app": "kinetempo",
+  "exportedAt": "2026-09-08T10:51:13.267Z",
+  "exercises": [
+    {
+      "id": "gen-1a080a187c0-0",
+      "name": "Насос стопой",
+      "description": "Лёжа на спине, нога прямая. Тяни носок на себя, затем от себя. Плавно, без рывков — это против отёка.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "move",
+          "durationMs": 2000,
+          "label": "Носок на себя"
+        },
+        {
+          "tone": "move",
+          "durationMs": 2000,
+          "label": "Носок от себя"
+        }
+      ],
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "supine",
+          "ground": "bed",
+          "idle": [
+            {
+              "t": 0,
+              "ankle": -25
+            },
+            {
+              "t": 1,
+              "ankle": 15
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "step": "even"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "left"
+                  },
+                  "ankle": -25
+                },
+                {
+                  "t": 1,
+                  "ankle": 15
+                }
+              ]
+            },
+            {
+              "when": {
+                "step": "odd"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "calf": 0.4
+                  },
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "right"
+                  },
+                  "ankle": 15
+                },
+                {
+                  "t": 1,
+                  "highlight": {
+                    "calf": 1
+                  },
+                  "ankle": -25
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "workMs": 2000,
+      "restMs": 0,
+      "reps": 15,
+      "sets": 2,
+      "setRestMs": 30000,
+      "color": null,
+      "updatedAt": "2026-09-08T10:50:32.521Z"
+    },
+    {
+      "id": "gen-1a080a187c1-1",
+      "name": "Изометрия квадрицепса",
+      "description": "Пятка на валике, колено на весу. Напряги бедро и дожми колено вниз, к постели. Держи, потом отпусти.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 5000,
+          "label": "Дожми колено вниз"
+        },
+        {
+          "tone": "release",
+          "durationMs": 2000,
+          "label": "Отпусти"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        }
+      ],
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "supine",
+          "ground": "bed",
+          "prop": "pillowUnderHeel",
+          "idle": [
+            {
+              "t": 0,
+              "knee": 4
+            },
+            {
+              "t": 1,
+              "knee": -4
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "squeeze"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 0.4
+                  },
+                  "arrow": {
+                    "at": "knee",
+                    "dir": "down"
+                  },
+                  "knee": 4,
+                  "ankle": 5
+                },
+                {
+                  "t": 1,
+                  "highlight": {
+                    "quad": 1
+                  },
+                  "knee": -4
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "release"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 0.6
+                  },
+                  "knee": -4
+                },
+                {
+                  "t": 1,
+                  "highlight": {
+                    "quad": 0.1
+                  },
+                  "knee": 4
+                }
+              ]
+            },
+            {
+              "keys": [
+                {
+                  "t": 0,
+                  "knee": 4,
+                  "ankle": 5
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "workMs": 5000,
+      "restMs": 5000,
+      "reps": 8,
+      "sets": 2,
+      "setRestMs": 45000,
+      "color": null,
+      "updatedAt": "2026-09-08T10:50:32.527Z"
+    },
+    {
+      "id": "gen-1a080a187c1-2",
+      "name": "Подъём прямой ноги",
+      "description": "Сначала замкни колено, потом подними всю ногу целиком. Если колено проседает — не поднимай выше.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "squeeze",
+          "durationMs": 2000,
+          "label": "Замкни колено"
+        },
+        {
+          "tone": "lift",
+          "durationMs": 2000,
+          "label": "Подъём"
+        },
+        {
+          "tone": "hold",
+          "durationMs": 3000
+        },
+        {
+          "tone": "release",
+          "durationMs": 3000,
+          "label": "Медленно вниз"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 6000
+        }
+      ],
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "supine",
+          "ground": "bed",
+          "idle": [
+            {
+              "t": 0,
+              "hip": 0,
+              "knee": -3
+            },
+            {
+              "t": 1,
+              "hip": 38,
+              "knee": -3
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "squeeze"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 0.4
+                  },
+                  "hip": 0,
+                  "knee": 0
+                },
+                {
+                  "t": 1,
+                  "highlight": {
+                    "quad": 1
+                  },
+                  "hip": 0,
+                  "knee": -3
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "lift"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 1
+                  },
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "up"
+                  },
+                  "hip": 0,
+                  "knee": -3
+                },
+                {
+                  "t": 1,
+                  "hip": 38,
+                  "knee": -3
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "hold"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 1
+                  },
+                  "hip": 38,
+                  "knee": -3
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "release"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "down"
+                  },
+                  "hip": 38,
+                  "knee": -3
+                },
+                {
+                  "t": 1,
+                  "hip": 0,
+                  "knee": -3
+                }
+              ]
+            },
+            {
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 0.1
+                  },
+                  "hip": 0,
+                  "knee": 0
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "workMs": 2000,
+      "restMs": 6000,
+      "reps": 8,
+      "sets": 2,
+      "setRestMs": 60000,
+      "color": null,
+      "updatedAt": "2026-09-08T10:50:32.530Z"
+    },
+    {
+      "id": "gen-1a080a187c1-3",
+      "name": "Скольжение пятки",
+      "description": "Пятка не отрывается от постели. Тяни её к ягодице до лёгкого натяжения, задержи, медленно выпрями.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "move",
+          "durationMs": 4000,
+          "label": "Пятку к себе"
+        },
+        {
+          "tone": "hold",
+          "durationMs": 2000
+        },
+        {
+          "tone": "move",
+          "durationMs": 4000,
+          "label": "Медленно выпрямляй"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 5000
+        }
+      ],
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "supine",
+          "ground": "bed",
+          "constrain": {
+            "heelOnGround": true
+          },
+          "idle": [
+            {
+              "t": 0,
+              "knee": 0
+            },
+            {
+              "t": 1,
+              "knee": 85
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "step": 0
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "left"
+                  },
+                  "knee": 0
+                },
+                {
+                  "t": 1,
+                  "knee": 85
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "hold"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "hamstring": 0.5
+                  },
+                  "knee": 85
+                }
+              ]
+            },
+            {
+              "when": {
+                "step": 2
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "right"
+                  },
+                  "knee": 85
+                },
+                {
+                  "t": 1,
+                  "knee": 0
+                }
+              ]
+            },
+            {
+              "keys": [
+                {
+                  "t": 0,
+                  "knee": 0
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "workMs": 4000,
+      "restMs": 5000,
+      "reps": 8,
+      "sets": 2,
+      "setRestMs": 45000,
+      "color": null,
+      "updatedAt": "2026-09-08T10:50:32.532Z"
+    },
+    {
+      "id": "gen-1a080a187c1-4",
+      "name": "Разгибание колена сидя",
+      "description": "Сидя на стуле, стопы на полу. Выпрями колено без веса, задержи, медленно опусти. Без резинки.",
+      "videoUrl": null,
+      "steps": [
+        {
+          "tone": "lift",
+          "durationMs": 3000,
+          "label": "Выпрями колено"
+        },
+        {
+          "tone": "hold",
+          "durationMs": 3000
+        },
+        {
+          "tone": "release",
+          "durationMs": 3000,
+          "label": "Медленно вниз"
+        },
+        {
+          "tone": "rest",
+          "durationMs": 6000
+        }
+      ],
+      "animation": {
+        "kind": "spec",
+        "spec": {
+          "v": 1,
+          "orientation": "seated",
+          "ground": "floor",
+          "prop": "chair",
+          "base": {
+            "hip": 90
+          },
+          "idle": [
+            {
+              "t": 0,
+              "knee": 90
+            },
+            {
+              "t": 1,
+              "knee": 45
+            }
+          ],
+          "tracks": [
+            {
+              "when": {
+                "tone": "lift"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 0.4
+                  },
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "up"
+                  },
+                  "hip": 90,
+                  "knee": 90
+                },
+                {
+                  "t": 1,
+                  "highlight": {
+                    "quad": 1
+                  },
+                  "hip": 90,
+                  "knee": 40
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "hold"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 1
+                  },
+                  "hip": 90,
+                  "knee": 40
+                }
+              ]
+            },
+            {
+              "when": {
+                "tone": "release"
+              },
+              "keys": [
+                {
+                  "t": 0,
+                  "highlight": {
+                    "quad": 0.8
+                  },
+                  "arrow": {
+                    "at": "foot",
+                    "dir": "down"
+                  },
+                  "hip": 90,
+                  "knee": 40
+                },
+                {
+                  "t": 1,
+                  "highlight": {
+                    "quad": 0.2
+                  },
+                  "hip": 90,
+                  "knee": 90
+                }
+              ]
+            },
+            {
+              "keys": [
+                {
+                  "t": 0,
+                  "hip": 90,
+                  "knee": 90
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "workMs": 3000,
+      "restMs": 6000,
+      "reps": 8,
+      "sets": 2,
+      "setRestMs": 45000,
+      "color": null,
+      "updatedAt": "2026-09-08T10:50:32.535Z"
+    }
+  ],
+  "complex": {
+    "id": "gen-1a080a187c1-p",
+    "name": "ПКС: 1–2 неделя",
+    "description": "Ранний этап после пластики ПКС: отёк, полное разгибание, включение квадрицепса, сгибание до ~90°.",
+    "restBetweenMs": 45000,
+    "items": [
+      {
+        "exerciseId": "gen-1a080a187c0-0",
+        "restAfterMs": null
+      },
+      {
+        "exerciseId": "gen-1a080a187c1-1",
+        "restAfterMs": null
+      },
+      {
+        "exerciseId": "gen-1a080a187c1-2",
+        "restAfterMs": 60000
+      },
+      {
+        "exerciseId": "gen-1a080a187c1-3",
+        "restAfterMs": null
+      },
+      {
+        "exerciseId": "gen-1a080a187c1-4",
+        "restAfterMs": null
+      }
+    ],
+    "updatedAt": "2026-09-08T10:50:32.537Z"
+  }
+}
