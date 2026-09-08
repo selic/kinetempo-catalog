@@ -21,11 +21,16 @@ why a whole exercise fits inside a link.
 2. **Write the draft** (shape below).
 3. **Build the link** by running the encoder at the end of this page in your code
    tool. Do not attempt it by hand.
-4. **Hand back the link** plus one or two sentences on what the figure does.
-   Tell them to open it on the phone that has Kinetempo installed and press
-   **Open in Kinetempo** on the page it lands on. Hand over the plain `https://`
-   link — a `kinetempo://` address is not tappable in most chat apps, and the
-   page it opens carries the exercise in the address itself, uploading nothing.
+4. **Hand it over.** If your code tool can produce a file the person downloads,
+   write the whole document to `<name>.kinetempo.json` and give them that: the
+   app takes it under **Import → Import from file**, and a file is carried by
+   the tool rather than retyped by you, so nothing can drift on the way.
+   Otherwise hand back the link, checked first — see the section below. Give the
+   plain `https://` form: a `kinetempo://` address is not tappable in most chat
+   apps, and the page it opens carries the exercise in the address itself,
+   uploading nothing. Tell them to open it on the phone that has Kinetempo
+   installed and press **Open in Kinetempo** there.
+5. **Say what the figure does**, in one or two sentences.
 
 ## The draft
 
@@ -171,6 +176,19 @@ def kinetempo_link(draft):
     return 'https://selic.github.io/kinetempo-catalog/s/#' + out
 ```
 
+Both encoders build a `doc` object before compressing it. That object *is* the
+file: written out with `json.dump(doc, f)` as `<name>.kinetempo.json`, it is
+what **Import → Import from file** reads, and it needs no link and no check.
+
+Whichever encoder you ran, print the payload's length and fingerprint next to
+the link. The next section is where they earn their keep.
+
+```python
+import hashlib
+payload = link.split('#', 1)[1]
+print(len(payload), hashlib.sha256(payload.encode()).hexdigest()[:8])
+```
+
 ## Check the link before you hand it over
 
 **Decode the link exactly as you are about to send it, not the variable that
@@ -182,22 +200,30 @@ rest of the exercise decompresses into rubble — a link that looks perfectly
 normal and fails later, on someone's phone, where you cannot see it happen.
 
 ```python
-import base64, json, zlib
-link = '…paste here the link as it stands in your draft message…'
-payload = link.split('#', 1)[1]
-assert len(payload) % 4 != 1, 'a real payload is never this length — a character was lost'
+import base64, hashlib, json, zlib
+sent = '…paste here the link exactly as it stands in your draft message…'
+payload = sent.split('#', 1)[1]
+assert len(payload) == LENGTH, 'characters were lost or added'
+assert hashlib.sha256(payload.encode()).hexdigest()[:8] == FINGERPRINT, 'a character changed'
 back = json.loads(zlib.decompress(base64.urlsafe_b64decode(payload + '=' * (-len(payload) % 4)), -15))
 assert back['exercises'][0]['name'] == draft['name']
+assert len(back['exercises'][0]['steps']) == len(draft['steps'])
 ```
 
+`LENGTH` and `FINGERPRINT` are the two numbers the encoder printed. They are the
+part that cannot be faked: a check that re-runs the encoder and decodes its fresh
+output passes every time and proves nothing, because it never looks at the text
+you are actually sending.
+
 ```js
-const link = '…paste here the link as it stands in your draft message…';
-const payload = link.split('#')[1];
-if (payload.length % 4 === 1) throw new Error('a real payload is never this length — a character was lost');
+const sent = '…paste here the link exactly as it stands in your draft message…';
+const payload = sent.split('#')[1];
+if (payload.length !== LENGTH) throw new Error('characters were lost or added');
 const bin = Uint8Array.from(atob(payload.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
 const stream = new Blob([bin]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
 const back = JSON.parse(await new Response(stream).text());
 if (back.exercises[0].name !== draft.name) throw new Error('the link does not hold the draft');
+if (back.exercises[0].steps.length !== draft.steps.length) throw new Error('the link does not hold the draft');
 ```
 
 The stored-block encoder above writes no compressed data, so its links decode
