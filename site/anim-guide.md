@@ -173,12 +173,17 @@ def kinetempo_link(draft):
 
 ## Check the link before you hand it over
 
-Decode your own link and compare it to the draft. A payload that lost characters
-on the way, or one written out instead of encoded, looks like a perfectly normal
-link and fails only later, on someone's phone, where you cannot see it happen.
+**Decode the link exactly as you are about to send it, not the variable that
+holds it.** Copy the string out of your message draft, paste it back into your
+code tool, and decode that. This is the whole point of the check: the encoder is
+rarely wrong, and what breaks links is the payload being retyped rather than
+carried across verbatim. Two hundred characters in, one wrong letter, and the
+rest of the exercise decompresses into rubble — a link that looks perfectly
+normal and fails later, on someone's phone, where you cannot see it happen.
 
 ```python
 import base64, json, zlib
+link = '…paste here the link as it stands in your draft message…'
 payload = link.split('#', 1)[1]
 assert len(payload) % 4 != 1, 'a real payload is never this length — a character was lost'
 back = json.loads(zlib.decompress(base64.urlsafe_b64decode(payload + '=' * (-len(payload) % 4)), -15))
@@ -186,6 +191,7 @@ assert back['exercises'][0]['name'] == draft['name']
 ```
 
 ```js
+const link = '…paste here the link as it stands in your draft message…';
 const payload = link.split('#')[1];
 if (payload.length % 4 === 1) throw new Error('a real payload is never this length — a character was lost');
 const bin = Uint8Array.from(atob(payload.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
@@ -197,9 +203,11 @@ if (back.exercises[0].name !== draft.name) throw new Error('the link does not ho
 The stored-block encoder above writes no compressed data, so its links decode
 the same way — `DecompressionStream` reads them too.
 
-If the check throws, do not hand the link over — give the animation JSON instead
-(see the last section). A broken link tells the person nothing except that
-Kinetempo did not want it.
+If the check throws — or if handing the link over would mean typing the payload
+out rather than passing the exact text through — do not send a link at all. Give
+the animation JSON instead (see the last section): it is longer, but it is text
+a person can read, and a slip in it fails loudly rather than turning the whole
+exercise to noise.
 
 Check the draft itself too: every joint name is from the table above, every `t`
 is between 0 and 1, no angle is absurd, and the body position matches the
