@@ -23,10 +23,10 @@
 .presets button{border:0;border-radius:999px;padding:9px 14px;background:rgba(255,255,255,.14);color:#fff;font-weight:600;cursor:pointer;font-family:inherit}
 .presets button.on{background:#fff;color:#0e1420}
 .note{max-width:640px;margin:0 auto;text-align:center;color:var(--muted);font-size:14px}
-</style></head><body>
+</style></head><body data-title-key="demoDocTitle">
 <!--#header-->
 <main>
-<section class="hero" style="padding-bottom:8px;text-align:center"><h1 style="font-size:34px">Try the timer</h1><p style="margin:0 auto">This is the app's player, re-implemented for the browser: the same step model, the same sounds, the same schematic figure. Pick a preset and press Start (sound needs one tap).</p></section>
+<section class="hero" style="padding-bottom:8px;text-align:center"><h1 style="font-size:34px" data-i18n="demoTitle">Try the timer</h1><p style="margin:0 auto" data-i18n="demoLead">This is the app's player, re-implemented for the browser: the same step model, the same sounds, the same schematic figure. Pick a preset and press Start (sound needs one tap).</p></section>
 <div class="presets" id="presets"></div>
 <div class="demo" id="demo">
   <div class="top"><span id="title">Quad isometrics</span><span class="clock" id="clock">0:00 / 0:00</span></div>
@@ -39,9 +39,9 @@
     <div class="bar"><b id="bar"></b></div>
   </main>
   <div class="cfg" id="cfg"></div>
-  <footer><button id="reset">Reset</button><button id="skip" hidden>Skip</button><button class="primary" id="start">Start</button></footer>
+  <footer><button id="reset" data-i18n="demoReset">Reset</button><button id="skip" hidden data-i18n="demoSkip">Skip</button><button class="primary" id="start" data-i18n="demoStart">Start</button></footer>
 </div>
-<p class="note" style="margin-top:18px">In the real app the timer also runs with the screen locked, shows a Live Activity / notification, and drives programs of several exercises. <a href="../#download">Get the app</a>.</p>
+<p class="note" style="margin-top:18px" data-i18n="demoNote">In the real app the timer also runs with the screen locked, shows a Live Activity / notification, and drives programs of several exercises. <a href="../#download" data-i18n="demoGet">Get the app</a>.</p>
 </main>
 <script src="demo.js"></script>
 <!--#footer-->

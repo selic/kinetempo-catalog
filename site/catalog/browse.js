@@ -297,9 +297,10 @@
     for (const v of (p.get('tag') ?? '').split(',').filter(Boolean)) picked.tag.add(v);
     if (level) level.value = p.get('level') ?? '';
     if (locale) {
-      const asked = p.get('lang') || (navigator.languages ?? [navigator.language ?? 'en']).map((l) => String(l).slice(0, 2)).find((l) => LANGS.includes(l));
-      const has = [...locale.options].some((o) => o.value === asked);
-      locale.value = has ? asked : 'en';
+      // i18n.js owns the site's language — the switcher in the header is the same
+      // control as this select, and the two must never disagree.
+      const asked = window.ktLang?.() ?? p.get('lang') ?? 'en';
+      locale.value = [...locale.options].some((o) => o.value === asked) ? asked : 'en';
     }
     if (verified) verified.checked = p.get('verified') === '1';
     if (featuredOnly) featuredOnly.checked = p.get('featured') === '1';
@@ -325,8 +326,17 @@
   });
   for (const el of [sort, level, verified, featuredOnly]) el?.addEventListener('change', apply);
   locale?.addEventListener('change', () => {
+    window.ktSetLang?.(locale.value);
     chooseLanguage();
     apply();
+  });
+  // …and the header switcher moves this select, not the other way round only.
+  addEventListener('kt:lang', (ev) => {
+    if (locale && locale.value !== ev.detail) {
+      locale.value = ev.detail;
+      chooseLanguage();
+      apply();
+    }
   });
   document.addEventListener('click', (ev) => {
     const facet = ev.target.closest('[data-facet]');

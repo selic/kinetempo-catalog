@@ -1,14 +1,19 @@
 /* Kinetempo web demo — a compact port of the app's engine (steps → phases), sounds and schematic figure. */
 (function () {
   const COLORS = { idle: '#233044', prep: '#2b5ea8', squeeze: '#e85d2a', hold: '#c9431c', lift: '#d98b1f', release: '#2b8fb3', move: '#7c5cd6', timer: '#3b6fb6', rest: '#1f8a70', done: '#1a2b45' };
-  const LABEL = { prep: 'Get ready', squeeze: 'Squeeze', hold: 'Hold', lift: 'Lift', release: 'Release', move: 'Move', timer: 'Timer', rest: 'Relax' };
-  const HINT = { prep: 'Starting soon…', squeeze: 'Hold, keep breathing', hold: 'Hold it there', lift: 'Lift slowly', release: 'Lower with control', move: 'Move through the range', timer: 'Keep going', rest: 'Let go, breathe' };
+  const EN_LABEL = { prep: 'Get ready', squeeze: 'Squeeze', hold: 'Hold', lift: 'Lift', release: 'Release', move: 'Move', timer: 'Timer', rest: 'Relax' };
+  const EN_HINT = { prep: 'Starting soon…', squeeze: 'Hold, keep breathing', hold: 'Hold it there', lift: 'Lift slowly', release: 'Lower with control', move: 'Move through the range', timer: 'Keep going', rest: 'Let go, breathe' };
+  /** The page's own translations, when i18n.js is there; the English above when it is not. */
+  const t = (key, fallback) => window.ktText?.(key) ?? fallback;
+  const LABEL = new Proxy({}, { get: (_, tone) => t('demoTone_' + tone, EN_LABEL[tone]) });
+  const HINT = new Proxy({}, { get: (_, tone) => t('demoHint_' + tone, EN_HINT[tone]) });
+  const stepLabel = (s) => (s.labelKey ? t(s.labelKey, s.label) : s.label) || LABEL[s.tone];
   const PRESETS = [
-    { id: 'slr', title: 'Straight-leg raise', steps: [{ tone: 'squeeze', ms: 2000, label: 'Lock the knee', ticks: false }, { tone: 'lift', ms: 2000, ticks: false }, { tone: 'hold', ms: 3000, ticks: false }, { tone: 'release', ms: 3000, label: 'Lower slowly', ticks: false }, { tone: 'rest', ms: 2000 }], reps: 12, anim: 'straightLegRaise' },
-    { id: 'quadSets', title: 'Quad isometrics', steps: [{ tone: 'squeeze', ms: 8000 }, { tone: 'rest', ms: 4000 }], reps: 25, anim: 'quadSets' },
-    { id: 'heel', title: 'Heel slides', steps: [{ tone: 'move', ms: 4000, label: 'Slide in (≤90°)', ticks: false }, { tone: 'move', ms: 4000, label: 'Slide out', ticks: false }], reps: 12, anim: 'heelSlides' },
-    { id: 'pumps', title: 'Ankle pumps', steps: [{ tone: 'move', ms: 1000, label: 'Toes up', ticks: false }, { tone: 'move', ms: 1000, label: 'Toes down', ticks: false }], reps: 20, anim: 'anklePumps' },
-    { id: 'prop', title: 'Heel prop (timer)', steps: [{ tone: 'timer', ms: 60000, label: 'Relax and let it hang' }], reps: 1, anim: 'heelProp' },
+    { id: 'slr', title: 'Straight-leg raise', titleKey: 'demoPresetSlr', steps: [{ tone: 'squeeze', ms: 2000, label: 'Lock the knee', labelKey: 'demoStepLock', ticks: false }, { tone: 'lift', ms: 2000, ticks: false }, { tone: 'hold', ms: 3000, ticks: false }, { tone: 'release', ms: 3000, label: 'Lower slowly', labelKey: 'demoStepLower', ticks: false }, { tone: 'rest', ms: 2000 }], reps: 12, anim: 'straightLegRaise' },
+    { id: 'quadSets', title: 'Quad isometrics', titleKey: 'demoPresetQuad', steps: [{ tone: 'squeeze', ms: 8000 }, { tone: 'rest', ms: 4000 }], reps: 25, anim: 'quadSets' },
+    { id: 'heel', title: 'Heel slides', titleKey: 'demoPresetHeel', steps: [{ tone: 'move', ms: 4000, label: 'Slide in (≤90°)', labelKey: 'demoStepIn', ticks: false }, { tone: 'move', ms: 4000, label: 'Slide out', labelKey: 'demoStepOut', ticks: false }], reps: 12, anim: 'heelSlides' },
+    { id: 'pumps', title: 'Ankle pumps', titleKey: 'demoPresetPumps', steps: [{ tone: 'move', ms: 1000, label: 'Toes up', labelKey: 'demoStepUp', ticks: false }, { tone: 'move', ms: 1000, label: 'Toes down', labelKey: 'demoStepDown', ticks: false }], reps: 20, anim: 'anklePumps' },
+    { id: 'prop', title: 'Heel prop (timer)', titleKey: 'demoPresetProp', steps: [{ tone: 'timer', ms: 60000, label: 'Relax and let it hang', labelKey: 'demoStepHang' }], reps: 1, anim: 'heelProp' },
   ];
   const PREP = 3000;
 
@@ -93,16 +98,16 @@
   const fmt = (ms) => { const s = Math.max(0, Math.round(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
 
   function selectPreset(p) { preset = p; sched = build(p); cueList = cues(sched); reset(); }
-  PRESETS.forEach((p) => { const b = document.createElement('button'); b.textContent = p.title; b.onclick = () => { selectPreset(p); [...el.presets.children].forEach((x) => x.classList.toggle('on', x === b)); }; if (p === preset) b.classList.add('on'); el.presets.appendChild(b); });
+  PRESETS.forEach((p) => { const b = document.createElement('button'); b.textContent = t(p.titleKey, p.title); b.onclick = () => { selectPreset(p); [...el.presets.children].forEach((x) => x.classList.toggle('on', x === b)); }; if (p === preset) b.classList.add('on'); el.presets.appendChild(b); });
 
   function renderIdle() {
-    el.demo.style.background = COLORS.idle; el.title.textContent = preset.title; el.phase.textContent = 'Ready?';
+    el.demo.style.background = COLORS.idle; el.title.textContent = t(preset.titleKey, preset.title); el.phase.textContent = t('demoReady', 'Ready?');
     const first = preset.steps[0]; el.count.textContent = first.ms >= 60000 ? fmt(first.ms) : Math.round(first.ms / 1000); el.count.classList.toggle('small', first.ms >= 60000);
-    el.hint.textContent = preset.steps.map((s) => `${s.label || LABEL[s.tone]} ${s.ms >= 60000 ? fmt(s.ms) : Math.round(s.ms / 1000) + 's'}`).join(' → ') + (preset.reps > 1 ? ` · ×${preset.reps}` : '');
+    el.hint.textContent = preset.steps.map((s) => `${stepLabel(s)} ${s.ms >= 60000 ? fmt(s.ms) : Math.round(s.ms / 1000) + 's'}`).join(' → ') + (preset.reps > 1 ? ` · ×${preset.reps}` : '');
     el.clock.textContent = `0:00 / ${fmt(sched.total)}`; el.bar.style.width = '0%';
     el.dots.innerHTML = preset.reps > 1 ? Array.from({ length: preset.reps }, () => '<i></i>').join('') : '';
-    el.cfg.innerHTML = preset.steps.map((s) => `<span>${s.label || LABEL[s.tone]} <b>${s.ms >= 60000 ? fmt(s.ms) : Math.round(s.ms / 1000) + 's'}</b></span>`).join('') + `<span>Session <b>${fmt(sched.total)}</b></span>`;
-    el.start.textContent = 'Start'; el.skip.hidden = true;
+    el.cfg.innerHTML = preset.steps.map((s) => `<span>${stepLabel(s)} <b>${s.ms >= 60000 ? fmt(s.ms) : Math.round(s.ms / 1000) + 's'}</b></span>`).join('') + `<span>${t('demoSession', 'Session')} <b>${fmt(sched.total)}</b></span>`;
+    el.start.textContent = t('demoStart', 'Start'); el.skip.hidden = true;
   }
   function frame() {
     const now = performance.now(), elapsed = now - anchor, st = stateAt(sched, elapsed), loop = (now % 4000) / 4000;
@@ -111,7 +116,7 @@
     el.clock.textContent = `${fmt(Math.min(elapsed, sched.total))} / ${fmt(sched.total)}`; el.bar.style.width = `${Math.min(100, (elapsed / sched.total) * 100)}%`;
     if (st.done) { finish(); return; }
     const p = st.phase, tone = p.tone;
-    if (p.index !== lastIdx) { lastIdx = p.index; el.demo.style.background = COLORS[tone]; el.phase.textContent = (p.label || LABEL[tone]).toUpperCase(); el.hint.textContent = HINT[tone]; [...el.dots.children].forEach((d, i) => { d.className = i + 1 < p.rep ? 'on' : i + 1 === p.rep ? 'act' : ''; }); }
+    if (p.index !== lastIdx) { lastIdx = p.index; el.demo.style.background = COLORS[tone]; el.phase.textContent = (p.labelKey ? t(p.labelKey, p.label) : p.label || LABEL[tone]).toUpperCase(); el.hint.textContent = HINT[tone]; [...el.dots.children].forEach((d, i) => { d.className = i + 1 < p.rep ? 'on' : i + 1 === p.rep ? 'act' : ''; }); }
     const secs = Math.max(1, Math.ceil(st.remaining / 1000)); el.count.textContent = secs >= 60 ? fmt(secs * 1000) : secs; el.count.classList.toggle('small', secs >= 60);
     drawFigure(el.fig, POSE[preset.anim]({ tone, stepIndex: p.stepIndex, progress: st.progress, loop }), COLORS[tone]);
   }
@@ -119,12 +124,17 @@
   function start() {
     audio();
     if (doneFlag) { reset(); }
-    if (!running) { running = true; anchor = performance.now() - pausedAt; lastIdx = -2; nextCue = cueList.findIndex((c) => c.at > pausedAt); if (nextCue < 0) nextCue = cueList.length; el.start.textContent = 'Pause'; el.skip.hidden = false; clearInterval(timer); timer = setInterval(frame, 50); frame(); }
-    else { running = false; pausedAt = performance.now() - anchor; clearInterval(timer); el.start.textContent = 'Resume'; el.demo.style.background = COLORS.idle; el.phase.textContent = 'Paused'; idleLoop(); }
+    if (!running) { running = true; anchor = performance.now() - pausedAt; lastIdx = -2; nextCue = cueList.findIndex((c) => c.at > pausedAt); if (nextCue < 0) nextCue = cueList.length; el.start.textContent = t('demoPause', 'Pause'); el.skip.hidden = false; clearInterval(timer); timer = setInterval(frame, 50); frame(); }
+    else { running = false; pausedAt = performance.now() - anchor; clearInterval(timer); el.start.textContent = t('demoResume', 'Resume'); el.demo.style.background = COLORS.idle; el.phase.textContent = t('demoPaused', 'Paused'); idleLoop(); }
   }
   function reset() { running = false; doneFlag = false; pausedAt = 0; clearInterval(timer); renderIdle(); idleLoop(); }
   function skip() { const st = stateAt(sched, performance.now() - anchor); if (st.done) return; const target = st.phase.end; if (running) anchor = performance.now() - target; else pausedAt = target; nextCue = cueList.findIndex((c) => c.at > target); if (!running) { lastIdx = -2; } }
-  function finish() { running = false; doneFlag = true; clearInterval(timer); el.demo.style.background = COLORS.done; el.phase.textContent = 'Done!'; el.count.textContent = '✓'; el.count.classList.remove('small'); el.hint.textContent = `${preset.reps > 1 ? preset.reps + ' reps · ' : ''}${fmt(sched.total)}`; [...el.dots.children].forEach((d) => (d.className = 'on')); el.bar.style.width = '100%'; el.start.textContent = 'Again'; el.skip.hidden = true; pausedAt = 0; }
+  function finish() { running = false; doneFlag = true; clearInterval(timer); el.demo.style.background = COLORS.done; el.phase.textContent = t('demoDone', 'Done!'); el.count.textContent = '✓'; el.count.classList.remove('small'); el.hint.textContent = `${preset.reps > 1 ? preset.reps + ' ' + t('demoReps', 'reps') + ' · ' : ''}${fmt(sched.total)}`; [...el.dots.children].forEach((d) => (d.className = 'on')); el.bar.style.width = '100%'; el.start.textContent = t('demoAgain', 'Again'); el.skip.hidden = true; pausedAt = 0; }
   el.start.onclick = start; el.reset.onclick = reset; el.skip.onclick = skip;
+  // Switching the language redraws what is on screen: preset names, step labels, buttons.
+  addEventListener('kt:lang', () => {
+    [...el.presets.children].forEach((b, i) => (b.textContent = t(PRESETS[i].titleKey, PRESETS[i].title)));
+    if (!running) reset();
+  });
   reset();
 })();

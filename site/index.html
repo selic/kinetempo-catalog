@@ -1,51 +1,61 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kinetempo — physiotherapy exercise timer</title>
 <meta name="description" content="Kinetempo times your physiotherapy exercises: holds, lifts, rests and reps with sounds that keep going while the phone is locked. iOS and Android.">
-<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta property="og:image" content="https://selic.github.io/kinetempo-catalog/icon.png"><meta property="og:type" content="website"><link rel="stylesheet" href="styles.css"></head><body>
+<link rel="icon" href="favicon.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta property="og:image" content="https://selic.github.io/kinetempo-catalog/icon.png"><meta property="og:type" content="website"><link rel="stylesheet" href="styles.css"></head><body data-title-key="docTitle">
 <!--#header-->
 <main>
 <section class="hero">
-<h1>Physiotherapy exercises, counted out loud.</h1>
-<p>Rehab is timed work — hold eight seconds, relax four, twenty-five times — and you are usually lying on the floor while you do it. Kinetempo gives every step its own sound, ticks the last three seconds, and keeps counting with the screen locked.</p>
-<p class="ai-line"><strong>The figure is drawn for your exercise.</strong> Standing, seated, lying down — it is joint angles moving in time with your steps, not a stock clip picked from a shortlist.</p>
-<a class="cta" href="#download">Get the app</a><a class="cta sec" href="demo/">Try it in the browser</a><a class="cta sec" href="./catalog/">Browse the catalog</a>
+<h1 data-i18n="heroTitle">Physiotherapy exercises, counted out loud.</h1>
+<p data-i18n="heroLead">Rehab is timed work — hold eight seconds, relax four, twenty-five times — and you are usually lying on the floor while you do it. Kinetempo gives every step its own sound, ticks the last three seconds, and keeps counting with the screen locked.</p>
+<p class="ai-line" data-i18n="heroFigure"><strong>The figure is drawn for your exercise.</strong> Standing, seated, lying down — it is joint angles moving in time with your steps, not a stock clip picked from a shortlist.</p>
+<a class="cta" href="#download" data-i18n="ctaGet">Get the app</a><a class="cta sec" href="demo/" data-i18n="ctaDemo">Try it in the browser</a><a class="cta sec" href="./catalog/" data-i18n="ctaCatalog">Browse the catalog</a>
 </section>
 <section class="hero create" id="create" style="padding-top:8px">
 <div class="create-copy">
-<h2>Make your own in two minutes</h2>
-<p>Kinetempo is not a fixed set of workouts — it is a timer you shape, by hand or with an AI assistant. Describe the exercise in a chat and it replies with a link that adds it to the app, figure and all.</p>
+<h2 data-i18n="createTitle">Make your own in two minutes</h2>
+<p data-i18n="createLead">Kinetempo is not a fixed set of workouts — it is a timer you shape, by hand or with an AI assistant. Describe the exercise in a chat and it replies with a link that adds it to the app, figure and all.</p>
 <div class="ai-buttons">
-<a class="cta ai" id="ai-claude" href="https://claude.ai/new" rel="noopener">Create with Claude</a><a class="cta sec" id="ai-chatgpt" href="https://chatgpt.com/" rel="noopener">Create with ChatGPT</a><button class="cta sec" id="ai-copy" type="button">Copy the prompt</button>
+<a class="cta ai" id="ai-claude" href="https://claude.ai/new" rel="noopener" data-i18n="aiClaude">Create with Claude</a><a class="cta sec" id="ai-chatgpt" href="https://chatgpt.com/" rel="noopener" data-i18n="aiChatgpt">Create with ChatGPT</a><button class="cta sec" id="ai-copy" type="button" data-i18n="aiCopy">Copy the prompt</button>
 </div>
-<p class="ai-note">Claude and ChatGPT open with the request already written; for anything else, copy it and paste it in. The assistant needs to be able to open a link and run code — without both it sends the animation as text you can paste into the exercise by hand. Only want a figure for an exercise you already have? Point it at <a href="./animation-only.md">the animation guide</a> instead, which needs no code at all.</p>
+<p class="ai-note" data-i18n="aiNote">Claude and ChatGPT open with the request already written; for anything else, copy it and paste it in. The assistant needs to be able to open a link and run code — without both it sends the animation as text you can paste into the exercise by hand. Only want a figure for an exercise you already have? Point it at <a href="./animation-only.txt">the animation guide</a> instead, which needs no code at all.</p>
 </div>
 <figure class="demo-clip">
 <video id="ai-demo" src="./claude-demo.mp4" poster="./claude-demo.jpg" width="270" autoplay muted loop playsinline preload="metadata"></video>
-<figcaption><strong>Start to finish.</strong> Two questions about reps and sets, then a link that opens the finished exercise. The half minute the assistant spent working is the only thing cut.</figcaption>
+<figcaption data-i18n="demoCaption"><strong>Start to finish.</strong> Two questions about reps and sets, then a link that opens the finished exercise. The half minute the assistant spent working is the only thing cut.</figcaption>
 </figure>
 </section>
 <section class="grid">
-<div class="card"><h3><span class="phase work">SQUEEZE</span> <span class="phase rest">RELAX</span></h3><p>Every step of a rep has its own colour, its own sound and its own pose: squeeze, lift, hold, release, move, rest. The last three seconds tick, so you read the tempo without watching the clock.</p></div>
-<div class="card"><h3>Sound keeps going when locked</h3><p>Lock the phone or put it face down and the cues carry on. iOS shows the time left on the Lock Screen; Android shows a countdown notification.</p></div>
-<div class="card"><h3>Build it your way</h3><p>Pick a preset — isometric hold, lift · hold · release, dynamic reps, plain timer — or lay out your own steps: type, seconds, ticks, label. Combine exercises into a program with rests between them.</p></div>
-<div class="card"><h3>Share by link, QR or file</h3><p>The whole program travels inside the link — nothing is uploaded — so a physiotherapist hands it to a patient in one tap. Send it to the <a href="./catalog/">public catalog</a> and, once accepted, it appears in everyone's Library.</p></div>
-<div class="card"><h3>Private by design</h3><p>Everything stays on your phone: no account, no tracking, and the only network request fetches that public catalog. English, Русский, Română — sounds and lock-screen labels included.</p></div>
+<div class="card"><h3 data-i18n="card1Title"><span class="phase work">SQUEEZE</span> <span class="phase rest">RELAX</span></h3><p data-i18n="card1Body">Every step of a rep has its own colour, its own sound and its own pose: squeeze, lift, hold, release, move, rest. The last three seconds tick, so you read the tempo without watching the clock.</p></div>
+<div class="card"><h3 data-i18n="card2Title">Sound keeps going when locked</h3><p data-i18n="card2Body">Lock the phone or put it face down and the cues carry on. iOS shows the time left on the Lock Screen; Android shows a countdown notification.</p></div>
+<div class="card"><h3 data-i18n="card3Title">Build it your way</h3><p data-i18n="card3Body">Pick a preset — isometric hold, lift · hold · release, dynamic reps, plain timer — or lay out your own steps: type, seconds, ticks, label. Combine exercises into a program with rests between them.</p></div>
+<div class="card"><h3 data-i18n="card4Title">Share by link, QR or file</h3><p data-i18n="card4Body">The whole program travels inside the link — nothing is uploaded — so a physiotherapist hands it to a patient in one tap. Send it to the <a href="./catalog/">public catalog</a> and, once accepted, it appears in everyone's Library.</p></div>
+<div class="card"><h3 data-i18n="card5Title">Private by design</h3><p data-i18n="card5Body">Everything stays on your phone: no account, no tracking. The app goes online for the public catalog — and for whatever you choose to send there yourself. English, Русский, Română — sounds and lock-screen labels included.</p></div>
 </section>
 
-<section class="hero" id="screens" style="padding:28px 0 4px"><h2>Screens</h2></section>
-<section class="shots"><figure><img src="screenshots/player.jpg" alt="Player during a hold" loading="lazy" width="480" height="1043"><figcaption>A hold in progress — colour, count and figure together</figcaption></figure>
-<figure><img src="screenshots/exercise.jpg" alt="Exercise with a figure drawn for it" loading="lazy" width="480" height="1043"><figcaption>An exercise an assistant wrote, figure and all</figcaption></figure>
-<figure><img src="screenshots/program.jpg" alt="A program of exercises" loading="lazy" width="480" height="1043"><figcaption>A program: exercises in order, with rests</figcaption></figure>
-<figure><img src="screenshots/library.jpg" alt="The public catalog in the Library tab" loading="lazy" width="480" height="1043"><figcaption>The public catalog, inside the app</figcaption></figure></section>
-<section class="hero" id="try"><h2>Try it in your browser</h2><p>The player, re-implemented for the web: same steps, same sounds, same schematic figure. No install needed.</p><a class="cta" href="demo/">Open the demo</a></section>
-<section id="download" class="hero"><h2>Download</h2><p>App Store and Google Play links appear here once the app is published. Until then, testers can request a TestFlight invite at <a href="mailto:es@defency.net">es@defency.net</a>.</p></section>
+<section class="hero" id="screens" style="padding:28px 0 4px"><h2 data-i18n="screensTitle">Screens</h2></section>
+<section class="shots"><figure><img src="screenshots/player.jpg" alt="Player during a hold" loading="lazy" width="480" height="1043"><figcaption data-i18n="shot1">A hold in progress — colour, count and figure together</figcaption></figure>
+<figure><img src="screenshots/exercise.jpg" alt="Exercise with a figure drawn for it" loading="lazy" width="480" height="1043"><figcaption data-i18n="shot2">An exercise an assistant wrote, figure and all</figcaption></figure>
+<figure><img src="screenshots/program.jpg" alt="A program of exercises" loading="lazy" width="480" height="1043"><figcaption data-i18n="shot3">A program: exercises in order, with rests</figcaption></figure>
+<figure><img src="screenshots/library.jpg" alt="The public catalog in the Library tab" loading="lazy" width="480" height="1043"><figcaption data-i18n="shot4">The public catalog, inside the app</figcaption></figure></section>
+<section class="hero" id="try"><h2 data-i18n="tryTitle">Try it in your browser</h2><p data-i18n="tryBody">The player, re-implemented for the web: same steps, same sounds, same schematic figure. No install needed.</p><a class="cta" href="demo/" data-i18n="tryCta">Open the demo</a></section>
+<section id="download" class="hero"><h2 data-i18n="downloadTitle">Download</h2><p data-i18n="downloadBody">App Store and Google Play links appear here once the app is published. Until then, testers can request a TestFlight invite at <a href="mailto:es@defency.net">es@defency.net</a>.</p></section>
 </main>
 <script>
 (() => {
-  const prompt = 'Read https://selic.github.io/kinetempo-catalog/anim-guide.md and follow it to make me a Kinetempo exercise with an animation.\n\nAsk me whatever you need about the movement, the timing and the number of repetitions, then reply with the import link.';
-  const q = encodeURIComponent(prompt);
-  document.getElementById('ai-claude').href = 'https://claude.ai/new?q=' + q;
-  document.getElementById('ai-chatgpt').href = 'https://chatgpt.com/?prompt=' + q;
+  const say = (key, fallback) => window.ktText?.(key) ?? fallback;
+  const prompt = () =>
+    say(
+      'aiPrompt',
+      'Read https://selic.github.io/kinetempo-catalog/anim-guide.txt and follow it to make me a Kinetempo exercise with an animation.\n\nAsk me whatever you need about the movement, the timing and the number of repetitions, then reply with the import link.'
+    );
+  const q = () => encodeURIComponent(prompt());
+  const links = () => {
+    document.getElementById('ai-claude').href = 'https://claude.ai/new?q=' + q();
+    document.getElementById('ai-chatgpt').href = 'https://chatgpt.com/?prompt=' + q();
+  };
+  links();
+  // The prompt is written in the reader's language, so it follows the switcher.
+  addEventListener('kt:lang', links);
   // The clip loops silently; anyone who asked the system for less motion gets a still with controls instead.
   const demo = document.getElementById('ai-demo');
   if (demo && matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -58,19 +68,19 @@
   const copy = document.getElementById('ai-copy');
   copy.addEventListener('click', async () => {
     try {
-      await navigator.clipboard.writeText(prompt);
-      copy.textContent = 'Copied — paste it into your assistant';
+      await navigator.clipboard.writeText(prompt());
+      copy.textContent = say('aiCopied', 'Copied — paste it into your assistant');
     } catch {
       // Clipboard access can be refused; showing the text is better than failing silently.
-      copy.textContent = 'Select and copy it from the box below';
+      copy.textContent = say('aiCopyManual', 'Select and copy it from the box below');
       const box = document.createElement('textarea');
       box.className = 'ai-fallback';
       box.readOnly = true;
-      box.value = prompt;
+      box.value = prompt();
       copy.after(box);
       box.select();
     }
-    setTimeout(() => (copy.textContent = 'Copy the prompt'), 4000);
+    setTimeout(() => (copy.textContent = say('aiCopy', 'Copy the prompt')), 4000);
   });
 })();
 </script>
