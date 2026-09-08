@@ -186,39 +186,58 @@ def kinetempo_link(draft):
     return 'https://selic.github.io/kinetempo-catalog/s/#' + out
 ```
 
-### Why neither encoder compresses
+### How long a link may be, and which encoder to use
 
-Both write the exercise as **stored** DEFLATE blocks: valid DEFLATE that holds
-the JSON verbatim. Python has `zlib` and could compress it to a third of the
-size — do not. A compressed payload is a single chain: one wrong character a few
-hundred in and everything after it decompresses into shuffled fragments of the
-exercise, which is what happens when a payload gets retyped into a reply instead
-of carried across. In a stored payload every four characters stand for three
-characters of the JSON and nothing else, so a slip damages three letters: either
-the document still parses and one label is misspelt, or it fails loudly. It can
-also be read and repaired by hand, because the JSON is right there in it.
+**A tapped link has to stay under about 2000 characters.** Beyond that the
+address is cut off before the app ever sees it, and the app reports a damaged
+link. Measured on iOS: a 2014-character link opens, a 2048-character one does
+not; treat it as the ceiling everywhere. This is the only size limit that
+matters, and it is on the *link*, not on the exercise.
 
-The cost is length — roughly three times the compressed form, so about 1900
-characters for one exercise with a full animation. That still fits a QR code
-(the limit is about 2800), and a link is not something anyone reads.
+The document's own size is not a limit. A 2813-byte document imported without
+complaint through a 590-character compressed link. So the question is only ever
+how many characters the link comes out to:
 
-If a whole programme really does outgrow that, compress it with
-`zlib.compressobj(9, zlib.DEFLATED, -15)` in place of the block loop above — and
-then be certain the payload reaches the person exactly as printed, because
-compressed is the form that fails catastrophically.
+| | payload | one exercise with an animation |
+|---|---|---|
+| stored (both encoders above) | about 4 characters per 3 bytes of JSON | ~1900 characters |
+| compressed (`zlib.compressobj(9, zlib.DEFLATED, -15)`) | roughly half of that or less | ~700 characters |
 
-Both encoders build a `doc` object before compressing it. That object *is* the
-file: written out with `json.dump(doc, f)` as `<name>.kinetempo.json`, it is
-what **Import → Import from file** reads, and it needs no link and no check.
+So: **stored while the JSON stays under ~1400 bytes**, which covers one exercise
+written tersely. Past that the stored link crosses 2000 characters and stops
+working, and the choice is to compress, to trim the draft, or — best — to hand
+over the document as a file, where no limit applies at all.
 
-Whichever encoder you ran, print the payload's length and fingerprint next to
-the link. The next section is where they earn their keep.
+Compressed is the fragile form: one wrong character a few hundred in turns
+everything after it into shuffled fragments of the exercise, which is what
+happens when a payload is retyped into a reply instead of carried across. In a
+stored payload every four characters stand for three characters of the JSON and
+nothing else, so a slip costs three letters — a misspelt label, or a loud
+failure — and the link can be read and repaired by hand. Compress only when the
+length forces it, and then be certain the payload reaches the person exactly as
+printed.
 
-```python
-import hashlib
-payload = link.split('#', 1)[1]
-print(len(payload), hashlib.sha256(payload.encode()).hexdigest()[:8])
-```
+A QR code is not subject to the 2000-character ceiling: the camera hands the
+payload straight to the app without going through the operating system's URL
+opening. Its own limit is about 2800 characters.
+
+**Keep the document small** — it is what keeps you inside the ceiling:
+
+- `json.dumps(doc, separators=(',', ':'), ensure_ascii=False)`. Without
+  `ensure_ascii=False` every Cyrillic letter becomes `\uXXXX` and the document
+  roughly triples.
+- Description to a couple of sentences, step labels to a word or two.
+- Drop `idle` when the first track already starts from the neutral pose, and
+  `ground` when the default suits.
+- Leave out joints that stay at 0 through a whole track, and `highlight` values
+  that only repeat the previous key.
+- One pair of keyframes per phase, not a raster of them.
+
+**The limits the app actually enforces**, none of which is about size: at most 12
+tracks, at most 24 keys in a track, angles within ±200°, at most 20 steps, name
+up to 120 characters, description up to 4000. Break one of those and the whole
+document is refused, animation and all — a spec with thirteen tracks does not
+lose a track, it loses the exercise.
 
 ## Check the link before you hand it over
 
