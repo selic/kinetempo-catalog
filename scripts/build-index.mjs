@@ -255,7 +255,25 @@ for (const file of walk(SITE)) {
     })
     // the region markers themselves are build plumbing, not something a reader needs
     .replace(/^<!--#\w+-(?:start|end)-->\n/gm, '');
-    writeFileSync(out, md);
+    // Served as a page, not as a file. Two fetchers read these guides: one takes
+    // text/markdown, the other refuses the content type outright and never sees
+    // the page. A directory named `guide.md` holding an index.html makes the same
+    // address answer as text/html — GitHub Pages redirects the bare path to it —
+    // and the raw source stays one click away as text/plain for anything that
+    // wants it. The address is what the app hands out, so it cannot change.
+    const title = (md.match(/^#\s+(.+)$/m) ?? [, rel])[1];
+    const txt = rel.replace(/\.md$/, '.txt');
+    const escape = (t) => t.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+    mkdirSync(out, { recursive: true });
+    writeFileSync(
+      join(out, 'index.html'),
+      `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">` +
+        `<title>${escape(title)}</title><link rel="icon" href="/kinetempo-catalog/favicon.png">` +
+        `<style>body{margin:0;background:#233044;color:#fff;font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}` +
+        `main{max-width:82ch;margin:0 auto;padding:24px 16px 64px}pre{white-space:pre-wrap;word-wrap:break-word;margin:0}` +
+        `a{color:#f0a58a}</style></head><body><main><p><a href="../${txt}">plain text</a></p><pre>${escape(md)}</pre></main></body></html>\n`
+    );
+    writeFileSync(join(DIST, txt), md);
   } else if (rel.endsWith('.html')) {
     const depth = rel.split('/').length - 1;
     const prefix = depth ? '../'.repeat(depth) : './';
