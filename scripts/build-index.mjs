@@ -468,28 +468,28 @@ const TAGS_SHOWN = 12;
 
 const facets = `
 <div class="filters" data-enhanced hidden>
-  <label class="search"><span class="sr-only">Search the catalog</span>
-    <input type="search" id="q" placeholder="Search by name, tag or publisher" autocomplete="off" spellcheck="false"></label>
+  <label class="search"><span class="sr-only" data-i18n="searchLabel">Search the catalog</span>
+    <input type="search" id="q" placeholder="Search by name, tag or publisher" data-i18n-placeholder="searchHint" autocomplete="off" spellcheck="false"></label>
   <div class="filter-row">
-    <label>Sort <select id="sort">
-      <option value="recommended">Recommended</option>
-      <option value="popular">Most opened</option>
-      <option value="new">Recently updated</option>
-      <option value="short">Shortest first</option>
-      <option value="name">A–Z</option>
+    <label data-i18n="sort">Sort <select id="sort">
+      <option value="recommended" data-i18n="sortRecommended">Recommended</option>
+      <option value="popular" data-i18n="sortPopular">Most opened</option>
+      <option value="new" data-i18n="sortNew">Recently updated</option>
+      <option value="short" data-i18n="sortShort">Shortest first</option>
+      <option value="name" data-i18n="sortName">A–Z</option>
     </select></label>
-    <label>Level <select id="level"><option value="">Any</option>${levelCounts.map(([v, n]) => `<option value="${esc(v)}">${esc(LEVELS[v] ?? v)} (${n})</option>`).join('')}</select></label>
-    <label>Language <select id="locale"><option value="">Any</option>${localeCounts.map(([v, n]) => `<option value="${esc(v)}">${esc(LOCALE_NAMES[v] ?? v)} (${n})</option>`).join('')}</select></label>
-    <label class="toggle"><input type="checkbox" id="verified"> Verified publishers only${verifiedCount ? ` (${verifiedCount})` : ''}</label>
-    ${featuredCount ? '<label class="toggle"><input type="checkbox" id="featuredOnly"> Featured only</label>' : ''}
+    <label data-i18n="level">Level <select id="level"><option value="" data-i18n="any">Any</option>${levelCounts.map(([v, n]) => `<option value="${esc(v)}">${esc(LEVELS[v] ?? v)} (${n})</option>`).join('')}</select></label>
+    <label data-i18n="language">Language <select id="locale">${localeCounts.map(([v]) => `<option value="${esc(v)}"${v === 'en' ? ' selected' : ''}>${esc(LOCALE_NAMES[v] ?? v)}</option>`).join('')}</select></label>
+    <label class="toggle"><input type="checkbox" id="verified"> <span data-i18n="verifiedOnly">Verified publishers only</span>${verifiedCount ? ` (${verifiedCount})` : ''}</label>
+    ${featuredCount ? '<label class="toggle"><input type="checkbox" id="featuredOnly"> <span data-i18n="featuredOnly">Featured only</span></label>' : ''}
   </div>
-  ${catCounts.length ? `<div class="chips" data-group="category"><span class="chips-label">Category</span>${catCounts.map(([v, n]) => chip('category', v, CATEGORIES[v] ?? v, n)).join('')}</div>` : ''}
-  ${tagCounts.length ? `<div class="chips" data-group="tag"><span class="chips-label">Tags</span>${tagCounts.map(([v, n], i) => chip('tag', v, v, n).replace('class="chip"', `class="chip${i >= TAGS_SHOWN ? ' extra' : ''}"`)).join('')}${tagCounts.length > TAGS_SHOWN ? `<button type="button" class="chip more" id="more-tags">+ ${tagCounts.length - TAGS_SHOWN} more</button>` : ''}</div>` : ''}
-  <p class="result-line"><span id="shown">${entries.length}</span> of ${entries.length} shown · <button type="button" class="linkish" id="reset">Clear filters</button></p>
+  ${catCounts.length ? `<div class="chips" data-group="category"><span class="chips-label" data-i18n="category">Category</span>${catCounts.map(([v, n]) => chip('category', v, CATEGORIES[v] ?? v, n)).join('')}</div>` : ''}
+  ${tagCounts.length ? `<div class="chips" data-group="tag"><span class="chips-label" data-i18n="tags">Tags</span>${tagCounts.map(([v, n], i) => chip('tag', v, v, n).replace('class="chip"', `class="chip${i >= TAGS_SHOWN ? ' extra' : ''}"`)).join('')}${tagCounts.length > TAGS_SHOWN ? `<button type="button" class="chip more" id="more-tags">+ ${tagCounts.length - TAGS_SHOWN} more</button>` : ''}</div>` : ''}
+  <p class="result-line"><span id="shown">${new Set(entries.map((e) => e.id)).size} of ${new Set(entries.map((e) => e.id)).size} shown</span> · <button type="button" class="linkish" id="reset" data-i18n="clear">Clear filters</button></p>
 </div>
-<p class="empty" id="empty" hidden>Nothing matches those filters. <button type="button" class="linkish" data-reset>Clear them</button></p>`;
+<p class="empty" id="empty" hidden><span data-i18n="noMatch">Nothing matches those filters.</span> <button type="button" class="linkish" data-reset data-i18n="clearThem">Clear them</button></p>`;
 
-function card(e) {
+function card(e, hidden = false) {
   const pub = pubById.get(e.publisherId);
   const badges = [
     e.sponsored ? '<span class="badge paid" title="A paid placement">Sponsored</span>' : e.featured ? '<span class="badge pick">Featured</span>' : '',
@@ -504,13 +504,13 @@ function card(e) {
   const haystack = [e.name, e.description, ...e.tags, ...e.bodyParts, pub?.name ?? e.publisherId, e.category ? CATEGORIES[e.category] : '']
     .join(' ')
     .toLowerCase();
-  return `<article class="card entry" data-id="${esc(e.id)}" data-kind="${esc(e.kind)}" data-category="${esc(e.category ?? '')}" data-level="${esc(e.level ?? '')}" data-locale="${esc(e.locale)}" data-tags="${esc(e.tags.join(' '))}" data-verified="${pub?.verified ? '1' : '0'}" data-featured="${e.featured ? '1' : '0'}" data-opens="${e.opens}" data-minutes="${minutesOf(e)}" data-updated="${esc(e.updatedAt)}" data-name="${esc(e.name.toLowerCase())}" data-text="${esc(haystack)}" data-doc="${esc(docHref)}">
+  return `<article class="card entry"${hidden ? ' hidden' : ''} data-id="${esc(e.id)}" data-kind="${esc(e.kind)}" data-category="${esc(e.category ?? '')}" data-level="${esc(e.level ?? '')}" data-locale="${esc(e.locale)}" data-tags="${esc(e.tags.join(' '))}" data-verified="${pub?.verified ? '1' : '0'}" data-featured="${e.featured ? '1' : '0'}" data-opens="${e.opens}" data-minutes="${minutesOf(e)}" data-updated="${esc(e.updatedAt)}" data-name="${esc(e.name.toLowerCase())}" data-text="${esc(haystack)}" data-doc="${esc(docHref)}">
   <div class="badges">${badges}</div>
   <h3>${esc(e.name)}</h3>
-  <p class="meta">${e.kind === 'complex' ? `${e.exerciseCount} exercise${e.exerciseCount === 1 ? '' : 's'} · ` : ''}${minutesOf(e)} min · ${esc(pub?.name ?? e.publisherId)}${e.opens ? ` · opened ${e.opens}×` : ''}</p>
+  <p class="meta" data-meta data-publisher="${esc(pub?.name ?? e.publisherId)}" data-exercises="${e.kind === 'complex' ? e.exerciseCount : 0}">${e.kind === 'complex' ? `${e.exerciseCount} exercise${e.exerciseCount === 1 ? '' : 's'} · ` : ''}${minutesOf(e)} min · ${esc(pub?.name ?? e.publisherId)}${e.opens ? ` · opened ${e.opens}×` : ''}</p>
   <p>${esc(e.description)}</p>
   ${e.tags.length ? `<p class="tag-line">${e.tags.map((t) => `<button type="button" class="tag" data-facet="tag" data-value="${esc(t)}">${esc(t)}</button>`).join('')}</p>` : ''}
-  <p class="actions"><a class="open" href="${esc(docHref)}" data-open>Open in Kinetempo</a><a class="json" href="${esc(docHref)}">JSON</a></p>
+  <p class="actions"><a class="open" href="${esc(docHref)}" data-open data-i18n="open">Open in Kinetempo</a><a class="json" href="${esc(docHref)}">JSON</a></p>
 </article>`;
 }
 
@@ -521,21 +521,20 @@ function card(e) {
  * every translation and a language filter.
  */
 const FEATURED_MAX = 6;
-const featuredRow = [...new Set(ordered.filter((e) => e.featured).map((e) => e.id))]
-  .map((id) => {
-    const all = ordered.filter((e) => e.id === id);
-    return all.find((e) => e.locale === 'en') ?? all[0];
-  })
-  .slice(0, FEATURED_MAX);
+const featuredIds = [...new Set(ordered.filter((e) => e.featured).map((e) => e.id))].slice(0, FEATURED_MAX);
+// Every translation is rendered here too, and browse.js shows the one that matches the
+// reader's language. Without the script the page falls back to English, which is what
+// the rest of it is written in.
+const featuredRow = featuredIds.flatMap((id) => ordered.filter((e) => e.id === id)).map((e) => card(e, e.locale !== 'en'));
 const featuredSection = featuredRow.length
-  ? `<section class="featured"><h2>Featured</h2><p class="disclosure">Chosen by the maintainer. A card marked <strong>Sponsored</strong> is a paid placement; it buys this row and nothing else.</p><div class="grid">${featuredRow.map(card).join('\n')}</div></section>`
+  ? `<section class="featured"><h2 data-i18n="featured">Featured</h2><p class="disclosure" data-i18n="featuredNote">Chosen by the maintainer. A card marked <strong>Sponsored</strong> is a paid placement; it buys this row and nothing else.</p><div class="grid" id="featured-row">${featuredRow.join('\n')}</div></section>`
   : '';
 
 const catalogPage = readFileSync(join(SITE, '_catalog.html'), 'utf8')
   .replace('<!--#featured-->', featuredSection)
   .replace('<!--#facets-->', facets)
-  .replace('<!--#entries-->', ordered.map(card).join('\n'))
-  .replaceAll('<!--#count-->', String(entries.length));
+  .replace('<!--#entries-->', ordered.map((e) => card(e, e.locale !== 'en')).join('\n'))
+  .replaceAll('<!--#count-->', String(new Set(entries.map((e) => e.id)).size));
 const upOne = (html) => html.replaceAll('href="./', 'href="../').replaceAll('src="./', 'src="../');
 writeFileSync(
   join(CAT, 'index.html'),
