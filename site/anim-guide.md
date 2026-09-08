@@ -186,6 +186,12 @@ def kinetempo_link(draft):
     return 'https://selic.github.io/kinetempo-catalog/s/#' + out
 ```
 
+Do not write your own encoder from the description of the format. If you do
+anyway, the trap is the block header: `LEN` counts the **bytes** of the JSON, not
+its characters. The two are the same in English and differ the moment a name is
+in Cyrillic — two bytes per letter — and a header that counts characters
+produces a link that decodes to rubbish from the middle of the first block.
+
 ### How long a link may be, and which encoder to use
 
 **A tapped link has to stay under about 2000 characters.** Beyond that the
