@@ -43,9 +43,22 @@ why a whole exercise fits inside a link.
   "reps": 10,
   "sets": 3,
   "setRestMs": 60000,
-  "animation": { "v": 1, "orientation": "supine", "tracks": [] }
+  "animation": {
+    "v": 1,
+    "orientation": "supine",
+    "tracks": [
+      { "when": { "tone": "lift" },    "keys": [{ "t": 0, "hip": 0 },  { "t": 1, "hip": 45 }] },
+      { "when": { "tone": "hold" },    "keys": [{ "t": 0, "hip": 45 }, { "t": 1, "hip": 45 }] },
+      { "when": { "tone": "release" }, "keys": [{ "t": 0, "hip": 45 }, { "t": 1, "hip": 0 }] }
+    ]
+  }
 }
 ```
+
+`tracks` must hold at least one track, and the angles sit on the keyframe itself
+— there is no `pose` object around them. An empty array is not "no animation
+yet": the app rejects the whole document for it, and the person is handed a link
+that does not open.
 
 `steps` is **one repetition**. Tones are `squeeze`, `lift`, `hold`, `release`,
 `move`, `timer`, `rest` — pick what the body is doing; the tone colours the
@@ -158,9 +171,39 @@ def kinetempo_link(draft):
     return 'https://selic.github.io/kinetempo-catalog/s/#' + out
 ```
 
-Before you hand the link over, check the draft yourself: every joint name is
-from the table above, every `t` is between 0 and 1, no angle is absurd, and the
-body position matches the exercise.
+## Check the link before you hand it over
+
+Decode your own link and compare it to the draft. A payload that lost characters
+on the way, or one written out instead of encoded, looks like a perfectly normal
+link and fails only later, on someone's phone, where you cannot see it happen.
+
+```python
+import base64, json, zlib
+payload = link.split('#', 1)[1]
+assert len(payload) % 4 != 1, 'a real payload is never this length — a character was lost'
+back = json.loads(zlib.decompress(base64.urlsafe_b64decode(payload + '=' * (-len(payload) % 4)), -15))
+assert back['exercises'][0]['name'] == draft['name']
+```
+
+```js
+const payload = link.split('#')[1];
+if (payload.length % 4 === 1) throw new Error('a real payload is never this length — a character was lost');
+const bin = Uint8Array.from(atob(payload.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
+const stream = new Blob([bin]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+const back = JSON.parse(await new Response(stream).text());
+if (back.exercises[0].name !== draft.name) throw new Error('the link does not hold the draft');
+```
+
+The stored-block encoder above writes no compressed data, so its links decode
+the same way — `DecompressionStream` reads them too.
+
+If the check throws, do not hand the link over — give the animation JSON instead
+(see the last section). A broken link tells the person nothing except that
+Kinetempo did not want it.
+
+Check the draft itself too: every joint name is from the table above, every `t`
+is between 0 and 1, no angle is absurd, and the body position matches the
+exercise.
 
 ## If you cannot run code
 
