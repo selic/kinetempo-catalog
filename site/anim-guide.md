@@ -134,12 +134,11 @@ function kinetempoLink(draft) {
 }
 ```
 
-If your code tool runs **Python** instead, use this. It compresses properly,
-because Python has zlib built in where a browser JavaScript sandbox does not, so
-the links come out roughly half as long.
+If your code tool runs **Python** instead, use this one. It writes the same kind
+of link.
 
 ```python
-import json, zlib, time, datetime
+import json, time, datetime
 
 def kinetempo_link(draft):
     B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
@@ -161,13 +160,24 @@ def kinetempo_link(draft):
             'updatedAt': now,
         }],
     }
-    c = zlib.compressobj(9, zlib.DEFLATED, -15)  # -15 = raw DEFLATE, the format the app decodes
-    data = c.compress(json.dumps(doc, separators=(',', ':')).encode()) + c.flush()
+    # Stored DEFLATE blocks: no compression, so the JSON is still readable inside
+    # the payload. That is on purpose — see below.
+    data = json.dumps(doc, separators=(',', ':')).encode()
+    raw = bytearray()
+    i = 0
+    while True:
+        n = min(65535, len(data) - i)
+        nlen = 0xFFFF ^ n
+        raw += bytes([1 if i + n >= len(data) else 0, n & 255, n >> 8, nlen & 255, nlen >> 8])
+        raw += data[i:i + n]
+        i += n
+        if i >= len(data):
+            break
     out = ''
-    for i in range(0, len(data), 3):
-        a = data[i]
-        b = data[i + 1] if i + 1 < len(data) else None
-        d = data[i + 2] if i + 2 < len(data) else None
+    for i in range(0, len(raw), 3):
+        a = raw[i]
+        b = raw[i + 1] if i + 1 < len(raw) else None
+        d = raw[i + 2] if i + 2 < len(raw) else None
         out += B64[a >> 2] + B64[((a & 3) << 4) | ((b or 0) >> 4)]
         if b is not None:
             out += B64[((b & 15) << 2) | ((d or 0) >> 6)]
@@ -175,6 +185,27 @@ def kinetempo_link(draft):
             out += B64[d & 63]
     return 'https://selic.github.io/kinetempo-catalog/s/#' + out
 ```
+
+### Why neither encoder compresses
+
+Both write the exercise as **stored** DEFLATE blocks: valid DEFLATE that holds
+the JSON verbatim. Python has `zlib` and could compress it to a third of the
+size — do not. A compressed payload is a single chain: one wrong character a few
+hundred in and everything after it decompresses into shuffled fragments of the
+exercise, which is what happens when a payload gets retyped into a reply instead
+of carried across. In a stored payload every four characters stand for three
+characters of the JSON and nothing else, so a slip damages three letters: either
+the document still parses and one label is misspelt, or it fails loudly. It can
+also be read and repaired by hand, because the JSON is right there in it.
+
+The cost is length — roughly three times the compressed form, so about 1900
+characters for one exercise with a full animation. That still fits a QR code
+(the limit is about 2800), and a link is not something anyone reads.
+
+If a whole programme really does outgrow that, compress it with
+`zlib.compressobj(9, zlib.DEFLATED, -15)` in place of the block loop above — and
+then be certain the payload reaches the person exactly as printed, because
+compressed is the form that fails catastrophically.
 
 Both encoders build a `doc` object before compressing it. That object *is* the
 file: written out with `json.dump(doc, f)` as `<name>.kinetempo.json`, it is
