@@ -73,15 +73,15 @@ works when tapped).
 
 ## The animation itself
 
-The rig, the angle conventions, the body positions, the traps that catch people
-and the `AnimSpec` format all live in one place — read it before writing the
-`animation` field:
+Everything needed to write the `animation` field is below — the rig, the angle
+conventions, the body positions, the traps and the `AnimSpec` format. It is the
+same reference served on its own at
+`https://selic.github.io/kinetempo-catalog/animation-only.md`, for the case where
+someone only wants an animation for an exercise they already have. You do not
+need to fetch it: it is inlined here, so this page is the only one you have to
+read.
 
-**https://selic.github.io/kinetempo-catalog/animation-only.md**
-
-That page ends by telling you to hand back the JSON on its own. Here you do not:
-the JSON goes into the draft above, and what you hand over is the link built
-below.
+<!--#include animation-only.md#rig — inlined at build time from site/animation-only.md -->
 
 ## Building the link
 
@@ -233,11 +233,10 @@ opening. Its own limit is about 2800 characters.
   that only repeat the previous key.
 - One pair of keyframes per phase, not a raster of them.
 
-**The limits the app actually enforces**, none of which is about size: at most 12
-tracks, at most 24 keys in a track, angles within ±200°, at most 20 steps, name
-up to 120 characters, description up to 4000. Break one of those and the whole
-document is refused, animation and all — a spec with thirteen tracks does not
-lose a track, it loses the exercise.
+The limits the app does enforce are the ones under **Limits** above, plus at most
+20 steps, a name up to 120 characters and a description up to 4000. None of them
+is about size, and breaking one refuses the whole document, animation and all —
+a spec with thirteen tracks does not lose a track, it loses the exercise.
 
 ## Check the link before you hand it over
 

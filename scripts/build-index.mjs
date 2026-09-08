@@ -242,7 +242,21 @@ for (const file of walk(SITE)) {
   if (rel.startsWith('_')) continue;
   const out = join(DIST, rel);
   mkdirSync(join(out, '..'), { recursive: true });
-  if (rel.endsWith('.html')) {
+  if (rel.endsWith('.md')) {
+    // A guide has to be readable in one fetch: an assistant sent here reads plain
+    // markdown, where a URL is text rather than a link, and its fetch tool may
+    // refuse to follow one it was never handed. So a shared section is inlined
+    // rather than linked, and lives in exactly one file.
+    const md = readFileSync(file, 'utf8').replace(/<!--#include ([\w.-]+)#(\w+)[^>]*-->/g, (_, src, region) => {
+      const text = readFileSync(join(SITE, src), 'utf8');
+      const m = text.match(new RegExp(`<!--#${region}-start-->\\n([\\s\\S]*?)<!--#${region}-end-->`));
+      if (!m) throw new Error(`${rel}: no region ${region} in ${src}`);
+      return m[1].trimEnd();
+    })
+    // the region markers themselves are build plumbing, not something a reader needs
+    .replace(/^<!--#\w+-(?:start|end)-->\n/gm, '');
+    writeFileSync(out, md);
+  } else if (rel.endsWith('.html')) {
     const depth = rel.split('/').length - 1;
     const prefix = depth ? '../'.repeat(depth) : './';
     // `./` in the shared header means the site root, not the page's own folder — a nested

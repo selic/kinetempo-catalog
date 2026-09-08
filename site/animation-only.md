@@ -30,6 +30,7 @@ involved.
    the figure does. Tell them to paste it into the exercise under
    **Animation → Generated**.
 
+<!--#rig-start-->
 ## Joint angles — get the signs right
 
 Every angle is **flexion in degrees, zero in the neutral pose**: body straight,
@@ -189,6 +190,7 @@ right — reviewing five frames beats guessing.
   it, the movement is being over-described.
 - Every angle must be within ±200°, and every `t` between 0 and 1.
 
+<!--#rig-end-->
 ## What to hand over
 
 Just the spec, like this — the outer `animation` wrapper and everything around it
