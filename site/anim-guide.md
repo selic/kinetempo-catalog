@@ -1,7 +1,9 @@
-# Making a Kinetempo exercise animation
+# Making a Kinetempo exercise or programme
 
-You are helping someone add an exercise, with a moving figure, to Kinetempo — an
-interval timer for rehab and training. Follow this page and hand back one link.
+You are helping someone add an exercise — or a whole programme of them — with a
+moving figure for each, to Kinetempo, an interval timer for rehab and training.
+Follow this page and hand back one link, or one file when a programme outgrows a
+link.
 
 Reply in whatever language the person is writing in.
 
@@ -14,13 +16,15 @@ why a whole exercise fits inside a link.
 
 ## Workflow
 
-1. **Find out what the movement is.** Position of the body, which joints move,
+1. **Find out what is wanted** — one exercise, or a programme of several in
+   order. Then, for each movement: position of the body, which joints move,
    roughly how far, in what order, and the timing. Ask only what you cannot
    reasonably infer — most exercises are well known. If they gave you steps and
    reps already, do not ask again.
 2. **Write the draft** (shape below).
-3. **Build the link** by running `kinetempo_link(draft)` from **Building the
-   link** below in your code tool. It refuses anything the app would refuse, so
+3. **Build the link** by running `kinetempo_link(draft)` — or
+   `kinetempo_program_link(draft)` for a programme — from **Building the link**
+   below in your code tool. It refuses anything the app would refuse, so
    read what it says rather than working around it. Never write a payload by hand.
 4. **Check what you are about to send.** Draft the reply, then copy the link out
    of the draft and run `check_link` on that text. Keep correcting and checking
@@ -73,6 +77,44 @@ that does not open.
 screen and chooses the sound. `rest` is the only passive one. Keep the
 description under about 200 characters, or the link outgrows a QR code (it still
 works when tapped).
+
+### A programme of several exercises
+
+When the ask is a plan rather than a single movement — "four exercises for my
+knee", "a week one" — build a programme. It is the same drafts in a list, plus
+the order and the rests between them:
+
+```python
+draft = {
+    'name': 'Knee: week one',
+    'description': 'Four exercises, in this order.',
+    'restBetweenMs': 30000,          # the pause between exercises; 15000 if you leave it out
+    'exercises': [
+        {**straight_leg_raise, 'restAfterMs': 45000},   # this one gets a longer pause after it
+        heel_slide,
+        glute_bridge,
+        wall_squat,
+    ],
+}
+link, doc = kinetempo_program_link(draft)
+```
+
+Each entry is exactly the draft described above — steps, reps, sets, animation —
+and `restAfterMs` on one of them overrides the programme's own pause after that
+exercise. The app imports the exercises and the programme together, in the order
+you list them.
+
+Do not write the `id` fields yourself. The builder generates them and points the
+programme's items at them; an item naming an exercise that is not in the same
+document imports as a hole in the programme, and `check_document` refuses it
+before that can happen.
+
+**Expect a file rather than a link.** Every animation is carried in full, so a
+programme outgrows the address quickly: three small animations came to an
+825-character link, four detailed ones to about 1900 — already at the edge. When
+`kinetempo_program_link` raises `LinkTooLong`, write `e.document` to
+`<name>.kinetempo.json` and hand that over; **Import → Import from file** takes a
+programme the same way it takes an exercise, at any size.
 
 ## The animation itself
 
@@ -155,6 +197,36 @@ def check_document(doc):
             bad += check_spec(anim.get('spec'), f'{at}.animation.spec')
         elif isinstance(anim, dict):
             want(anim.get('kind') in ('builtin', 'url') and isinstance(anim.get('ref'), str), f'{at}.animation')
+
+    programme = doc.get('complex')
+    want(bool(programme) == (doc.get('kind') == 'kinetempo.complex'),
+         'a programme needs kind "kinetempo.complex" and a "complex" block — one without the other is a document of loose exercises')
+    if isinstance(programme, dict):
+        ids = {e.get('id') for e in exercises if isinstance(e, dict)}
+        want(isinstance(programme.get('id'), str) and 1 <= len(programme['id']) <= 64, 'complex.id')
+        want(isinstance(programme.get('name'), str) and 1 <= len(programme['name']) <= 120, 'complex.name: 1 to 120 characters')
+        want(len(programme.get('description', '')) <= 4000, 'complex.description: at most 4000 characters')
+        want(isinstance(programme.get('updatedAt'), str) and len(programme['updatedAt']) <= 40, 'complex.updatedAt')
+        want(isinstance(programme.get('restBetweenMs', 0), int) and 0 <= programme.get('restBetweenMs', 0) <= 3_600_000, 'complex.restBetweenMs')
+        items = programme.get('items')
+        want(isinstance(items, list) and 1 <= len(items) <= 100, 'complex.items: 1 to 100 of them')
+        for i, it in enumerate(items if isinstance(items, list) else []):
+            at = f'complex.items[{i}]'
+            # The app looks each id up among the exercises in the same document. One that
+            # is not there imports as an item pointing at nothing, and the programme
+            # cannot be played.
+            want(it.get('exerciseId') in ids, f'{at}.exerciseId: "{it.get("exerciseId")}" is not one of the exercises in this document')
+            rest = it.get('restAfterMs')
+            want(rest is None or (isinstance(rest, int) and 0 <= rest <= 3_600_000), f'{at}.restAfterMs: milliseconds, or null to use the programme default')
+            ov = it.get('override')
+            if isinstance(ov, dict):
+                for field in ('reps', 'sets'):
+                    if field in ov:
+                        want(isinstance(ov[field], int) and ov[field] > 0, f'{at}.override.{field}')
+                if 'setRestMs' in ov:
+                    want(isinstance(ov['setRestMs'], int) and ov['setRestMs'] >= 0, f'{at}.override.setRestMs')
+                if 'steps' in ov:
+                    want(isinstance(ov['steps'], list) and 1 <= len(ov['steps']) <= 20, f'{at}.override.steps')
     return bad
 
 
@@ -224,30 +296,68 @@ def decode(payload):
     return json.loads(zlib.decompress(raw, -15))
 
 
-def document_for(draft):
-    now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
+def exercise_entry(draft, now, suffix=''):
     steps = draft['steps']
     active = next((s for s in steps if s['tone'] != 'rest'), steps[0])
     rest = next((s for s in steps if s['tone'] == 'rest'), None)
     return {
+        'id': 'gen-' + format(int(time.time() * 1000), 'x') + suffix,
+        'name': draft['name'],
+        'description': draft.get('description', ''),
+        'steps': steps,
+        'animation': {'kind': 'spec', 'spec': draft['animation']},
+        'workMs': max(1, active['durationMs']),
+        'restMs': rest['durationMs'] if rest else 0,
+        'reps': draft['reps'], 'sets': draft.get('sets', 1), 'setRestMs': draft.get('setRestMs', 0),
+        'updatedAt': now,
+    }
+
+
+def now_stamp():
+    return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
+
+
+def document_for(draft):
+    now = now_stamp()
+    return {
         'kind': 'kinetempo.exercise', 'schemaVersion': 1, 'app': 'kinetempo', 'exportedAt': now,
-        'exercises': [{
-            'id': 'gen-' + format(int(time.time() * 1000), 'x'),
+        'exercises': [exercise_entry(draft, now)],
+    }
+
+
+def program_for(draft):
+    """A programme: the exercises it is made of, plus the order and the rests between them."""
+    now = now_stamp()
+    entries = [exercise_entry(e, now, f'-{i}') for i, e in enumerate(draft['exercises'])]
+    return {
+        'kind': 'kinetempo.complex', 'schemaVersion': 1, 'app': 'kinetempo', 'exportedAt': now,
+        'exercises': entries,
+        'complex': {
+            'id': 'gen-' + format(int(time.time() * 1000), 'x') + '-p',
             'name': draft['name'],
             'description': draft.get('description', ''),
-            'steps': steps,
-            'animation': {'kind': 'spec', 'spec': draft['animation']},
-            'workMs': max(1, active['durationMs']),
-            'restMs': rest['durationMs'] if rest else 0,
-            'reps': draft['reps'], 'sets': draft.get('sets', 1), 'setRestMs': draft.get('setRestMs', 0),
+            # The pause the app puts between two exercises unless an item says otherwise.
+            'restBetweenMs': draft.get('restBetweenMs', 15000),
+            'items': [
+                {'exerciseId': entry['id'], **({'restAfterMs': e['restAfterMs']} if 'restAfterMs' in e else {})}
+                for entry, e in zip(entries, draft['exercises'])
+            ],
             'updatedAt': now,
-        }],
+        },
     }
 
 
 def kinetempo_link(draft):
     """Returns (link, document). Raises ValueError with the app's own complaints, or LinkTooLong."""
-    doc = document_for(draft)
+    return link_for(document_for(draft))
+
+
+def kinetempo_program_link(draft):
+    """The same for a whole programme. Expect LinkTooLong past two or three animations."""
+    return link_for(program_for(draft))
+
+
+def link_for(doc):
     problems = check_document(doc)
     if problems:
         raise ValueError('the app would refuse this document:\n- ' + '\n- '.join(problems))
