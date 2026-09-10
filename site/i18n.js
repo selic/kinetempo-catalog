@@ -12,7 +12,7 @@
   const KEY = 'kt.lang';
   const NAMES = { en: 'EN', ru: 'RU', ro: 'RO' };
   /** Strings holding a link or a bold word; they are constants in this file, never anyone's input. */
-  const HTML = new Set(['heroFigure', 'aiNote', 'demoCaption', 'card1Title', 'card4Body', 'downloadBody', 'supportIntro', 'supportA4', 'demoNote']);
+  const HTML = new Set(['heroFigure', 'aiNote', 'demoCaption', 'card1Title', 'card4Body', 'downloadBody', 'supportIntro', 'supportA4']);
 
   const T = {
     en: {},
@@ -76,7 +76,7 @@
       demoDocTitle: "Kinetempo — попробовать таймер",
       demoTitle: "Попробуйте таймер",
       demoLead: "Это плеер приложения, переписанный для браузера: та же модель шагов, те же звуки, та же схематичная фигурка. Выберите пресет и нажмите «Старт» (для звука нужно одно касание).",
-      demoNote: "В самом приложении таймер работает и с заблокированным экраном, показывает Live Activity или уведомление и ведёт программы из нескольких упражнений. ",
+      demoNote: "В самом приложении таймер работает и с заблокированным экраном, показывает Live Activity или уведомление и ведёт программы из нескольких упражнений.",
       demoGet: "Скачать приложение",
       demoReady: "Готовы?",
       demoPaused: "Пауза",
@@ -87,12 +87,12 @@
       demoAgain: "Ещё раз",
       demoSkip: "Пропуск",
       demoReset: "Сброс",
-      demoReset: "Сброс",
+      demoSecs: "{n} с",
       demoSession: "Сессия",
       demoReps: "повторов",
       demoPresetSlr: "Подъём прямой ноги",
       demoPresetQuad: "Изометрия квадрицепса",
-      demoPresetHeel: "Скольжение пяткой",
+      demoPresetHeel: "Скольжение пятки",
       demoPresetPumps: "Насосы стопой",
       demoPresetProp: "Пятка на валике (таймер)",
       demoStepLock: "Замкни колено",
@@ -199,7 +199,7 @@
       demoDocTitle: "Kinetempo — încearcă cronometrul",
       demoTitle: "Încearcă cronometrul",
       demoLead: "Acesta este playerul aplicației, rescris pentru browser: același model de pași, aceleași sunete, aceeași siluetă schematică. Alege o presetare și apasă Start (sunetul cere o atingere).",
-      demoNote: "În aplicație cronometrul merge și cu ecranul blocat, arată un Live Activity sau o notificare și conduce programe din mai multe exerciții. ",
+      demoNote: "În aplicație cronometrul merge și cu ecranul blocat, arată un Live Activity sau o notificare și conduce programe din mai multe exerciții.",
       demoGet: "Descarcă aplicația",
       demoReady: "Gata?",
       demoPaused: "Pauză",
@@ -210,7 +210,7 @@
       demoAgain: "Din nou",
       demoSkip: "Sari",
       demoReset: "Resetează",
-      demoReset: "Resetează",
+      demoSecs: "{n} s",
       demoSession: "Sesiune",
       demoReps: "repetări",
       demoPresetSlr: "Ridicarea piciorului întins",

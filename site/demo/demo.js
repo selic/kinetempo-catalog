@@ -27,7 +27,7 @@
     for (let rep = 1; rep <= p.reps; rep++) {
       p.steps.forEach((s, i) => {
         if (rep === p.reps && s.tone === 'rest' && i > lastActive) return;
-        push({ tone: s.tone, ms: s.ms, rep, stepIndex: i, label: s.label, ticks: s.ticks ?? s.tone !== 'rest', completes: i === lastActive });
+        push({ tone: s.tone, ms: s.ms, rep, stepIndex: i, label: s.label, labelKey: s.labelKey, ticks: s.ticks ?? s.tone !== 'rest', completes: i === lastActive });
       });
     }
     return { phases, total: t };
@@ -96,6 +96,8 @@
   const el = { demo: $('demo'), title: $('title'), clock: $('clock'), phase: $('phase'), count: $('count'), hint: $('hint'), dots: $('dots'), bar: $('bar'), cfg: $('cfg'), start: $('start'), reset: $('reset'), skip: $('skip'), fig: $('fig'), presets: $('presets') };
   let preset = PRESETS[0], sched = build(preset), cueList = cues(sched), running = false, anchor = 0, pausedAt = 0, raf = 0, timer = 0, nextCue = 0, lastIdx = -2, doneFlag = false;
   const fmt = (ms) => { const s = Math.max(0, Math.round(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+  /** A step's duration: a clock past a minute, otherwise seconds as the language spells them. */
+  const dur = (ms) => (ms >= 60000 ? fmt(ms) : t('demoSecs', '{n}s').replace('{n}', Math.round(ms / 1000)));
 
   function selectPreset(p) { preset = p; sched = build(p); cueList = cues(sched); reset(); }
   PRESETS.forEach((p) => { const b = document.createElement('button'); b.textContent = t(p.titleKey, p.title); b.onclick = () => { selectPreset(p); [...el.presets.children].forEach((x) => x.classList.toggle('on', x === b)); }; if (p === preset) b.classList.add('on'); el.presets.appendChild(b); });
@@ -103,10 +105,10 @@
   function renderIdle() {
     el.demo.style.background = COLORS.idle; el.title.textContent = t(preset.titleKey, preset.title); el.phase.textContent = t('demoReady', 'Ready?');
     const first = preset.steps[0]; el.count.textContent = first.ms >= 60000 ? fmt(first.ms) : Math.round(first.ms / 1000); el.count.classList.toggle('small', first.ms >= 60000);
-    el.hint.textContent = preset.steps.map((s) => `${stepLabel(s)} ${s.ms >= 60000 ? fmt(s.ms) : Math.round(s.ms / 1000) + 's'}`).join(' → ') + (preset.reps > 1 ? ` · ×${preset.reps}` : '');
+    el.hint.textContent = preset.steps.map((s) => `${stepLabel(s)} ${dur(s.ms)}`).join(' → ') + (preset.reps > 1 ? ` · ×${preset.reps}` : '');
     el.clock.textContent = `0:00 / ${fmt(sched.total)}`; el.bar.style.width = '0%';
     el.dots.innerHTML = preset.reps > 1 ? Array.from({ length: preset.reps }, () => '<i></i>').join('') : '';
-    el.cfg.innerHTML = preset.steps.map((s) => `<span>${stepLabel(s)} <b>${s.ms >= 60000 ? fmt(s.ms) : Math.round(s.ms / 1000) + 's'}</b></span>`).join('') + `<span>${t('demoSession', 'Session')} <b>${fmt(sched.total)}</b></span>`;
+    el.cfg.innerHTML = preset.steps.map((s) => `<span>${stepLabel(s)} <b>${dur(s.ms)}</b></span>`).join('') + `<span>${t('demoSession', 'Session')} <b>${fmt(sched.total)}</b></span>`;
     el.start.textContent = t('demoStart', 'Start'); el.skip.hidden = true;
   }
   function frame() {
@@ -134,7 +136,10 @@
   // Switching the language redraws what is on screen: preset names, step labels, buttons.
   addEventListener('kt:lang', () => {
     [...el.presets.children].forEach((b, i) => (b.textContent = t(PRESETS[i].titleKey, PRESETS[i].title)));
-    if (!running) reset();
+    if (!running) return reset();
+    el.title.textContent = t(preset.titleKey, preset.title);
+    lastIdx = -2; // the phase and its hint are written once per phase — ask for them again
+    frame();
   });
   reset();
 })();
