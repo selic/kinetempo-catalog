@@ -72,7 +72,8 @@
       tryCta: 'Открыть демо',
       downloadTitle: 'Загрузка',
       downloadBody:
-        'Ссылки на App Store и Google Play появятся здесь после публикации. Пока тестировщики могут запросить приглашение в TestFlight по адресу <a href="mailto:es@defency.net">es@defency.net</a>.',
+        'Пока идёт проверка в App Store, Kinetempo можно поставить на iPhone через TestFlight — без приглашения и без почты: откройте ссылку на iPhone, установите TestFlight, если он попросит, и примите приглашение. Google Play — следом. Вопросы — на <a href="mailto:es@defency.net">es@defency.net</a>.',
+      downloadBeta: 'Бета в TestFlight',
       demoDocTitle: "Kinetempo — попробовать таймер",
       demoTitle: "Попробуйте таймер",
       demoLead: "Это плеер приложения, переписанный для браузера: та же модель шагов, те же звуки, та же схематичная фигурка. Выберите пресет и нажмите «Старт» (для звука нужно одно касание).",
@@ -195,7 +196,8 @@
       tryCta: 'Deschide demo',
       downloadTitle: 'Descărcare',
       downloadBody:
-        'Linkurile App Store și Google Play apar aici după publicare. Până atunci, testerii pot cere o invitație TestFlight la <a href="mailto:es@defency.net">es@defency.net</a>.',
+        'Cât timp verificarea App Store se încheie, Kinetempo poate fi instalat pe iPhone prin TestFlight — fără invitație și fără e-mail: deschide linkul pe iPhone, instalează TestFlight dacă ți se cere și acceptă invitația. Google Play urmează. Întrebări: <a href="mailto:es@defency.net">es@defency.net</a>.',
+      downloadBeta: 'Beta în TestFlight',
       demoDocTitle: "Kinetempo — încearcă cronometrul",
       demoTitle: "Încearcă cronometrul",
       demoLead: "Acesta este playerul aplicației, rescris pentru browser: același model de pași, aceleași sunete, aceeași siluetă schematică. Alege o presetare și apasă Start (sunetul cere o atingere).",
