@@ -12,7 +12,7 @@
   const KEY = 'kt.lang';
   const NAMES = { en: 'EN', ru: 'RU', ro: 'RO' };
   /** Strings holding a link or a bold word; they are constants in this file, never anyone's input. */
-  const HTML = new Set(['heroFigure', 'aiNote', 'demoCaption', 'card1Title', 'card4Body', 'downloadBody', 'supportIntro', 'supportA4']);
+  const HTML = new Set(['heroFigure', 'aiNote', 'demoCaption', 'card1Title', 'card4Body', 'downloadBody', 'supportIntro', 'supportA4', 'downloadBetaNote']);
 
   const T = {
     en: {},
@@ -72,8 +72,10 @@
       tryCta: 'Открыть демо',
       downloadTitle: 'Загрузка',
       downloadBody:
-        'Пока идёт проверка в App Store, Kinetempo можно поставить на iPhone через TestFlight — без приглашения и без почты: откройте ссылку на iPhone, установите TestFlight, если он попросит, и примите приглашение. Google Play — следом. Вопросы — на <a href="mailto:es@defency.net">es@defency.net</a>.',
-      downloadBeta: 'Бета в TestFlight',
+        'Kinetempo вышел в обоих магазинах, бесплатно и без аккаунта. Вопросы — на <a href="mailto:es@defency.net">es@defency.net</a>.',
+      downloadIos: 'App Store — iPhone',
+      downloadAndroid: 'Google Play — Android',
+      downloadBetaNote: 'Хотите следующую версию раньше? В <a href="https://testflight.apple.com/join/1ud7gbvS">бету в TestFlight</a> берут всех, приглашение не нужно.',
       demoDocTitle: "Kinetempo — попробовать таймер",
       demoTitle: "Попробуйте таймер",
       demoLead: "Это плеер приложения, переписанный для браузера: та же модель шагов, те же звуки, та же схематичная фигурка. Выберите пресет и нажмите «Старт» (для звука нужно одно касание).",
@@ -196,8 +198,10 @@
       tryCta: 'Deschide demo',
       downloadTitle: 'Descărcare',
       downloadBody:
-        'Cât timp verificarea App Store se încheie, Kinetempo poate fi instalat pe iPhone prin TestFlight — fără invitație și fără e-mail: deschide linkul pe iPhone, instalează TestFlight dacă ți se cere și acceptă invitația. Google Play urmează. Întrebări: <a href="mailto:es@defency.net">es@defency.net</a>.',
-      downloadBeta: 'Beta în TestFlight',
+        'Kinetempo a apărut în ambele magazine, gratuit și fără cont. Întrebări: <a href="mailto:es@defency.net">es@defency.net</a>.',
+      downloadIos: 'App Store — iPhone',
+      downloadAndroid: 'Google Play — Android',
+      downloadBetaNote: 'Vrei versiunea următoare mai devreme? <a href="https://testflight.apple.com/join/1ud7gbvS">Beta din TestFlight</a> primește pe oricine, fără invitație.',
       demoDocTitle: "Kinetempo — încearcă cronometrul",
       demoTitle: "Încearcă cronometrul",
       demoLead: "Acesta este playerul aplicației, rescris pentru browser: același model de pași, aceleași sunete, aceeași siluetă schematică. Alege o presetare și apasă Start (sunetul cere o atingere).",
